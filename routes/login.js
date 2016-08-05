@@ -16,7 +16,7 @@ var run = function(req, res, next){
   };
   var options = {"rejectUnauthorized": false, "url": url, "method": "POST", "headers": headers};
   request(options, function (error, response, body) {
-      //Get Cookies from "response", then pass them to "ress"
+      //Get Cookies from "response", then pass them to "res"
       res.send("Logged In!");
    });
 }
