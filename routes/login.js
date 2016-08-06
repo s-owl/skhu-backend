@@ -16,6 +16,17 @@ var run = function(req, res, next){
   };
   var options = {"rejectUnauthorized": false, "url": url, "method": "POST", "headers": headers};
   request(options, function (error, response, body) {
+    // console.log(error);
+    console.log(response);
+      var setcookie = response.headers["set-cookie"];
+      if ( setcookie ) {
+        setcookie.forEach(
+          function ( cookiestr ) {
+            console.log( "COOKIE:" + cookiestr );
+          }
+        );
+      }
+    // console.log(body);
       //Get Cookies from "response", then pass them to "res"
       res.send("Logged In!");
    });
