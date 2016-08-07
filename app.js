@@ -22,7 +22,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use(cookieParser());
+
+app.post('http://forest.skhu.ac.kr/Gate/UniLogin.aspx', function(req, res){
+   console.log('Cookies: ', req.cookies)
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
