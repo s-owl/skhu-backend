@@ -1,35 +1,18 @@
 var request = require('request');
+var express = require('express');
+var router = express.Router();
 
-var run = function(req, res, next){
-  var url = "https://forest.skhu.ac.kr/Gate/UniLogin.aspx";
+router.post('/', function(req, res, next){
+  var header = req.headers;
+  var formData = req.body;
+  console.log('로딩중...');
 
-  // 요청의 body 에서 Id, Pw 값 얻기
-  var Id = req.body.studentid;
-  var Pw = req.body.studentpw;
+  request.post({url: 'http://forest.skhu.ac.kr/Gate/UniLogin.aspx', formData: formData}, function(err, response, html){
+    var cookies = JSON.stringify(response.headers['set-cookie']);
+    console.log(cookies);
+  });
+  //next();
+});
 
-  var formData = {
-    txtId: Id,
-    txtPw: Pw
-  };
-  var headers = {
 
-  };
-  var options = {"rejectUnauthorized": false, "url": url, "method": "POST", "headers": headers};
-  request(options, function (error, response, body) {
-    // console.log(error);
-    console.log(response);
-      var setcookie = response.headers["set-cookie"];
-      if ( setcookie ) {
-        setcookie.forEach(
-          function ( cookiestr ) {
-            console.log( "COOKIE:" + cookiestr );
-          }
-        );
-      }
-    // console.log(body);
-      //Get Cookies from "response", then pass them to "res"
-      res.send("Logged In!");
-   });
-}
-
-module.exports = run;
+module.exports = router;
