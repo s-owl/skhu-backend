@@ -6,4 +6,8 @@ router.get('/', function(req, res, next){
   res.render('login', {title : 'Mobile Forest With SSS!'} );
 });
 
+// POST - LOGIN
+var login = require('./login2');
+router.post('/login', login);
+
 module.exports = router;
