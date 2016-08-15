@@ -10,36 +10,34 @@ var PW = system.args[2];
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
 page.settings.javascriptEnabled = true;
 
+// Load Log In Page
 page.open(logInPageUrl, function(status) {
-  // console.log('OPEN / Status: ' + status);
-  // Do other things here...
-
 });
 
+// If Page is fully loaded
 page.onLoadFinished = function(status) {
-  // console.log('ONLOADFINISHED ============================================================');
-  // console.log('ONLOADFINISHED / Url: ' + page.url);
-  // console.log(page.content);
-  // console.log('ONLOADFINISHED / Status: ' + status);
-  // console.log('ONLOADFINISHED / Url: ' + page.url);
   if(page.url == logInPageUrl){
+    // If page's url is sams as log in page's url, call logIn()
     logIn();
   }else if (page.url == mainPageUrl) {
-    // console.log("LOGIN SUCCESS!")
+    // If page's url is sams as main page's url, pass cookies of the page via console.log()
     console.log(JSON.stringify(page.cookies));
+    /// Done, exit this script
     phantom.exit();
   }
 };
 
 function logIn(){
   page.evaluate(function(id, pw){
+    // Set ID and PW value into the form
     document.querySelector("input[name='txtID']").value = id;
     document.querySelector("input[name='txtPW']").value = pw;
+    // Log In
     document.all.ibtnLogin.click();
   }, ID, PW);
 }
 
-
+// Error Handling
 page.onError = function(msg, trace) {
 
   var msgStack = ['ERROR: ' + msg];

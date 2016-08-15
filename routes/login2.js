@@ -9,6 +9,7 @@ var run = function(req, res, next){
   var phantomjs = require('phantomjs-prebuilt');
   var binPath = phantomjs.path;
 
+  // Arguments
   var childArgs = [
     '--ignore-ssl-errors=yes',
     path.join(__dirname, 'ph_login.js'),
@@ -16,10 +17,11 @@ var run = function(req, res, next){
     req.body.userpw
   ]
 
+  // Execute Phantomjs script
   childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
     console.log(err, stdout, stderr);
+    // pass cookies to the client
     res.send(stdout);
-    // handle results
   })
 
 }
