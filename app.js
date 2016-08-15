@@ -24,9 +24,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 라우팅
+// 라우팅 나머지는 routes/index.js 에서 작업합니다.
 app.use('/', routes);
-app.use('/login', login);
-//app.use('/loadmain', loadmain);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

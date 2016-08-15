@@ -1,24 +1,26 @@
 //OK! Let't work around using phantomjs!
 
-var request = require('request');
-var phantom = require('phantom');
 
 var run = function(req, res, next){
-  phantom.create().then(function(ph) {
-    ph.createPage().then(function(page) {
-        // use page
-        page.setting('javascriptEnabled', 'true');
-        page.setting('userAgent', 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)');
-        page.open("https://forest.skhu.ac.kr/Gate/UniLogin.aspx");
-        page.evaluate(function(studentId, studentPw){
-          //run these on web site
-          document.getElementById('txtID').value = studentId;
-          document.getElementById('txtPW').value = studentPw;
-          document.getElementById('form1').submit();
-        },req.body.studentid, req.body.studentpw)
-        ph.exit();
-    });
-});
+  console.log("Logging In...")
+
+  var path = require('path');
+  var childProcess = require('child_process');
+  var phantomjs = require('phantomjs-prebuilt');
+  var binPath = phantomjs.path;
+
+  var childArgs = [
+    '--ignore-ssl-errors=yes',
+    path.join(__dirname, 'ph_login.js'),
+    req.body.userid,
+    req.body.userpw
+  ]
+
+  childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+    console.log(err, stdout, stderr);
+    res.send(stdout);
+    // handle results
+  })
 
 }
 
