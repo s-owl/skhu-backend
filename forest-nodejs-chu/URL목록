@@ -1,0 +1,51 @@
+3. 수업관리
+
+ * 개인시간표조회 		/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=10
+ * 강의계획서조회 		/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1
+ * 요일별 강의실 시간표 	/GATE/SAM/LESSON/A/SSEA35S.ASPX?&maincd=O&systemcd=S&seq=1
+ * 담당교수별 수업시간표 조회 	/GATE/SAM/LESSON/A/SSEA33S.ASPX?&maincd=O&systemcd=S&seq=1
+ * 강의실별 수업시간표 		/GATE/SAM/LESSON/A/SSEA32S.ASPX?&maincd=O&systemcd=S&seq=1
+
+
+4. 수강관리
+
+ * 학부 수강신청 기간 안내 	/Gate/SAM/Lecture/X/SSGX01S.ASPX?P1=Z0201&maincd=O&systemcd=S&seq=0
+ * 학과별개설과목조회 		/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1
+ * 연계전공개설과목조회 	/GATE/SAM/LESSON/S/SSES13S.ASPX?&maincd=O&systemcd=S&seq=1
+ * 수강바구니신청(학부) 	/Gate/SAM/Lecture/S/SSGS38G.aspx?&maincd=O&systemcd=S&seq=2
+ * 수강바구니 신청내역 		/GATE/SAM/LECTURE/S/SSGS36S.ASPX?&maincd=O&systemcd=S&seq=2
+ * 수강신청(학부) 		/GATE/SAM/LECTURE/S/SSGS10G.ASPX?&maincd=O&systemcd=S&seq=1
+ * 제한수업신청 		/GATE/SAM/LECTURE/S/SSGS30G.ASPX?&maincd=O&systemcd=S&seq=1
+ * 제한수업 결과조회 		/GATE/SAM/LECTURE/S/SSGS32S.ASPX?&maincd=O&systemcd=S&seq=1
+ * 수강과목철회 		/GATE/SAM/LECTURE/S/SSGS07P.ASPX?&maincd=O&systemcd=S&seq=1
+ * 학점 세이브 조회 (학생) 	/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100
+ * 강의중간의견 입력(학생)  	/Gate/SAM/Lecture/F/SSGF01P.aspx?&maincd=O&systemcd=S&seq=100
+ * 교육만족도조사 		/GATE/SAM/Lecture/S/SSGS38P.ASPX?&maincd=O&systemcd=S&seq=9
+ * 강의평가 			/GATE/SAM/LECTURE/S/SSGS01P.ASPX?&maincd=O&systemcd=S&seq=0
+
+5. 성적관리
+
+ * 열람성적조회
+ * 설문조사
+ * 성적조회
+ * 학내 제출용
+ * 성적증명서 출력
+ * 학점포기신청(4학년)
+
+
+
+ 졸업관리
+
+ 장학관리
+
+ 등록관리
+
+ 교직관리
+
+ 교과관리
+
+ 병무관리
+
+ 시험관리
+
+ 안내
