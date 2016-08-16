@@ -5,6 +5,8 @@ var page = webPage.create();
 var logInPageUrl = "https://forest.skhu.ac.kr/Gate/UniLogin.aspx";
 var mainPageUrl = "https://forest.skhu.ac.kr/Gate/UniMyMain.aspx";
 
+var tried = false;
+
 var ID = system.args[1];
 var PW = system.args[2];
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
@@ -17,8 +19,14 @@ page.open(logInPageUrl, function(status) {
 // If Page is fully loaded
 page.onLoadFinished = function(status) {
   if(page.url == logInPageUrl){
+    if(tried){
+      // f page's url is sams as log in page's url, but tried is true. this is an error!
+      console.log("LOGIN FAILED");
+      phantom.exit();
+      }else{
     // If page's url is sams as log in page's url, call logIn()
-    logIn();
+      logIn();
+    }
   }else if (page.url == mainPageUrl) {
     // If page's url is sams as main page's url, pass cookies of the page via console.log()
     console.log(JSON.stringify(page.cookies));
@@ -28,6 +36,7 @@ page.onLoadFinished = function(status) {
 };
 
 function logIn(){
+  tried = true;
   page.evaluate(function(id, pw){
     // Set ID and PW value into the form
     document.querySelector("input[name='txtID']").value = id;
