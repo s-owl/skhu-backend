@@ -1,18 +1,29 @@
-var request = require('request');
-var express = require('express');
-var router = express.Router();
-
-router.post('/', function(req, res, next){
-  var header = req.headers;
-  var formData = req.body;
-  console.log('로딩중...');
-
-  request.post({url: 'http://forest.skhu.ac.kr/Gate/UniLogin.aspx', formData: formData}, function(err, response, html){
-    var cookies = JSON.stringify(response.headers['set-cookie']);
-    console.log(cookies);
-  });
-  //next();
-});
+//OK! Let't work around using phantomjs!
 
 
-module.exports = router;
+var run = function(req, res, next){
+  console.log("Logging In...")
+
+  var path = require('path');
+  var childProcess = require('child_process');
+  var phantomjs = require('phantomjs-prebuilt');
+  var binPath = phantomjs.path;
+
+  // Arguments
+  var childArgs = [
+    '--ignore-ssl-errors=yes',
+    path.join(__dirname, 'ph_login.js'),
+    req.body.userid,
+    req.body.userpw
+  ]
+
+  // Execute Phantomjs script
+  childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+    console.log(err, stdout, stderr);
+    // pass cookies to the client
+    res.send(stdout);
+  })
+
+}
+
+module.exports = run;

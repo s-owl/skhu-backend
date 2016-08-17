@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET 메인 페이지 */
-router.get('/', function(req, res, next){
-  res.render('login', {title : 'Mobile Forest With SSS!'} );
-});
-
 // POST - LOGIN
-var login = require('./login2');
+var login = require('./login');
 router.post('/login', login);
+
+// POST - URL
+var url = require('./url');
+router.post('/url', url);
 
 module.exports = router;

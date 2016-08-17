@@ -1,8 +1,0 @@
-{
-  "name": "Forest",
-  "description": "Forest Server",
-  "repository": "https://sukso@bitbucket.org/sukso/shipped.git",
-  "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["node", "express", "static"],
-  "image": "heroku/nodejs"
-}
