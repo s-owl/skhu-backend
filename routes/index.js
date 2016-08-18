@@ -13,4 +13,8 @@ router.post('/url', url);
 var main = require('./main');
 router.post('/main', main);
 
+// POST - TIMETABLE
+var main = require('./timetable');
+router.post('/timetable', timetable);
+
 module.exports = router;
