@@ -9,4 +9,8 @@ router.post('/login', login);
 var url = require('./url');
 router.post('/url', url);
 
+// POST - MAIN
+var main = require('./main');
+router.post('/main', main);
+
 module.exports = router;
