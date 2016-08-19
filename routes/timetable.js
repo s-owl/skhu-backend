@@ -18,12 +18,17 @@ var run = function(req, res, next){
             console.log(window.$( element ).children("td.TT_ItemCell:eq("+i+")").text());
             var item = window.$( element ).children("td.TT_ItemCell:eq("+i+")").text();
             if(item.length>0){
-              data[i].push({
-                "subject" : item.split("(")[0],
-                "code-tutor" : item.split("(")[1].split(")")[0],
-                "time" : item.split("(")[1].split(")")[1].substring(0,13),
-                "location" : item.split("(")[1].split(")")[1].substring(13,17)
-              });
+              var code_tutor = item.split("(")[1].split(")")[0];
+              var codeval = code_tutor.split("-")[0] + "-" + code_tutor.split("-")[1];
+              if(utils.isDuplicated(data[i], "code", codeval)==false){
+                data[i].push({
+                  "subject" : item.split("(")[0],
+                  "code" : codeval,
+                  "tutor" : code_tutor.split("-")[2],
+                  "time" : item.split("(")[1].split(")")[1].substring(0,13),
+                  "location" : item.split("(")[1].split(")")[1].substring(13,17)
+                });
+              }
             }
           }
         }

@@ -62,3 +62,20 @@ function getClient(unirest, method, url){
       return unirest.get(url);
   }
 }
+
+var isDuplicated = function(array, key, value){
+  for(var i=0; i<array.length; i++){
+    if(key==""){
+      if(array[i]==value){
+        return true;
+      }
+    }else{
+      if(eval('array[i].'+key)==value){
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+exports.isDuplicated = isDuplicated;
