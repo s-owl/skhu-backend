@@ -3,10 +3,10 @@ var utils = require('./utils');
 var run = function(req, res, next){
   console.log("POST /main");
 
-  var url = "http://forest.skhu.ac.kr/Gate/UniMainStudent.aspx";
+  var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
 
-  utils.post(req, res, next, url)
-  .then(function(window){
+  utils.get(req, res, next, url)
+  .then(function(window, rawData){
     // Parse credits data
     var jsonCredits = [];
     var creditsNav = "#upContents > #divContainer > div:eq(2) > table > tbody";
@@ -23,7 +23,7 @@ var run = function(req, res, next){
     var jsonAttendance = [];
     window.$("#upContents > #divContainer > div:eq(5) > div:eq(1) > table > tbody > tr")
       .each(function(index, element){
-        if(index>=2 && window.$( element ).children("td").length>=2){
+        if(index>=1){
           jsonAttendance.push({
             "subject" : utils.trim(window.$( element ).children("td:eq(0)").text()),
             "time" : utils.trim(window.$( element ).children("td:eq(1)").text()),

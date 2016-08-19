@@ -1,9 +1,11 @@
+exports.baseurl = "http://forest.skhu.ac.kr";
+
 var trim = function(raw){
   return raw.toString().replace(/[\n\t\r]/g,"").replace(/ /g,'');
 }
 exports.trim = trim;
 
-var post = function(req, res, next, url){
+var get = function(req, res, next, url){
   return new Promise(function(resolve, reject) {
 
     var unirest = require('unirest');
@@ -20,7 +22,7 @@ var post = function(req, res, next, url){
     cookiejar.add('UniCookie='+uni_value, url);
 
     // Send request to forest
-    unirest.post(url)
+    unirest.get(url)
     .encoding('binary')
     .headers({
       'Content-Type': 'application/json',
@@ -33,11 +35,11 @@ var post = function(req, res, next, url){
       var converted = iconv.convert(buffer).toString();
       console.log(converted);
 
-      jsdom.env( rawData, ["http://code.jquery.com/jquery.js"],
+      jsdom.env( converted, ["http://code.jquery.com/jquery.js"],
         function (err, window) {
           if(err==undefined){
             // We can now parse some data from html page
-            resolve(window);
+            resolve(window, converted);
           }else{
             // Error!
             reject(err);
@@ -45,7 +47,18 @@ var post = function(req, res, next, url){
         });
     });
 
-  }
+
   });
 }
-exports.post = post;
+exports.get = get;
+
+function getClient(unirest, method, url){
+  switch(method){
+    case 'GET':
+      return unirest.get(url);
+    case 'POST':
+      return unirest.post(url);
+    default:
+      return unirest.get(url);
+  }
+}

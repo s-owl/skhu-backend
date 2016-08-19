@@ -14,7 +14,7 @@ var main = require('./main');
 router.post('/main', main);
 
 // POST - TIMETABLE
-var main = require('./timetable');
+var timetable = require('./timetable');
 router.post('/timetable', timetable);
 
 module.exports = router;
