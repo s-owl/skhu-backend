@@ -5,7 +5,7 @@ var trim = function(raw){
 }
 exports.trim = trim;
 
-var get = function(req, res, next, url){
+var get = function(req, res, next, url, doParse){
   return new Promise(function(resolve, reject) {
 
     var unirest = require('unirest');
@@ -34,7 +34,7 @@ var get = function(req, res, next, url){
       var buffer = new Buffer(response.body, 'binary');
       var converted = iconv.convert(buffer).toString();
       console.log(converted);
-
+      if(doParse){
       jsdom.env( converted, ["http://code.jquery.com/jquery.js"],
         function (err, window) {
           if(err==undefined){
@@ -45,6 +45,9 @@ var get = function(req, res, next, url){
             reject(err);
           }
         });
+      }else{
+        resolve(converted);
+      }
     });
 
 
