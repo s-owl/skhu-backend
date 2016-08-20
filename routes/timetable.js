@@ -5,7 +5,7 @@ var run = function(req, res, next){
 
   var url = utils.baseurl+"/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=100";
 
-  utils.get(req, res, next, url)
+  utils.get(req, res, next, url, true)
   .then(function(window, rawData){
     // Parse some data
     var data = [[],[],[],[],[],[]];

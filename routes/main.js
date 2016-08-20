@@ -5,7 +5,7 @@ var run = function(req, res, next){
 
   var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
 
-  utils.get(req, res, next, url)
+  utils.get(req, res, next, url, true)
   .then(function(window, rawData){
     // Parse credits data
     var jsonCredits = [];
