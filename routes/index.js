@@ -17,6 +17,14 @@ router.post('/url', url);
 var main = require('./main');
 router.post('/main', main);
 
+// POST - CREDITS
+var credits = require('./credits');
+router.post('/credits', credits);
+
+// POST - MAIN
+var attendance = require('./attendance');
+router.post('/attendance', attendance);
+
 // POST - TIMETABLE
 var timetable = require('./timetable');
 router.post('/timetable', timetable);
