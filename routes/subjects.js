@@ -1,13 +1,13 @@
 var utils = require('./utils');
 
 var run = function(req, res, next){
-  console.log("POST /main");
+  console.log("POST /subjects");
 
   var url = utils.baseurl+"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
-  var data = "txtYy=" + req.body.data.year + "&ddlHaggi=" + getSemesterCode(req.body.data.semester) \
+  var data = "txtYy=" + req.body.data.year + "&ddlHaggi=" + utils.getSemesterCode(req.body.data.semester) \
     + "&ddlSosog=" + getDepartCode(req.body.data.depart) + "&txtPermNm=" + req.body.data.professor;
 
-  utils.get(req, res, next, url, true)
+  utils.get(req, res, next, url, true, data)
   .then(function(window, rawData){
     // Parse credits data
     var jsonAttendance = [];
@@ -37,20 +37,6 @@ var run = function(req, res, next){
 }
 
 module.exports = run;
-
-function getSemesterCode(semester){
-  switch(semester){
-    case "first":
-      return "Z0101";
-    case "second":
-      return "Z0102";
-    case "summer":
-      return "Z0103";
-    case "summer":
-      return "Z0104":
-    default:
-      return "Z0101";
-  }
 
   function getDepartCode(semester){
     switch(semester){

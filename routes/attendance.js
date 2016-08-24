@@ -4,8 +4,8 @@ var run = function(req, res, next){
   console.log("POST /main");
 
   var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
-
-  utils.get(req, res, next, url, true)
+  var data = "txtYy="+req.body.data.year+"&ddlHaggi="+req.body.data.semester;
+  utils.post(req, res, next, url, true, data)
   .then(function(window, rawData){
 
 
