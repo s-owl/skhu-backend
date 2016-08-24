@@ -72,12 +72,13 @@ var post = function(req, res, next, url, doParse, data){
     cookiejar.add('UniCookie='+uni_value, url);
 
     // Send request to forest
-    unirest.get(url)
+    unirest.post(url)
     .encoding('binary')
     .headers({
       'Content-Type': 'application/x-www-form-urlencoded;',
       'userAgent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)'
     })
+    .send(data)
     .jar(cookiejar)
     .end(function (response) {
       // Convert encoding from EUC-KR to UTF-8 using Iconv
@@ -122,3 +123,18 @@ var isDuplicated = function(array, key, value){
 }
 
 exports.isDuplicated = isDuplicated;
+
+var getSemesterCode = function(semester){
+  switch(semester){
+    case "first":
+      return "Z0101";
+    case "second":
+      return "Z0102";
+    case "summer":
+      return "Z0103";
+    case "summer":
+      return "Z0104":
+    default:
+      return "Z0101";
+  }
+exports.getSemesterCode = getSemesterCode;
