@@ -13,10 +13,6 @@ router.post('/logout', logout);
 var url = require('./url');
 router.post('/url', url);
 
-// POST - MAIN
-var main = require('./main');
-router.post('/main', main);
-
 // POST - CREDITS
 var credits = require('./credits');
 router.post('/credits', credits);
