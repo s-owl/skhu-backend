@@ -1,52 +1,94 @@
-3. ¼ö¾÷°ü¸®
+íŒŒì‹±í• ê±°
 
- * °³ÀÎ½Ã°£Ç¥Á¶È¸ 		/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=10
- * °­ÀÇ°èÈ¹¼­Á¶È¸ 		/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1
- * ¿äÀÏº° °­ÀÇ½Ç ½Ã°£Ç¥ 	/GATE/SAM/LESSON/A/SSEA35S.ASPX?&maincd=O&systemcd=S&seq=1
- * ´ã´ç±³¼öº° ¼ö¾÷½Ã°£Ç¥ Á¶È¸ 	/GATE/SAM/LESSON/A/SSEA33S.ASPX?&maincd=O&systemcd=S&seq=1
- * °­ÀÇ½Çº° ¼ö¾÷½Ã°£Ç¥ 		/GATE/SAM/LESSON/A/SSEA32S.ASPX?&maincd=O&systemcd=S&seq=1
- 
+1. GET /Gate/UniMainOnestop.aspx 
 
-4. ¼ö°­°ü¸®
+                            <td style="width: 400px;"><span id="lblInfo"><b>USER: </b>ì¶”ê±´ìš°(201534028) <b> IP: </b>192.168.21.22<br/><b>ìµœì¢…ì ‘ì†ì‹œê°: </b>2016-08-24 16:13:34 <b> ìµœì¢…ì ‘ì†IP: </b>192.168.21.22</span></td>
 
- * ÇĞºÎ ¼ö°­½ÅÃ» ±â°£ ¾È³» 	/Gate/SAM/Lecture/X/SSGX01S.ASPX?P1=Z0201&maincd=O&systemcd=S&seq=0
- * ÇĞ°úº°°³¼³°ú¸ñÁ¶È¸ 		/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1
- * ¿¬°èÀü°ø°³¼³°ú¸ñÁ¶È¸ 	/GATE/SAM/LESSON/S/SSES13S.ASPX?&maincd=O&systemcd=S&seq=1
- * ¼ö°­¹Ù±¸´Ï½ÅÃ»(ÇĞºÎ) 	/Gate/SAM/Lecture/S/SSGS38G.aspx?&maincd=O&systemcd=S&seq=2 
- * ¼ö°­¹Ù±¸´Ï ½ÅÃ»³»¿ª 		/GATE/SAM/LECTURE/S/SSGS36S.ASPX?&maincd=O&systemcd=S&seq=2
- * ¼ö°­½ÅÃ»(ÇĞºÎ) 		/GATE/SAM/LECTURE/S/SSGS10G.ASPX?&maincd=O&systemcd=S&seq=1
- * Á¦ÇÑ¼ö¾÷½ÅÃ» 		/GATE/SAM/LECTURE/S/SSGS30G.ASPX?&maincd=O&systemcd=S&seq=1
- * Á¦ÇÑ¼ö¾÷ °á°úÁ¶È¸ 		/GATE/SAM/LECTURE/S/SSGS32S.ASPX?&maincd=O&systemcd=S&seq=1
- * ¼ö°­°ú¸ñÃ¶È¸ 		/GATE/SAM/LECTURE/S/SSGS07P.ASPX?&maincd=O&systemcd=S&seq=1
- * ÇĞÁ¡ ¼¼ÀÌºê Á¶È¸ (ÇĞ»ı) 	/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100
- * °­ÀÇÁß°£ÀÇ°ß ÀÔ·Â(ÇĞ»ı)  	/Gate/SAM/Lecture/F/SSGF01P.aspx?&maincd=O&systemcd=S&seq=100
- * ±³À°¸¸Á·µµÁ¶»ç 		/GATE/SAM/Lecture/S/SSGS38P.ASPX?&maincd=O&systemcd=S&seq=9
- * °­ÀÇÆò°¡ 			/GATE/SAM/LECTURE/S/SSGS01P.ASPX?&maincd=O&systemcd=S&seq=0
- 
-5. ¼ºÀû°ü¸®
+2. URL ëª©ë¡
 
- * ¿­¶÷¼ºÀûÁ¶È¸ 
- * ¼³¹®Á¶»ç 
- * ¼ºÀûÁ¶È¸ 
- * ÇĞ³» Á¦Ãâ¿ë
- * ¼ºÀûÁõ¸í¼­ Ãâ·Â 
- * ÇĞÁ¡Æ÷±â½ÅÃ»(4ÇĞ³â) 
- 
- 
- 
- Á¹¾÷°ü¸® 
- 
- ÀåÇĞ°ü¸® 
- 
- µî·Ï°ü¸® 
- 
- ±³Á÷°ü¸® 
- 
- ±³°ú°ü¸® 
- 
- º´¹«°ü¸® 
- 
- ½ÃÇè°ü¸® 
- 
- ¾È³» 
- 
+<script language='javascript' src='/Gate/Common/JavaScript/CoreControl.js'></script><script language=javascript>var __maincd = 'O';</script><script language="javascript">
+var arrMenu = new Array();
+var arrMenu0 = new Array();
+arrMenu[0] = new stMenu("ì›¹ì„œë¹„ìŠ¤",1,"","True", arrMenu0, "SER", "", "", "False");
+arrMenu0[0] = new stMenu("OTPì¡°íšŒ",3,"/Gate/Utility/A/UTLA01P.aspx?&maincd=O&systemcd=S&seq=0","True", null, "SER", "", "", "False");
+arrMenu0[1] = new stMenu("[N]ì‹œì„¤ë¬¼ëŒ€ì—¬ ì‹ ì²­",3,"/Gate/SAM/Lesson/G/SSEG20P.aspx?&maincd=O&systemcd=S&seq=100","True", null, "SER", "", "", "False");
+arrMenu0[2] = new stMenu("ì¸í„°ë„·ì¦ëª…ë°œê¸‰",3,"/GATE/UniCertificatePopRedirect.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SER", "", "", "False");
+arrMenu0[3] = new stMenu("ê°œì¸ì •ë³´ë³€ê²½",3,"/GATE/SAM/SERVICE/S/SWSS01P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SER", "", "", "False");
+arrMenu0[4] = new stMenu("ë¹„ë°€ë²ˆí˜¸ë³€ê²½",3,"/GATE/SAM/SERVICE/S/SWSS02P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SER", "", "", "False");
+arrMenu0[5] = new stMenu("ë‚˜ì˜ìƒë‹´ì´ë ¥ì¡°íšŒ",3,"/Gate/InnerService/C/CS/A/ACSA07S.aspx?&maincd=O&systemcd=S&seq=99","True", null, "SER", "", "", "False");
+arrMenu0[6] = new stMenu("ìƒë¦¬ê³µê²°ì œì‹ ì²­",3,"/GATE/SAM/LESSON/S/SSES03P.ASPX?&maincd=O&systemcd=S&seq=104","True", null, "SER", "", "", "False");
+arrMenu0[7] = new stMenu("ê°œì¸ì •ë³´ ë™ì˜í•­ëª© ìˆ˜ì •",3,"/Gate/CORE/P/CORP04P.aspx?&maincd=O&systemcd=S&seq=2","True", null, "SER", "", "", "False");
+var arrMenu9 = new Array();
+arrMenu[1] = new stMenu("í•™ì ê´€ë¦¬",1,"","True", arrMenu9, "SHJ", "", "", "False");
+arrMenu9[0] = new stMenu("íœ´í•™ì‹ ì²­",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS00P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[1] = new stMenu("í•™ìƒì‚¬ì§„ë“±ë¡",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS06P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[2] = new stMenu("ìí‡´ì‹ ì²­",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS12P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[3] = new stMenu("ì „ê³¼ì‹ ì²­",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS05P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[4] = new stMenu("ì „ê³¼ì‹ ì²­ê²°ê³¼ì¡°íšŒ",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS10S.ASPX?&maincd=O&systemcd=S&seq=103","True", null, "SHJ", "", "", "False");
+arrMenu9[5] = new stMenu("íŠ¹ë³„ê³¼ì •ì‹ ì²­",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS03P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[6] = new stMenu("íŠ¹ë³„ê³¼ì •ì·¨ì†Œ",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS11P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+var arrMenu17 = new Array();
+arrMenu[2] = new stMenu("ìˆ˜ì—…ê´€ë¦¬",1,"","True", arrMenu17, "SSE", "", "", "False");
+arrMenu17[0] = new stMenu("ê°œì¸ì‹œê°„í‘œì¡°íšŒ",3,"/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=100","True", null, "SSE", "", "", "False");
+arrMenu17[1] = new stMenu("ê°•ì˜ê³„íšì„œì¡°íšŒ",3,"/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSE", "", "", "False");
+arrMenu17[2] = new stMenu("ìš”ì¼ë³„ ê°•ì˜ì‹¤ ì‹œê°„í‘œ",3,"/GATE/SAM/LESSON/A/SSEA35S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSE", "", "", "False");
+arrMenu17[3] = new stMenu("ë‹´ë‹¹êµìˆ˜ë³„ </br>ìˆ˜ì—…ì‹œê°„í‘œ ì¡°íšŒ",3,"/GATE/SAM/LESSON/A/SSEA33S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSE", "", "", "False");
+arrMenu17[4] = new stMenu("ê°•ì˜ì‹¤ë³„ ìˆ˜ì—…ì‹œê°„í‘œ",3,"/GATE/SAM/LESSON/A/SSEA32S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSE", "", "", "False");
+var arrMenu23 = new Array();
+arrMenu[3] = new stMenu("ìˆ˜ê°•ê´€ë¦¬",1,"","True", arrMenu23, "SSG", "", "", "False");
+arrMenu23[0] = new stMenu("í•™ë¶€ ìˆ˜ê°•ì‹ ì²­ ê¸°ê°„ ì•ˆë‚´",3,"/Gate/SAM/Lecture/X/SSGX01S.ASPX?P1=Z0201&maincd=O&systemcd=S&seq=0","True", null, "SSG", "", "", "False");
+arrMenu23[1] = new stMenu("í•™ê³¼ë³„ê°œì„¤ê³¼ëª©ì¡°íšŒ",3,"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[2] = new stMenu("ì—°ê³„ì „ê³µê°œì„¤ê³¼ëª©ì¡°íšŒ",3,"/GATE/SAM/LESSON/S/SSES13S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[3] = new stMenu("ìˆ˜ê°•ë°”êµ¬ë‹ˆì‹ ì²­(í•™ë¶€)",3,"/Gate/SAM/Lecture/S/SSGS38G.aspx?&maincd=O&systemcd=S&seq=2","True", null, "SSG", "", "", "False");
+arrMenu23[4] = new stMenu("ìˆ˜ê°•ë°”êµ¬ë‹ˆ ì‹ ì²­ë‚´ì—­",3,"/GATE/SAM/LECTURE/S/SSGS36S.ASPX?&maincd=O&systemcd=S&seq=2","True", null, "SSG", "", "", "False");
+arrMenu23[5] = new stMenu("ìˆ˜ê°•ì‹ ì²­(í•™ë¶€)",3,"/GATE/SAM/LECTURE/S/SSGS10G.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[6] = new stMenu("ì œí•œìˆ˜ì—…ì‹ ì²­",3,"/GATE/SAM/LECTURE/S/SSGS30G.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[7] = new stMenu("ì œí•œìˆ˜ì—… ê²°ê³¼ì¡°íšŒ",3,"/GATE/SAM/LECTURE/S/SSGS32S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[8] = new stMenu("ìˆ˜ê°•ê³¼ëª©ì² íšŒ",3,"/GATE/SAM/LECTURE/S/SSGS07P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[9] = new stMenu("í•™ì  ì„¸ì´ë¸Œ ì¡°íšŒ (í•™ìƒ)",3,"/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100","True", null, "SSG", "", "", "False");
+arrMenu23[10] = new stMenu("ê°•ì˜ì¤‘ê°„ì˜ê²¬ ì…ë ¥(í•™ìƒ) ",3,"/Gate/SAM/Lecture/F/SSGF01P.aspx?&maincd=O&systemcd=S&seq=100","True", null, "SSG", "", "", "False");
+arrMenu23[11] = new stMenu("êµìœ¡ë§Œì¡±ë„ì¡°ì‚¬",3,"/GATE/SAM/Lecture/S/SSGS38P.ASPX?&maincd=O&systemcd=S&seq=9","True", null, "SSG", "", "", "False");
+arrMenu23[12] = new stMenu("ê°•ì˜í‰ê°€",3,"/GATE/SAM/LECTURE/S/SSGS01P.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SSG", "", "", "False");
+var arrMenu37 = new Array();
+arrMenu[4] = new stMenu("ì„±ì ê´€ë¦¬",1,"","True", arrMenu37, "SSJ", "", "", "False");
+arrMenu37[0] = new stMenu("ì—´ëŒì„±ì ì¡°íšŒ",3,"/GATE/COREPAGE/GATZ25G.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SSJ", "", "", "False");
+arrMenu37[1] = new stMenu("ì„¤ë¬¸ì¡°ì‚¬",3,"/GATE/SAM/SCORE/S/SSJS12S.ASPX?&maincd=O&systemcd=S&seq=11434","True", null, "SSJ", "", "", "False");
+arrMenu37[2] = new stMenu("ì„±ì ì¡°íšŒ",3,"/GATE/SAM/SCORE/S/SSJS05S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSJ", "", "", "False");
+arrMenu37[3] = new stMenu("í•™ë‚´ ì œì¶œìš©</br>ì„±ì ì¦ëª…ì„œ ì¶œë ¥",3,"/GATE/SAM/SCORE/S/SSJS06S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSJ", "", "", "False");
+arrMenu37[4] = new stMenu("í•™ì í¬ê¸°ì‹ ì²­(4í•™ë…„)",3,"/GATE/SAM/SCORE/S/SSJS03P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSJ", "", "", "False");
+var arrMenu43 = new Array();
+arrMenu[5] = new stMenu("ì¡¸ì—…ê´€ë¦¬",1,"","True", arrMenu43, "SJE", "", "", "False");
+arrMenu43[0] = new stMenu("ì¡¸ì—…ì‚¬ì •ê²°ê³¼ì¡°íšŒ ",3,"/GATE/SAM/GRADUATE/S/SJES01S.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SJE", "", "", "False");
+arrMenu43[1] = new stMenu("ì¡¸ì—…ì´ìˆ˜ í•™ì í‘œ",3,"/GATE/CORE/K/CORK01S.aspx?P1=P02&maincd=O&systemcd=S&seq=1","True", null, "SJE", "", "", "False");
+arrMenu43[2] = new stMenu("í•™ê³¼ë³„ ì¡¸ì—…ìš”ê±´",3,"/GATE/CORE/K/CORK03S.aspx?P1=MNG01&maincd=O&systemcd=S&seq=3","True", null, "SJE", "", "", "False");
+var arrMenu47 = new Array();
+arrMenu[6] = new stMenu("ì¥í•™ê´€ë¦¬",1,"","True", arrMenu47, "SJH", "", "", "False");
+arrMenu47[0] = new stMenu("ì¥í•™ì‹ ì²­(í•™ë¶€)",3,"/GATE/SAM/SCHOLARSHIP/S/SJHS05P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SJH", "", "", "False");
+arrMenu47[1] = new stMenu("ì¥í•™ì‹ ì²­ê²°ê³¼(í•™ë¶€)",3,"/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SJH", "", "", "False");
+arrMenu47[2] = new stMenu("ì¶”ê°€ì¥í•™ê¸ˆì‹ ì²­",3,"/Gate/SAM/Scholarship/I/SJHI01P.aspx?&maincd=O&systemcd=S&seq=1","True", null, "SJH", "", "", "False");
+arrMenu47[3] = new stMenu("ì¥í•™ë‚´ì—­ì¡°íšŒ",3,"/GATE/SAM/SCHOLARSHIP/S/SJHS01S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SJH", "", "", "False");
+var arrMenu52 = new Array();
+arrMenu[7] = new stMenu("ë“±ë¡ê´€ë¦¬",1,"","True", arrMenu52, "SDL", "", "", "False");
+arrMenu52[0] = new stMenu("ê³„ì ˆí•™ê¸°ê³ ì§€ì„œì¶œë ¥",3,"/GATE/SAM/LECTURE/S/SSGS23P.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SDL", "", "", "False");
+arrMenu52[1] = new stMenu("ê³„ì ˆí•™ê¸°ìˆ˜ê°•ë£Œë‚©ë¶€í™•ì¸",3,"/GATE/SAM/LECTURE/S/SSGS25S.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SDL", "", "", "False");
+arrMenu52[2] = new stMenu("ë¶„ë‚©ì‹ ì²­/ì·¨ì†Œ",3,"/GATE/SAM/TUITION/S/SDLS15P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SDL", "", "", "False");
+arrMenu52[3] = new stMenu("ë¶„ë‚©ë“±ë¡ê¸ˆê³ ì§€ì„œ ì¶œë ¥",3,"/GATE/SAM/TUITION/S/SDLS13R.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SDL", "", "", "False");
+arrMenu52[4] = new stMenu("ë“±ë¡ê¸ˆê³ ì§€ì„œ ì¶œë ¥",3,"/GATE/SAM/TUITION/S/SDLS11R.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SDL", "", "", "True");
+arrMenu52[5] = new stMenu("êµìœ¡ë‚©ì…ì¦ëª…ì„œ",3,"/GATE/SAM/TUITION/S/SDLS10R.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SDL", "", "", "False");
+var arrMenu59 = new Array();
+arrMenu[8] = new stMenu("êµì§ê´€ë¦¬",1,"","True", arrMenu59, "SGJ", "", "", "False");
+arrMenu59[0] = new stMenu("êµì§ ì ì„±/ì¸ì„± ê²€ì‚¬",3,"/GATE/SAM/TeachingProfession/A/STPA01P.aspx?&maincd=O&systemcd=S&seq=1","True", null, "SGJ", "", "", "False");
+var arrMenu61 = new Array();
+arrMenu[9] = new stMenu("êµê³¼ê´€ë¦¬",1,"","True", arrMenu61, "SGG", "", "", "False");
+arrMenu61[0] = new stMenu("í•™ê³¼ë³„ êµê³¼ê³¼ì •",3,"/GATE/CORE/K/CORK03S.aspx?P1=P03&maincd=O&systemcd=S&seq=1","True", null, "SGG", "", "", "False");
+arrMenu61[1] = new stMenu("ê¸°íƒ€ê³¼ì • ì•ˆë‚´",3,"/GATE/CORE/K/CORK03S.aspx?P1=P04&maincd=O&systemcd=S&seq=3","True", null, "SGG", "", "", "False");
+var arrMenu64 = new Array();
+arrMenu[10] = new stMenu("ë³‘ë¬´ê´€ë¦¬",1,"","True", arrMenu64, "SBM", "", "", "False");
+arrMenu64[0] = new stMenu("ì˜ˆë¹„êµ°ë²„ìŠ¤ì‹ ì²­",3,"/GATE/SAM/MILITARY/S/SBMS01P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SBM", "", "", "False");
+var arrMenu66 = new Array();
+arrMenu[11] = new stMenu("ì‹œí—˜ê´€ë¦¬",1,"","True", arrMenu66, "SNN", "", "", "False");
+arrMenu66[0] = new stMenu("ì‚¬íšŒë³µì§€í•™ê³¼ ì¡¸ì—…ì‹œí—˜ ì‘ì‹œ/ì¡°íšŒ",3,"/GATE/SAM/Examination/A/SEMA03P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SNN", "", "", "False");
+var arrMenu68 = new Array();
+arrMenu[12] = new stMenu("ì•ˆë‚´",1,"","True", arrMenu68, "SNF", "", "", "False");
+arrMenu68[0] = new stMenu("ì£¼ìš”í•™ì¹™ì•ˆë‚´",3,"/GATE/CORE/K/CORK01S.aspx?P1=P32&maincd=O&systemcd=S&seq=103","True", null, "SNF");
+</script>
