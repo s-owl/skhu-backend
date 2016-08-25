@@ -80,8 +80,8 @@ var post = function(req, res, next, url, doParse, data){
       'Content-Type': 'application/x-www-form-urlencoded;',
       'userAgent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)'
     })
-    .send(data)
     .jar(cookiejar)
+    .form(data)
     .end(function (response) {
       // Convert encoding from EUC-KR to UTF-8 using Iconv
       var buffer = new Buffer(response.body, 'binary');
@@ -102,8 +102,6 @@ var post = function(req, res, next, url, doParse, data){
         resolve(converted);
       }
     });
-
-
   });
 
 }

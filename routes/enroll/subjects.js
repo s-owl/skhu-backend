@@ -6,9 +6,16 @@ var run = function(req, res, next){
   var url = utils.baseurl+"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
   var data =""
   try{
-    data = "txtYy=" + req.body.data.year + "&ddlHaggi=" + utils.getSemesterCode(req.body.data.semester)
-      + "&ddlSosog=" + getDepartCode(req.body.data.depart) + "&txtPermNm=" + req.body.data.professor;
-      console.log(data);
+    data = {
+      "txtYy" : req.body.data.year,
+      "ddlHaggi" : utils.getSemesterCode(req.body.data.semester),
+      "ddlSosog" : getDepartCode(req.body.data.depart),
+      "txtPermNm" : req.body.data.professor
+    };
+
+    // "txtYy=" + req.body.data.year + "&ddlHaggi=" + utils.getSemesterCode(req.body.data.semester)
+    //   + "&ddlSosog=" + getDepartCode(req.body.data.depart) + "&txtPermNm=" + req.body.data.professor+"&__ASYNCPOST=true";
+      console.log(JSON.stringify(data));
     }catch(exception){
       console.log(exception);
     }
