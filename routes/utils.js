@@ -5,6 +5,7 @@ var trim = function(raw){
 }
 exports.trim = trim;
 
+/* GET Operation */
 var get = function(req, res, next, url, doParse){
   return new Promise(function(resolve, reject) {
 
@@ -55,6 +56,7 @@ var get = function(req, res, next, url, doParse){
 }
 exports.get = get;
 
+/* POST Operation */
 var post = function(req, res, next, url, doParse, data){
   return new Promise(function(resolve, reject) {
 
@@ -133,8 +135,9 @@ var getSemesterCode = function(semester){
     case "summer":
       return "Z0103";
     case "summer":
-      return "Z0104":
+      return "Z0104";
     default:
       return "Z0101";
   }
+}
 exports.getSemesterCode = getSemesterCode;

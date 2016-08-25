@@ -7,8 +7,6 @@ var run = function(req, res, next){
   var data = "txtYy="+req.body.data.year+"&ddlHaggi="+req.body.data.semester;
   utils.post(req, res, next, url, true, data)
   .then(function(window, rawData){
-
-
     // Parse attendance data
     var jsonAttendance = [];
     window.$("#upContents > #divContainer > div:eq(5) > div:eq(1) > table > tbody > tr")

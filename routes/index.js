@@ -25,4 +25,8 @@ router.post('/attendance', attendance);
 var timetable = require('./timetable');
 router.post('/timetable', timetable);
 
+// POST - SUBJECTS
+var subjects = require('./subjects');
+router.post('/subjects', subjects);
+
 module.exports = router;
