@@ -4,33 +4,34 @@ var run = function(req, res, next){
   console.log("POST /subjects");
 
   var url = utils.baseurl+"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
-  var data = "txtYy=" + req.body.data.year + "&ddlHaggi=" + utils.getSemesterCode(req.body.data.semester) \
+  var data = "txtYy=" + req.body.data.year + "&ddlHaggi=" + utils.getSemesterCode(req.body.data.semester) /
     + "&ddlSosog=" + getDepartCode(req.body.data.depart) + "&txtPermNm=" + req.body.data.professor;
 
-  utils.get(req, res, next, url, true, data)
+  utils.post(req, res, next, url, true, data)
   .then(function(window, rawData){
-    // Parse credits data
-    var jsonAttendance = [];
+    // Parse subjects data
+    var jsonSubjects = [];
     window.$("#dgList > tbody > tr")
       .each(function(index, element){
         if(index>=1){
-          jsonAttendance.push({
-            "type" : utils.trim(window.$( element ).children("td:eq(0)").text()),
-            "grade" : utils.trim(window.$( element ).children("td:eq(1)").text()),
-            "code" : utils.trim(window.$( element ).children("td:eq(2)").text()),
-            "class" : utils.trim(window.$( element ).children("td:eq(3)").text()),
-            "subject" : utils.trim(window.$( element ).children("td:eq(4)").text()),
-            "tutor" : utils.trim(window.$( element ).children("td:eq(5)").text()),
-            "grade_restriction" : utils.trim(window.$( element ).children("td:eq(6)").text()),
-            "depart_restriction" : utils.trim(window.$( element ).children("td:eq(7)").text()),
-            "note":,
-            "headcounts":
+          jsonSubjects.push({
+            "type" : window.$( element ).children("td:eq(0)").text(),
+            "grade" : window.$( element ).children("td:eq(1)").text(),
+            "code" : window.$( element ).children("td:eq(2)").text(),
+            "class" : window.$( element ).children("td:eq(3)").text(),
+            "subject" : window.$( element ).children("td:eq(4)").text(),
+            "credits" : window.$( element ).children("td:eq(5)").text(),
+            "tutor" : window.$( element ).children("td:eq(6)").text(),
+            "grade_restriction" : window.$( element ).children("td:eq(7)").text(),
+            "depart_restriction" : window.$( element ).children("td:eq(8)").text(),
+            "time_location" : window.$( element ).children("td:eq(9)").text(),
+            "note": window.$( element ).children("td:eq(10)").text(),
+            "headcounts": window.$( element ).children("td:eq(11)").text()
           });
         }
       });
     res.send(JSON.stringify({
-      "credits" : jsonCredits,
-      "attendance" : jsonAttendance
+      "subjects" : jsonSubjects
     }));
   });
 
