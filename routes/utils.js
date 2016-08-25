@@ -28,7 +28,7 @@ var get = function(req, res, next, url, doParse){
     .headers({
       'Content-Type': 'application/json',
       'userAgent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)'
-    })
+        })
     .jar(cookiejar)
     .end(function (response) {
       // Convert encoding from EUC-KR to UTF-8 using Iconv
@@ -66,10 +66,12 @@ var post = function(req, res, next, url, doParse, data){
     var Iconv = require('iconv').Iconv;
     var iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE');
 
+    var kis_value = req.body.cookie[0].value;
     var uni_value = req.body.cookie[1].value;
     var auth_value = req.body.cookie[2].value;
 
     // Add Cookies to the Cookie Jar
+    cookiejar.add('.KIS='+kis_value, url);
     cookiejar.add('.AuthCookie='+auth_value, url);
     cookiejar.add('UniCookie='+uni_value, url);
 
@@ -78,7 +80,9 @@ var post = function(req, res, next, url, doParse, data){
     .encoding('binary')
     .headers({
       'Content-Type': 'application/x-www-form-urlencoded;',
-      'userAgent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)'
+      'userAgent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)',
+      'Referer' : 'https://forest.skhu.ac.kr/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1',
+      'Origin' : 'https://forest.skhu.ac.kr'
     })
     .jar(cookiejar)
     .form(data)
