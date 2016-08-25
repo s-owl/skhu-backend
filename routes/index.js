@@ -33,4 +33,8 @@ router.post('/subjects', subjects);
 var userinfo = require('./userinfo');
 router.post('/userinfo', userinfo);
 
+// POST - SCHOLARSHIP_RESULT
+var scholarship_result = require('./scholarship_result');
+router.post('/scholarship_result', scholarship_result);
+
 module.exports = router;
