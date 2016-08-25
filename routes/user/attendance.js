@@ -1,4 +1,4 @@
-var utils = require('./utils');
+var utils = require('../utils');
 
 var run = function(req, res, next){
   console.log("POST /main");
@@ -7,6 +7,7 @@ var run = function(req, res, next){
   var data = "";
   try{
     data = "txtYy="+req.body.data.year+"&ddlHaggi="+utils.getSemeterCode(req.body.data.semester);
+    console.log(data);
   }catch(exception){
     console.log(exception);
   }
