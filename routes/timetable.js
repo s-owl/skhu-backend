@@ -1,7 +1,7 @@
 var utils = require('./utils');
 
 var run = function(req, res, next){
-  console.log("POST /main");
+  console.log("POST /timetable");
 
   var url = utils.baseurl+"/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=100";
 
