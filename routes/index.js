@@ -29,4 +29,8 @@ router.post('/timetable', timetable);
 var subjects = require('./subjects');
 router.post('/subjects', subjects);
 
+// POST - USERINFO
+var userinfo = require('./userinfo');
+router.post('/userinfo', userinfo);
+
 module.exports = router;
