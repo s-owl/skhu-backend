@@ -4,8 +4,13 @@ var run = function(req, res, next){
   console.log("POST /subjects");
 
   var url = utils.baseurl+"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
-  var data = "txtYy=" + req.body.data.year + "&ddlHaggi=" + utils.getSemesterCode(req.body.data.semester) /
-    + "&ddlSosog=" + getDepartCode(req.body.data.depart) + "&txtPermNm=" + req.body.data.professor;
+  var data =""
+  try{
+    data = "txtYy=" + req.body.data.year + "&ddlHaggi=" + utils.getSemesterCode(req.body.data.semester) /
+      + "&ddlSosog=" + getDepartCode(req.body.data.depart) + "&txtPermNm=" + req.body.data.professor;
+    }catch(exception){
+      console.log(exception);
+    }
 
   utils.post(req, res, next, url, true, data)
   .then(function(window, rawData){

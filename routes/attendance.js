@@ -4,7 +4,12 @@ var run = function(req, res, next){
   console.log("POST /main");
 
   var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
-  var data = "txtYy="+req.body.data.year+"&ddlHaggi="+req.body.data.semester;
+  var data = "";
+  try{
+    data = "txtYy="+req.body.data.year+"&ddlHaggi="+utils.getSemeterCode(req.body.data.semester);
+  }catch(exception){
+    console.log(exception);
+  }
   utils.post(req, res, next, url, true, data)
   .then(function(window, rawData){
     // Parse attendance data

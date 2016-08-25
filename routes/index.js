@@ -17,7 +17,7 @@ router.post('/url', url);
 var credits = require('./credits');
 router.post('/credits', credits);
 
-// POST - MAIN
+// POST - ATTENDANCE
 var attendance = require('./attendance');
 router.post('/attendance', attendance);
 
