@@ -11,7 +11,6 @@ var run = function(req, res, next){
     var history = [];
     window.$("#dgList > tbody > tr")
       .each(function(index, element){
-         if(index>=1){
            history.push({
             "year" : window.$( element ).children("td:eq(0)").text(),
             "semester" : window.$( element ).children("td:eq(1)").text(),
@@ -23,7 +22,6 @@ var run = function(req, res, next){
             "benefit" : window.$( element ).children("td:eq(7)").text(),
             "note" : window.$( element ).children("td:eq(8)").text()
           });
-        }
       });
     res.send(JSON.stringify({
       "scholarship_history" : history
