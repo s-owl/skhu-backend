@@ -1,5 +1,5 @@
 var run = function(req, res, next){
-  var utils = require('./utils');
+  var utils = require('../utils');
   var url = utils.baseurl + "/Gate/LogOut.aspx";
   utils.get(req, res, next, url, false)
   .then(function(rawData){

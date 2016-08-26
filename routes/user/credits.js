@@ -1,4 +1,4 @@
-var utils = require('./utils');
+var utils = require('../utils');
 
 var run = function(req, res, next){
   console.log("POST /main");

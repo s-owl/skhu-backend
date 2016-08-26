@@ -1,18 +1,22 @@
-var utils = require('./utils');
+var utils = require('../utils');
 
 var run = function(req, res, next){
   console.log("POST /subjects");
 
   var url = utils.baseurl+"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
-  var data =""
-  try{
-    data = "txtYy=" + req.body.data.year + "&ddlHaggi=" + utils.getSemesterCode(req.body.data.semester) /
-      + "&ddlSosog=" + getDepartCode(req.body.data.depart) + "&txtPermNm=" + req.body.data.professor;
-    }catch(exception){
-      console.log(exception);
-    }
+  var formdata = []
+  formdata.push({"id" : "txtYy", "value" : req.body.data.year});
+  formdata.push({"id" : "ddlHaggi", "value" : utils.getSemesterCode(req.body.data.semester)});
+  formdata.push({"id" : "ddlSosog", "value" : getDepartCode(req.body.data.depart)});
+  formdata.push({"id" : "txtPermNm", "value" : req.body.data.professor});
 
-  utils.post(req, res, next, url, true, data)
+  var jsondata = {
+    "cookie" : req.body.cookie,
+    "form" : formdata,
+    "btnid" : "CSMenuButton1_List"
+  };
+
+  utils.phFormTask(req, res, next, url, true, jsondata)
   .then(function(window, rawData){
     // Parse subjects data
     var jsonSubjects = [];
