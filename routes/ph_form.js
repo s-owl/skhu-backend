@@ -23,15 +23,11 @@ page.onLoadFinished = function(status) {
   if(tried==false){
     for(var i=0; i<jsondata.form.length; i++){
     page.evaluate(function(id, value){
-      // Set ID and PW value into the form
-      document.querySelector("input[name="+id+"]").value = value;
-      // Log In
-      document.all.ibtnLogin.click();
+      document.querySelector("#"+id).value = value;
       }, jsondata.form[i].id, jsondata.form[i].value);
-
     }
     page.evaluate(function(id){
-      document.querySelector("input[name="+id+"]").click();
+      document.querySelector("#"+id).click();
     }, jsondata.btnid);
     tried = true;
   }else{
