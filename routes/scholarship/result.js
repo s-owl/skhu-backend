@@ -1,40 +1,35 @@
 var utils = require('../utils');
 
 var run = function(req, res, next){
-  console.log("POST /userinfo");
+  console.log("POST /scholarship/result");
 
-  var url = utils.baseurl+"/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1";
+  var url = utils.baseurl+"/GATE/SAM/SCHOLARSHIP/S/SJHS01S.ASPX?&maincd=O&systemcd=S&seq=1";
 
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){
-    var history = [];
 
+    var jsonscholarship_List = [];
     window.$("#dgList > tbody > tr")
-    .each(function(index, element){
-      history.push({
-        "year" : window.$( element ).children("td:eq(0)").text(),
-        "semester" : window.$( element ).children("td:eq(1)").text(),
-        "date" : window.$( element ).children("td:eq(2)").text(),
-        "type" : window.$( element ).children("td:eq(3)").text(),
-        "reason" : window.$( element ).children("td:eq(4)").text(),
-        "result" : window.$( element ).children("td:eq(5)").text()
+      .each(function(index, element){
+         if(index>=1){
+           jsonscholarship_List.push({
+            "year" : window.$( element ).children("td:eq(0)").text(),
+            "semester" : window.$( element ).children("td:eq(1)").text(),
+            "scholarship_name" : window.$( element ).children("td:eq(2)").text(),
+            "order" : window.$( element ).children("td:eq(3)").text(),
+            "grade" : window.$( element ).children("td:eq(4)").text(),
+            "entrance_scholarship" : window.$( element ).children("td:eq(5)").text(),
+            "Registration Scholarship" : window.$( element ).children("td:eq(6)").text(),
+            "benefit" : window.$( element ).children("td:eq(7)").text(),
+            "remarks" : window.$( element ).children("td:eq(8)").text()
+          });
+        }
       });
-    });
-
-
     res.send(JSON.stringify({
-      "userinfo" : {
-        "univtype" : window.$("#lblDaehagNm").text(),
-        "depart" : window.$("#lblHagbuNm").text(),
-        "major" : window.$("#lblSosogNm").text(),
-        "course" : window.$("#lblGwajeongNm").text(),
-        "id" : window.$("#lblHagbeon").text(),
-        "name" : window.$("#lblNm").text(),
-        "status" : window.$("#lblHagjeogGbNm").text(),
-        "phone" : window.$("#lblHdpNo").text()
-      },
-      "apply_history" : history
-    }))
+      "scholarship_List" : jsonscholarship_List
+    }));
   });
+
 }
+
 module.exports = run;
