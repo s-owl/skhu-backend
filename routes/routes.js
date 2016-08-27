@@ -18,4 +18,8 @@ router.use('/enroll', enroll);
 var scholarship = require('./scholarship/routes_scholarship');
 router.use('/scholarship', scholarship);
 
+// grade
+var grade = require('./grade/routes_grade');
+router.use('/grade', grade);
+
 module.exports = router;
