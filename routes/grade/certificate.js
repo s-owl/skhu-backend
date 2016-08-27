@@ -12,8 +12,8 @@ var run = function(req, res, next){
     var tmpName;
     window.$("#Table3 > tbody > tr > td")
     .each(function(index, element){
-      if(index%2 != 0){
-        tmpName = window.$( element ).text()
+      if(index%2 > 0){
+        tmpName = window.$( element ).text();
       }else{
         userinfo.push({
           "name" : tmpName,
@@ -34,11 +34,10 @@ var run = function(req, res, next){
           "credit": window.$( element ).children("td:eq(5)").text(),
           "grade": window.$( element ).children("td:eq(6)").text()
         });
-      }
     });
 
     var summary = [];
-    for(var i=0; i<17){
+    for(var i=0; i<17; i++){
       summary.push({
         "type" : window.$("#Table2 > tbody > tr:eq(0) > td:eq("+i+")").text(),
         "credit" : window.$("#Table2 > tbody > tr:eq(1) > td:eq("+i+")").text()
@@ -48,9 +47,9 @@ var run = function(req, res, next){
     res.send(JSON.stringify({
       "userinfo" : userinfo,
       "details" : details,
-      "summary" : summary
+      "summary" : summary,
       "date" : window.$("lblDt").text()
-    }))
+    }));
   });
-}
+};
 module.exports = run;
