@@ -1,7 +1,7 @@
 exports.baseurl = "http://forest.skhu.ac.kr";
 
 var trim = function(raw){
-  return raw.toString().replace(/[\n\t\r]/g,"").replace(/ /g,'');
+  return raw.toString().replace(/[\n\t\r]/g,"").replace(/  /g,'');
 }
 exports.trim = trim;
 
