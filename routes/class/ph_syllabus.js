@@ -4,7 +4,7 @@ var page = webPage.create();
 
 var utils = require('../utils');
 
-var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
+var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES01S.ASPX?maincd=O&systemcd=S&seq=1";
 
 var TXTYY = system.args[1];
 var DDLHAGGI = system.args[2];
@@ -47,23 +47,35 @@ page.settings.javascriptEnabled = true;
 page.open(url, function(status) {
 });
 
+page.onLoadStarted = function(status){
+  var cookies = page.cookies;
+  console.log('Listing cookies:');
+  for(var i in cookies) {
+    console.log(cookies[i].name + '=' + cookies[i].value);
+  }
+  console.log("page = " + page.content);
+}
+
 // If Page is fully loaded
 page.onLoadFinished = function(status) {
   Submit_Button();
-  console.log(JSON.stringify(page));
+  var content = page.content;
+  console.log('Content: ' + content);
   phantom.exit();
 };
 
 function Submit_Button(){
-  page.evaluate(function(year, haggi, ddlsearch, txtsearch){
-    // Set value into the form
-    document.querySelector("input[name='txtYy']").value = year;
-    document.querySelector("select[name='ddlHaggi']").value = haggi;
-    document.querySelector("select[name='ddlSearch']").value = ddlsearch;
-    document.querySelector("input[name='txtSearch']").value = txtsearch;
-    // Submit
-    document.all.CSMenuButton1_List.click();
-  }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
+   page.evaluate(function(year, haggi, ddlsearch, txtsearch){
+     document.forms[0].all['txtSearch'].value = txtsearch;
+     
+  //   // Set value into the form
+  //   document.querySelector("input[name='txtYy']").value = year;
+  //   document.querySelector("select[name='ddlHaggi']").value = haggi;
+  //   document.querySelector("select[name='ddlSearch']").value = ddlsearch;
+  //   document.querySelector("input[name='txtSearch']").value = txtsearch;
+  //   // Submit
+  //   document.all.CSMenuButton1_List.click();
+   }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
 }
 
 // Error Handling
