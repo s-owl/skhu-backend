@@ -11,22 +11,24 @@ var run = function(req, res, next){
     var details = [];
     window.$("#gvDetails > tbody > tr")
     .each(function(index, element){
+      if(index > 0){
         details.push({
           "year" : window.$( element ).children("td:eq(0)").text(),
           "semester" : window.$( element ).children("td:eq(1)").text(),
           "used" : window.$( element ).children("td:eq(2)").text(),
           "available" : window.$( element ).children("td:eq(3)").text()
         });
+      }
     });
 
-    var status_nav = "table.gridForm:eq(0) > tbody > tr:eq(1) >";
+    var status_nav = "#fvList > tbody > tr > td > table > tbody > tr >";
     res.send(JSON.stringify({
       "status" : {
-        "accrued" : window.$(" > td:eq(0)").text().
-        "accrued_criteria" : window.$(status_nav+"td:eq(1)").text(),
-        "used" : window.$(status_nav+"td:eq(2)").text(),
-        "used_criteria" : window.$(status_nav+"td:eq(3)").text().
-        "available" : window.$(status_nav+"td:eq(4)").text()
+        "accrued" : utils.trim(window.$(status_nav+"td:eq(0)").text()),
+        "accrued_criteria" : utils.trim(window.$(status_nav+"td:eq(1)").text()),
+        "used" : utils.trim(window.$(status_nav+"td:eq(2)").text()),
+        "used_criteria" : utils.trim(window.$(status_nav+"td:eq(3)").text()),
+        "available" : utils.trim(window.$(status_nav+"td:eq(4)").text())
       },
       "details" : details
     }));
