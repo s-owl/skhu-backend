@@ -12,18 +12,21 @@ var run = function(req, res, next){
     var tmpName;
     window.$("#Table3 > tbody > tr > td")
     .each(function(index, element){
-      if(index%2 > 0){
-        tmpName = window.$( element ).text();
+      console.log("index="+index);
+      console.log(window.$( element ).text());
+      if(index%2 == 0){
+        tmpName = utils.trim(window.$( element ).text());
+        console.log("TMPNAME="+tmpName);
       }else{
         userinfo.push({
           "name" : tmpName,
-          "value" : window.$( element ).text()
+          "value" : utils.trim(window.$( element ).text())
         });
       }
     });
 
     var details = [];
-    window.$("#Table7 > tbody > tr")
+    window.$("#dgList > tbody > tr")
     .each(function(index, element){
         details.push({
           "year" : window.$( element ).children("td:eq(0)").text(),
@@ -48,7 +51,7 @@ var run = function(req, res, next){
       "userinfo" : userinfo,
       "details" : details,
       "summary" : summary,
-      "date" : window.$("lblDt").text()
+      "date" : window.$("#lblDt").text()
     }));
   });
 };
