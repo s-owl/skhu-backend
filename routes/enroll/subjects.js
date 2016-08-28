@@ -1,7 +1,7 @@
 var utils = require('../utils');
 
 var run = function(req, res, next){
-  console.log("POST /subjects");
+  console.log("POST /enroll/subjects");
 
   var url = utils.baseurl+"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
   var formdata = []
