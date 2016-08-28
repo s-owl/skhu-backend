@@ -1,6 +1,6 @@
-
+var jsdom = require('jsdom');
 var run = function(req, res, next){
-  console.log("Syllabus ...")
+  console.log("POST /class/syllabus")
 
   var path = require('path');
   var childProcess = require('child_process');
@@ -49,7 +49,31 @@ var run = function(req, res, next){
   // Execute Phantomjs script
   childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
     console.log(err, stdout, stderr);
-    // res.send(stdout);
+    jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
+      function (err, window) {
+        if(err==undefined){
+          var syllabus = [];
+          window.$("#dgList > tbody > tr")
+            .each(function(index, element){
+              syllabus.push({
+                "code" : window.$( element ).children("td:eq(0)").text(),
+                "subject" : window.$( element ).children("td:eq(1)").text(),
+                "grade" : window.$( element ).children("td:eq(2)").text(),
+                "semester" : window.$( element ).children("td:eq(3)").text(),
+                "class" : window.$( element ).children("td:eq(4)").text(),
+                "type" : window.$( element ).children("td:eq(5)").text(),
+                "depart" : window.$( element ).children("td:eq(6)").text(),
+                "professor" : window.$( element ).children("td:eq(7)").text(),
+                "isopened" : window.$( element ).children("td:eq(8)").text(),
+                "url" : window.$( element ).children("td:eq(8) > a").attr('href'),
+                "writted" : window.$( element ).children("td:eq(9)").text(),
+              });
+            });
+            res.send(JSON.stringify({
+              "syllabus" : syllabus
+            }));
+        }
+      });
     // pass cookies to the client
     // res.send(stdout);
   })
