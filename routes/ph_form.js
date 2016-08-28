@@ -16,7 +16,7 @@ var formvals = [];
 var cookiestart = 6+(formlen*2);
 
 // Get form ids and values
-for(var i=6; i<6+(formlen*2); i+=2){
+for(var i=6; i<cookiestart; i+=2){
   formids.push(system.args[i]);
   formvals.push(system.args[i+1]);
 }
@@ -43,16 +43,16 @@ page.open(url, function(status) {
 
 // If Page is fully loaded
 page.onLoadFinished = function(status) {
-  if(tried==false){
+  if(submited==false){
     for(var i=0; i<formids.length; i++){
-      page.evaluate(function(formid, formval){
-        document.querySelector("#"+formid).value = formval;
+      page.evaluate(function(fid, fval){
+        document.querySelector("#"+fid).value = fval;
       }, formids[i], formvals[i]);
     }
-    page.evaluate(function(formid){
-      document.querySelector("#"+id).submit();
+    page.evaluate(function(fmid){
+      document.querySelector("#"+fmid).submit();
     }, formid);
-    tried = true;
+    submited = true;
   }else{
     if(btnid==0||btnid=='0'){
       console.log(page.content);

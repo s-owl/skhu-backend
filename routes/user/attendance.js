@@ -10,6 +10,7 @@ var run = function(req, res, next){
   console.log(formids, formvals);
   utils.phFormTask(req, res, next, url, resurl, 'form1', 0, formids, formvals, true)
   .then(function(window, rawData){
+    console.log("Received data via Promise");
     console.log(rawData);
     // Parse attendance data
     var jsonAttendance = [];

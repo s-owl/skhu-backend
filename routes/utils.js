@@ -144,6 +144,8 @@ exports.getSemesterCode = getSemesterCode;
 
 var phFormTask = function(req, res, next, url, resurl, formid, btnid, formids, formvals, doParse){
     return new Promise(function(resolve, reject) {
+
+    var jsdom = require('jsdom');
     console.log("==========phFormTask==========");
     var path = require('path');
     var childProcess = require('child_process');
@@ -184,8 +186,11 @@ var phFormTask = function(req, res, next, url, resurl, formid, btnid, formids, f
           function (err, window) {
             if(err==undefined){
               // We can now parse some data from html page
-              resolve(window, converted);
+              console.log("==========Now passing data to promise==========");
+              resolve(window, stdout);
             }else{
+              console.log("==========ERROR!==========");
+              console.log(err);
               // Error!
               reject(err);
             }
