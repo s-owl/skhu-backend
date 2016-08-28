@@ -159,28 +159,50 @@ var phFormTask = function(req, res, next, url, doParse, jsondata){
     url,
     JSON.stringify(jsondata)
   ]
-
+console.log(childArgs);
   // Execute Phantomjs script
+  // childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+  //   console.log(err, stdout, stderr);
+  //   if(err!=undefined || stderr!=undefined){
+  //     reject(err, stderr);
+  //   }else{
+  //     if(doParse){
+  //       jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
+  //         function (err, window) {
+  //           if(err==undefined){
+  //             // We can now parse some data from html page
+  //             resolve(window, converted);
+  //           }else{
+  //             // Error!
+  //             reject(err);
+  //           }
+  //         });
+  //     }else{
+  //       resolve(stdout);
+  //     }
+  //   }
+  // });
+
   childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
     console.log(err, stdout, stderr);
-    if(err!=undefined || stderr!=undefined){
-      reject(err, stderr);
-    }else{
-      if(doParse){
-        jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
-          function (err, window) {
-            if(err==undefined){
-              // We can now parse some data from html page
-              resolve(window, converted);
-            }else{
-              // Error!
-              reject(err);
-            }
-          });
-      }else{
-        resolve(stdout);
-      }
-    }
+    // if(err!=undefined || stderr!=undefined){
+    //   reject(err, stderr);
+    // }else{
+    //   if(doParse){
+    //     jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
+    //       function (err, window) {
+    //         if(err==undefined){
+    //           // We can now parse some data from html page
+    //           resolve(window, converted);
+    //         }else{
+    //           // Error!
+    //           reject(err);
+    //         }
+    //       });
+    //   }else{
+    //     resolve(stdout);
+    //   }
+    // }
   });
 });
 }

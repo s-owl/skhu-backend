@@ -50,7 +50,7 @@ var run = function(req, res, next){
   childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
     console.log(err, stdout, stderr);
     // pass cookies to the client
-    res.send(stdout);
+    // res.send(stdout);
   })
 
 }
