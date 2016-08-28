@@ -16,10 +16,10 @@ var run = function(req, res, next){
   var childArgs = [
     '--ignore-ssl-errors=yes',
     path.join(__dirname, 'ph_syllabus.js'),
-    req.body.txtYy,
-    req.body.ddlHaggi,
-    req.body.ddlSearch,
-    req.body.txtSearch,
+    req.body.year,
+    req.body.semester,
+    req.body.type,
+    req.body.keyword,
      cookie[0].domain,
      cookie[0].httponly,
      cookie[0].name,
@@ -49,6 +49,7 @@ var run = function(req, res, next){
   // Execute Phantomjs script
   childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
     console.log(err, stdout, stderr);
+    // res.send(stdout);
     // pass cookies to the client
     // res.send(stdout);
   })

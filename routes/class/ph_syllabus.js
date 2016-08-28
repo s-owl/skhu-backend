@@ -61,13 +61,14 @@ page.onLoadFinished = function(status) {
     document.querySelector("#txtSearch").value = txtsearch;
     // Submit
     document.querySelector("#Form1").submit();
-  }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
+    }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
     submited = true;
-    }else{
+  }else{
     page.evaluate(function(){
       // Click the button to load data
-       document.querySelector("#CSMenuButton1_List").click();
+      document.querySelector("#CSMenuButton1_List").click();
     });
+  }
 };
 
 // Error Handling
