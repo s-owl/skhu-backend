@@ -190,7 +190,7 @@ var phFormTask = function(req, res, next, url, resurl, formid, btnid, formids, f
             if(jsdomerr==undefined){
               // We can now parse some data from html page
               console.log("==========Now passing data to promise==========");
-              resolve(window, stdout);
+              resolve(window, stdout.toString());
             }else{
               console.log("==========ERROR!==========");
               console.log(jsdomerr);
