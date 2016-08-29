@@ -50,8 +50,6 @@ var get = function(req, res, next, url, doParse){
         resolve(converted);
       }
     });
-
-
   });
 }
 exports.get = get;
@@ -144,66 +142,66 @@ var getSemesterCode = function(semester){
 }
 exports.getSemesterCode = getSemesterCode;
 
-var phFormTask = function(req, res, next, url, doParse, jsondata){
-  return new Promise(function(resolve, reject) {
+var phFormTask = function(req, res, next, url, resurl, formid, btnid, formids, formvals, doParse){
+    return new Promise(function(resolve, reject) {
 
-  var path = require('path');
-  var childProcess = require('child_process');
-  var phantomjs = require('phantomjs-prebuilt');
-  var binPath = phantomjs.path;
+    var jsdom = require('jsdom');
+    console.log("==========phFormTask==========");
+    var path = require('path');
+    var childProcess = require('child_process');
+    var phantomjs = require('phantomjs-prebuilt');
+    var binPath = phantomjs.path;
 
-  // Arguments
-  var childArgs = [
-    '--ignore-ssl-errors=yes',
-    path.join(__dirname, 'ph_form.js'),
-    url,
-    JSON.stringify(jsondata)
-  ]
-console.log(childArgs);
-  // Execute Phantomjs script
-  // childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
-  //   console.log(err, stdout, stderr);
-  //   if(err!=undefined || stderr!=undefined){
-  //     reject(err, stderr);
-  //   }else{
-  //     if(doParse){
-  //       jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
-  //         function (err, window) {
-  //           if(err==undefined){
-  //             // We can now parse some data from html page
-  //             resolve(window, converted);
-  //           }else{
-  //             // Error!
-  //             reject(err);
-  //           }
-  //         });
-  //     }else{
-  //       resolve(stdout);
-  //     }
-  //   }
-  // });
+    // Arguments
+    var childArgs = [];
+    childArgs.push('--ignore-ssl-errors=yes');
+    childArgs.push(path.join(__dirname, 'ph_form.js'));
+    childArgs.push(url);
+    childArgs.push(resurl);
+    childArgs.push(formid);
+    childArgs.push(btnid);
+    // Add form id and form values to childArgs
+    childArgs.push(formids.length);
+    for(var i=0; i<formids.length; i++){
+      childArgs.push(formids[i]);
+      childArgs.push(formvals[i]);
+    }
 
-  childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
-    console.log(err, stdout, stderr);
-    // if(err!=undefined || stderr!=undefined){
-    //   reject(err, stderr);
-    // }else{
-    //   if(doParse){
-    //     jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
-    //       function (err, window) {
-    //         if(err==undefined){
-    //           // We can now parse some data from html page
-    //           resolve(window, converted);
-    //         }else{
-    //           // Error!
-    //           reject(err);
-    //         }
-    //       });
-    //   }else{
-    //     resolve(stdout);
-    //   }
-    // }
+    // Add cookie to childArgs
+    for(var i=0; i<req.body.cookie.length; i++){
+      childArgs.push(req.body.cookie[i].domain);
+      childArgs.push(req.body.cookie[i].httponly);
+      childArgs.push(req.body.cookie[i].name);
+      childArgs.push(req.body.cookie[i].path);
+      childArgs.push(req.body.cookie[i].secure);
+      childArgs.push(req.body.cookie[i].value);
+    }
+    console.log(childArgs);
+    childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+      console.log(err, stdout, stderr);
+      console.log("=====doParse : "+doParse+"=====");
+      console.log("ERROR(err) : "+err);
+      console.log("ERROR(stderr) : "+stderr);
+      // reject(err, stderr);
+      if(doParse==true){
+        console.log("=====Preparing JSDOM=====");
+        jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
+          function (jsdomerr, window) {
+            if(jsdomerr==undefined){
+              // We can now parse some data from html page
+              console.log("==========Now passing data to promise==========");
+              resolve(window, stdout.toString());
+            }else{
+              console.log("==========ERROR!==========");
+              console.log(jsdomerr);
+              // Error!
+              reject(jsdomerr);
+            }
+          });
+      }else{
+        resolve(stdout);
+      }
+    });
   });
-});
 }
 exports.phFormTask = phFormTask;

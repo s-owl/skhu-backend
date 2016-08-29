@@ -1,21 +1,15 @@
-var utils = require('../utils');
-
 var run = function(req, res, next){
-  console.log("POST /main");
-
+  console.log("POST /user/attendance");
+  var utils = require('../utils');
   var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
-  var data = "";
-  try{
-    data = {
-      "txtYy" : req.body.data.year,
-      "ddlHaggi" : utils.getSemesterCode(req.body.data.semester),
-    };
-    console.log(JSON.stringify(data));
-  }catch(exception){
-    console.log(exception);
-  }
-  utils.post(req, res, next, url, true, data)
+  var resurl = url;
+  var formids = ['txtYy', 'ddlHaggi'];
+  var formvals = [req.body.year, req.body.semester];
+  console.log(formids, formvals);
+  utils.phFormTask(req, res, next, url, resurl, 'form1', 0, formids, formvals, true)
   .then(function(window, rawData){
+    console.log("Received data via Promise");
+    console.log(rawData);
     // Parse attendance data
     var jsonAttendance = [];
     window.$("#upContents > #divContainer > div:eq(5) > div:eq(1) > table > tbody > tr")
@@ -38,7 +32,6 @@ var run = function(req, res, next){
       "attendance" : jsonAttendance
     }));
   });
-
 }
 
 module.exports = run;
