@@ -182,25 +182,29 @@ var phFormTask = function(req, res, next, url, resurl, formid, btnid, formids, f
       console.log("=====doParse : "+doParse+"=====");
       console.log("ERROR(err) : "+err);
       console.log("ERROR(stderr) : "+stderr);
-      // reject(err, stderr);
-      if(doParse==true){
-        console.log("=====Preparing JSDOM=====");
-        jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
-          function (jsdomerr, window) {
-            if(jsdomerr==undefined){
-              // We can now parse some data from html page
-              console.log("==========Now passing data to promise==========");
-              resolve(window, stdout.toString());
-            }else{
-              console.log("==========ERROR!==========");
-              console.log(jsdomerr);
-              // Error!
-              reject(jsdomerr);
-            }
-          });
-      }else{
-        resolve(stdout);
-      }
+
+      resolve(stdout)
+      // // reject(err, stderr);
+      // if(doParse==true){
+      //   console.log("=====Preparing JSDOM=====");
+      //   jsdom.env( stdout.toString(), ["http://code.jquery.com/jquery.js"],
+      //     function (jsdomerr, window) {
+      //       if(jsdomerr==undefined){
+      //         // We can now parse some data from html page
+      //         console.log("==========Now passing data to promise==========");
+      //         console.log(stdout.toString());
+      //         resolve([window, stdout.toString()]);
+      //       }else{
+      //         console.log("==========ERROR!==========");
+      //         console.log(jsdomerr);
+      //         // Error!
+      //         reject(jsdomerr);
+      //       }
+      //     });
+      // }else{
+      //   console.log("=====doParse : "+doParse+" =====");
+      //   resolve(stdout);
+      // }
     });
   });
 }
