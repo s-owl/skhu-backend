@@ -1,4 +1,8 @@
-FROM node:argon
+FROM ubuntu:xenial
+
+# Install Deps
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs npm
 
 # Create app directory
 RUN mkdir -p /usr/src/app
