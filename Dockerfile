@@ -4,7 +4,7 @@ FROM ubuntu:latest
 RUN apt-get update 
 RUN apt-get install -y curl sudo
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-RUN apt-get install -y nodejs npm
+RUN apt-get install -y nodejs
 
 # Create app directory
 RUN mkdir -p /usr/src/app
