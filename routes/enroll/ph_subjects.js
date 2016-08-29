@@ -2,12 +2,11 @@ var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
 
-// var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
-var url = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
+var url = "https://forest.skhu.ac.kr/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
 var TXTYY = system.args[1];
 var DDLHAGGI = system.args[2];
-var DDLSEARCH = system.args[3];
-var TXTSEARCH = system.args[4];
+var DDLSOSOC = system.args[3];
+var TXTPERMNM = system.args[4];
 var COOKIE1_domain = system.args[5];
 var COOKIE1_httponly = system.args[6];
 var COOKIE1_name = system.args[7];
@@ -48,46 +47,26 @@ page.settings.javascriptEnabled = true;
 page.open(url, function(status) {
 });
 
-page.onLoadStarted = function(status){
-  var cookies = page.cookies;
-  console.log('Listing cookies:');
-  for(var i in cookies) {
-    console.log(cookies[i].name + '=' + cookies[i].value);
-  }
-  console.log("page = " + page.content);
-}
-
 // If Page is fully loaded
 page.onLoadFinished = function(status) {
-<<<<<<< HEAD
-  Submit_Button();
-  var content = page.content;
-  console.log('Content: ' + content);
-  phantom.exit();
+  if(submited==false){
+  page.evaluate(function(year, haggi, ddlsosoc, txtpermnm){
+    // Set Value on Input
+    document.querySelector("#txtYy").value = year;
+    document.querySelector("#ddlHaggi").value = haggi;
+    document.querySelector("#ddlSosog").value = ddlsosoc;
+    document.querySelector("#txtPermNm").value = txtpermnm;
+    // Submit
+    document.querySelector("#Form1").submit();
+    }, TXTYY, DDLHAGGI, DDLSOSOC, TXTPERMNM);
+    submited = true;
+  }else{
+    page.evaluate(function(){
+      // Click the button to load data
+      document.querySelector("#CSMenuButton1_List").click();
+    });
+  }
 };
-
-function Submit_Button(){
-   page.evaluate(function(year, haggi, ddlsearch, txtsearch){
-     document.forms[0].all['txtSearch'].value = txtsearch;
-    if(submited==false){
-    page.evaluate(function(year, haggi, ddlsearch, txtsearch){
-      // Set Value on Input
-      document.querySelector("#txtYy").value = year;
-      document.querySelector("#ddlHaggi").value = haggi;
-      document.querySelector("#ddlSearch").value = ddlsearch;
-      document.querySelector("#txtSearch").value = txtsearch;
-      // Submit
-      document.querySelector("#Form1").submit();
-      }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
-      submited = true;
-    }else{
-      page.evaluate(function(){
-        // Click the button to load data
-        document.querySelector("#CSMenuButton1_List").click();
-      });
-    }
-  };
-
 
 // Error Handling
 page.onError = function(msg, trace) {
@@ -113,10 +92,11 @@ page.onResourceRequested = function(requestData, networkRequest) {
   }
 };
 
+
 // When "Search" button clicked, it will make this event invoked soon.
 // use this event to get data
 page.onResourceReceived = function(response){
-    var doneurl = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/S/SSES01S.ASPX?maincd=O&systemcd=S&seq=1";
+    var doneurl = "https://forest.skhu.ac.kr/GATE/SAM/LECTURE/S/SSGS09S.ASPX?maincd=O&systemcd=S&seq=1";
     if(response.url == doneurl){
         // Wait for data to be displayed on the page.
         // For one sec maybe?
