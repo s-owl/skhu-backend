@@ -1,5 +1,5 @@
 #FROM ubuntu:latest
-FROM node:<version>
+FROM node:latest
 # Install Deps
 #RUN apt-get update 
 #RUN apt-get install -y curl sudo build-essential apt-utils python
