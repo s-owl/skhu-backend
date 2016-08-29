@@ -1,10 +1,10 @@
-#FROM ubuntu:latest
-FROM node:latest
+FROM ubuntu:latest
+#FROM node:latest
 # Install Deps
-#RUN apt-get update 
-#RUN apt-get install -y curl sudo build-essential apt-utils python
-#RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-#RUN apt-get install -y nodejs
+RUN apt-get update 
+RUN apt-get install -y curl sudo build-essential apt-utils python language-pack-ko
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+RUN apt-get install -y nodejs
 
 RUN locale-gen ko_KR.UTF-8  
 ENV LANG ko_KR.UTF-8  
