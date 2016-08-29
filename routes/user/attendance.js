@@ -1,8 +1,6 @@
-var utils = require('../utils');
-
 var run = function(req, res, next){
   console.log("POST /user/attendance");
-
+  var utils = require('../utils');
   var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
   var resurl = url;
   var formids = ['txtYy', 'ddlHaggi'];

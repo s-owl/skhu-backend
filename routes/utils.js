@@ -179,20 +179,23 @@ var phFormTask = function(req, res, next, url, resurl, formid, btnid, formids, f
     console.log(childArgs);
     childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
       console.log(err, stdout, stderr);
-      if(err!=undefined || stderr!=undefined){
-        reject(err, stderr);
-      }else if(doParse==true){
+      console.log("=====doParse : "+doParse+"=====");
+      console.log("ERROR(err) : "+err);
+      console.log("ERROR(stderr) : "+stderr);
+      // reject(err, stderr);
+      if(doParse==true){
+        console.log("=====Preparing JSDOM=====");
         jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
-          function (err, window) {
-            if(err==undefined){
+          function (jsdomerr, window) {
+            if(jsdomerr==undefined){
               // We can now parse some data from html page
               console.log("==========Now passing data to promise==========");
               resolve(window, stdout);
             }else{
               console.log("==========ERROR!==========");
-              console.log(err);
+              console.log(jsdomerr);
               // Error!
-              reject(err);
+              reject(jsdomerr);
             }
           });
       }else{
