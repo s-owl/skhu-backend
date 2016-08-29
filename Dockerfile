@@ -1,10 +1,10 @@
-FROM ubuntu:latest
-
+#FROM ubuntu:latest
+FROM node:<version>
 # Install Deps
-RUN apt-get update 
-RUN apt-get install -y curl sudo build-essential apt-utils python
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-RUN apt-get install -y nodejs
+#RUN apt-get update 
+#RUN apt-get install -y curl sudo build-essential apt-utils python
+#RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+#RUN apt-get install -y nodejs
 
 # Create app directory
 RUN mkdir -p /usr/src/app
