@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 # Install Deps
 RUN apt-get update 
-RUN apt-get install -y curl sudo build-essential
+RUN apt-get install -y curl sudo build-essential apt-utils python
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
