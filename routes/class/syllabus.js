@@ -11,7 +11,7 @@ var run = function(req, res, next){
   for( var i = 0; i<req.body.cookie.length; i++){
     cookie[i] = req.body.cookie[i];
   }
-  console.log(cookie[0].domain);
+  //console.log(cookie[0].domain);
   // Arguments
   var childArgs = [
     '--ignore-ssl-errors=yes',
