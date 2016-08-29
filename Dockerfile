@@ -1,8 +1,9 @@
-FROM ubuntu:xenial
+FROM ubuntu:latest
 
 # Install Deps
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-RUN sudo apt-get install -y nodejs npm
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_6.x | -E bash -
+RUN apt-get install -y nodejs npm
 
 # Create app directory
 RUN mkdir -p /usr/src/app
