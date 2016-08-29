@@ -2,7 +2,7 @@ FROM ubuntu:latest
 #FROM node:latest
 # Install Deps
 RUN apt-get update 
-RUN apt-get install -y curl sudo build-essential apt-utils python language-pack-ko
+RUN apt-get install -y curl sudo build-essential apt-utils python language-pack-ko libfontconfig1 libfontconfig1-dbg libfontconfig1-dev
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
