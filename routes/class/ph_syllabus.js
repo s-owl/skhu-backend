@@ -2,8 +2,10 @@ var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
 
-// var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
-var url = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
+var utils = require('../utils');
+
+var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES01S.ASPX?maincd=O&systemcd=S&seq=1";
+
 var TXTYY = system.args[1];
 var DDLHAGGI = system.args[2];
 var DDLSEARCH = system.args[3];
@@ -33,9 +35,6 @@ var COOKIE4_path = system.args[26];
 var COOKIE4_secure = system.args[27];
 var COOKIE4_value = system.args[28];
 
-var submited = false;
-
-// Add Cookies
 phantom.addCookie({'domain':COOKIE1_domain, 'httponly':COOKIE1_httponly, 'name':COOKIE1_name, 'path':COOKIE1_path, 'secure':COOKIE1_secure, 'value':COOKIE1_value});
 phantom.addCookie({'domain':COOKIE2_domain, 'httponly':COOKIE2_httponly, 'name':COOKIE2_name, 'path':COOKIE2_path, 'secure':COOKIE2_secure, 'value':COOKIE2_value});
 phantom.addCookie({'domain':COOKIE3_domain, 'httponly':COOKIE3_httponly, 'name':COOKIE3_name, 'path':COOKIE3_path, 'secure':COOKIE3_secure, 'value':COOKIE3_value});
@@ -59,7 +58,6 @@ page.onLoadStarted = function(status){
 
 // If Page is fully loaded
 page.onLoadFinished = function(status) {
-<<<<<<< HEAD
   Submit_Button();
   var content = page.content;
   console.log('Content: ' + content);
@@ -69,25 +67,16 @@ page.onLoadFinished = function(status) {
 function Submit_Button(){
    page.evaluate(function(year, haggi, ddlsearch, txtsearch){
      document.forms[0].all['txtSearch'].value = txtsearch;
-    if(submited==false){
-    page.evaluate(function(year, haggi, ddlsearch, txtsearch){
-      // Set Value on Input
-      document.querySelector("#txtYy").value = year;
-      document.querySelector("#ddlHaggi").value = haggi;
-      document.querySelector("#ddlSearch").value = ddlsearch;
-      document.querySelector("#txtSearch").value = txtsearch;
-      // Submit
-      document.querySelector("#Form1").submit();
-      }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
-      submited = true;
-    }else{
-      page.evaluate(function(){
-        // Click the button to load data
-        document.querySelector("#CSMenuButton1_List").click();
-      });
-    }
-  };
-
+     
+  //   // Set value into the form
+  //   document.querySelector("input[name='txtYy']").value = year;
+  //   document.querySelector("select[name='ddlHaggi']").value = haggi;
+  //   document.querySelector("select[name='ddlSearch']").value = ddlsearch;
+  //   document.querySelector("input[name='txtSearch']").value = txtsearch;
+  //   // Submit
+  //   document.all.CSMenuButton1_List.click();
+   }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
+}
 
 // Error Handling
 page.onError = function(msg, trace) {
@@ -101,30 +90,6 @@ page.onError = function(msg, trace) {
     });
   }
 
-  // console.error(msgStack.join('\n'));
-  // phantom.exit();
+  console.error(msgStack.join('\n'));
+  phantom.exit();
 };
-
-page.onResourceRequested = function(requestData, networkRequest) {
-  // Block CoreSecurity.js - It will redirect us to the main page
-  var burl="https://forest.skhu.ac.kr/Gate/Common/JavaScript/CoreSecurity.js";
-  if(requestData.url==burl){
-    networkRequest.abort();
-  }
-};
-
-// When "Search" button clicked, it will make this event invoked soon.
-// use this event to get data
-page.onResourceReceived = function(response){
-    var doneurl = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/S/SSES01S.ASPX?maincd=O&systemcd=S&seq=1";
-    if(response.url == doneurl){
-        // Wait for data to be displayed on the page.
-        // For one sec maybe?
-        setTimeout(function(){
-          // Pass page content to node server with "console.log"
-           console.log(page.content);
-           // OK, Done.
-            phantom.exit();
-          }, 1000);
-    }
-}

@@ -1,9 +1,7 @@
 var system = require('system');
 var webPage = require('webpage');
-
-console.log("========== Starting ph_form.js ==========");
-
 var page = webPage.create();
+
 
 var tried = false;
 
@@ -52,14 +50,5 @@ page.onError = function(msg, trace) {
   }
 
   console.error(msgStack.join('\n'));
-  // phantom.exit();
-};
-
-page.onResourceRequested = function(requestData, networkRequest) {
-  // console.log('Request (#' + requestData.id + '): ' + JSON.stringify(requestData));
-  var url="https://forest.skhu.ac.kr/Gate/Common/JavaScript/CoreSecurity.js";
-  if(requestData.url==url){
-    console.log("Aborting resource request for "+url);
-    networkRequest.abort();
-  }
+  phantom.exit();
 };
