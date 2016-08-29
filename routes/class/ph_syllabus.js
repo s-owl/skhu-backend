@@ -2,6 +2,8 @@ var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
 
+// var utils = require('../utils');
+
 // var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
 var url = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
 var TXTYY = system.args[1];
@@ -48,46 +50,26 @@ page.settings.javascriptEnabled = true;
 page.open(url, function(status) {
 });
 
-page.onLoadStarted = function(status){
-  var cookies = page.cookies;
-  console.log('Listing cookies:');
-  for(var i in cookies) {
-    console.log(cookies[i].name + '=' + cookies[i].value);
-  }
-  console.log("page = " + page.content);
-}
-
 // If Page is fully loaded
 page.onLoadFinished = function(status) {
-<<<<<<< HEAD
-  Submit_Button();
-  var content = page.content;
-  console.log('Content: ' + content);
-  phantom.exit();
+  if(submited==false){
+  page.evaluate(function(year, haggi, ddlsearch, txtsearch){
+    // Set Value on Input
+    document.querySelector("#txtYy").value = year;
+    document.querySelector("#ddlHaggi").value = haggi;
+    document.querySelector("#ddlSearch").value = ddlsearch;
+    document.querySelector("#txtSearch").value = txtsearch;
+    // Submit
+    document.querySelector("#Form1").submit();
+    }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
+    submited = true;
+  }else{
+    page.evaluate(function(){
+      // Click the button to load data
+      document.querySelector("#CSMenuButton1_List").click();
+    });
+  }
 };
-
-function Submit_Button(){
-   page.evaluate(function(year, haggi, ddlsearch, txtsearch){
-     document.forms[0].all['txtSearch'].value = txtsearch;
-    if(submited==false){
-    page.evaluate(function(year, haggi, ddlsearch, txtsearch){
-      // Set Value on Input
-      document.querySelector("#txtYy").value = year;
-      document.querySelector("#ddlHaggi").value = haggi;
-      document.querySelector("#ddlSearch").value = ddlsearch;
-      document.querySelector("#txtSearch").value = txtsearch;
-      // Submit
-      document.querySelector("#Form1").submit();
-      }, TXTYY, DDLHAGGI, DDLSEARCH, TXTSEARCH);
-      submited = true;
-    }else{
-      page.evaluate(function(){
-        // Click the button to load data
-        document.querySelector("#CSMenuButton1_List").click();
-      });
-    }
-  };
-
 
 // Error Handling
 page.onError = function(msg, trace) {

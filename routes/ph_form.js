@@ -1,40 +1,67 @@
 var system = require('system');
 var webPage = require('webpage');
-
-console.log("========== Starting ph_form.js ==========");
-
 var page = webPage.create();
 
-var tried = false;
+var submited = false;
 
 var url = system.args[1];
-var rawdata = system.args[2];
-var jsondata = JSON.parse(rawdata);
+var resurl = system.args[2];
+var formid = system.args[3];
+var btnid = system.args[4];
+
+var formlen = system.args[5];
+var formids = [];
+var formvals = [];
+
+var cookiestart = 6+(formlen*2);
+
+// Get form ids and values
+for(var i=6; i<cookiestart; i+=2){
+  formids.push(system.args[i]);
+  formvals.push(system.args[i+1]);
+}
 
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
 page.settings.javascriptEnabled = true;
 
-for(var i=0; i<jsondata.cookie.length; i++){
-  page.addCookie(jsondata.cookie[i]);
+for(var i=cookiestart; i<=system.args.length; i+=6){
+  phantom.addCookie({
+    'domain':system.args[i],
+    'httponly':system.args[i+1],
+    'name':system.args[i+2],
+    'path':system.args[i+3],
+    'secure':system.args[i+4],
+    'value':system.args[i+5]
+  });
 }
-page.open(logInPageUrl, function(status) {
+
+// console.log(url, resurl, formid, btnid, formlen, formids, formvals);
+
+// Load page
+page.open(url, function(status) {
 });
 
 // If Page is fully loaded
 page.onLoadFinished = function(status) {
-  if(tried==false){
-    for(var i=0; i<jsondata.form.length; i++){
-    page.evaluate(function(id, value){
-      document.querySelector("#"+id).value = value;
-      }, jsondata.form[i].id, jsondata.form[i].value);
+  if(submited==false){
+    for(var i=0; i<formids.length; i++){
+      page.evaluate(function(fid, fval){
+        document.querySelector("#"+fid).value = fval;
+      }, formids[i], formvals[i]);
     }
-    page.evaluate(function(id){
-      document.querySelector("#"+id).click();
-    }, jsondata.btnid);
-    tried = true;
+    page.evaluate(function(fmid){
+      document.querySelector("#"+fmid).submit();
+    }, formid);
+    submited = true;
   }else{
-    console.log(page.content);
-    phantom.exit();
+    if(btnid==0||btnid=='0'){
+      console.log(page.content);
+      phantom.exit();
+    }else{
+      page.evaluate(function(btnid){
+        document.querySelector("#"+btnid).click();
+      }, btnid);
+    }
   }
 };
 
@@ -51,7 +78,7 @@ page.onError = function(msg, trace) {
     });
   }
 
-  console.error(msgStack.join('\n'));
+  // console.error(msgStack.join('\n'));
   // phantom.exit();
 };
 
@@ -59,7 +86,20 @@ page.onResourceRequested = function(requestData, networkRequest) {
   // console.log('Request (#' + requestData.id + '): ' + JSON.stringify(requestData));
   var url="https://forest.skhu.ac.kr/Gate/Common/JavaScript/CoreSecurity.js";
   if(requestData.url==url){
-    console.log("Aborting resource request for "+url);
+    // console.log("Aborting resource request for "+url);
     networkRequest.abort();
   }
+};
+
+page.onResourceReceived = function(response){
+    if(response.url == resurl && submited == true){
+        // Wait for data to be displayed on the page.
+        // For one sec maybe?
+        setTimeout(function(){
+          // Pass page content to node server with "console.log"
+           console.log(page.content);
+           // OK, Done.
+            phantom.exit();
+          }, 1000);
+    }
 };
