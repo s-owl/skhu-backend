@@ -22,4 +22,8 @@ router.use('/scholarship', scholarship);
 var grade = require('./grade/routes_grade');
 router.use('/grade', grade);
 
+// page
+var page = require('./page/routes_page');
+router.use('/page', page);
+
 module.exports = router;
