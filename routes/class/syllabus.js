@@ -90,8 +90,8 @@ function processIntoUrl(rawTag){
     console.log(rawstr[1]);
     var data = rawstr[1].split("|");
     console.log(data);
-    var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12] /
-          + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15] /
+    var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
+          + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15] 
   				+ "&HN=" + data[16] + "&BB=" + data[17] + "&SB=" +data[18] +"&SBN="+ data[19];
     console.log(url);
     return url;
