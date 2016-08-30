@@ -65,7 +65,7 @@ var run = function(req, res, next){
                 "depart" : window.$( element ).children("td:eq(6)").text(),
                 "professor" : window.$( element ).children("td:eq(7)").text(),
                 "isopened" : window.$( element ).children("td:eq(8)").text(),
-                "url" : window.$( element ).children("td:eq(8) > a").attr('href'),
+                "url" : processIntoUrl(window.$( element ).children("td:eq(8)").html()),
                 "writted" : window.$( element ).children("td:eq(9)").text(),
               });
             });
@@ -78,6 +78,22 @@ var run = function(req, res, next){
     // res.send(stdout);
   })
 
+}
+
+
+function processIntoUrl(rawTag){
+  var utils = require('../utils');
+  if(rawTag.includes("비공개")){
+    return "";
+  }else{
+    var rawstr = rawTag.split("&quot;");
+    var data = rawstr[1].split("|");
+    var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12] /
+          + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15] /
+  				+ "&HN=" +data[16] + "&BB=" + data[17] + "&SB=" +data[18] +"&SBN="+ data[19];
+    console.log(url);
+    return url;
+      }
 }
 
 module.exports = run;
