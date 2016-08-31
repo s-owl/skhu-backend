@@ -31,9 +31,9 @@ var run = function(req, res, next){
       "available_time" : window.$(info_nav + "tr:eq(2) > td:eq(1)").text(),
       "goal" : window.$(info_nav + "tr:eq(3) > td:eq(1)").text(),
       "lecture_manner" : {
-        "outline" : window.$(info_nav + "tr:eq(4) > td:eq(1)").text(),
-        "manner" : window.$(info_nav + "tr:eq(5) > td:eq(1)").text(),
-        "devices" : window.$(info_nav + "tr:eq(6) > td:eq(1)").text()
+        "outline" : window.$(info_nav + "tr:eq(4) > td:eq(2)").text(),
+        "manner" : window.$(info_nav + "tr:eq(5) > td:eq(2)").text(),
+        "devices" : window.$(info_nav + "tr:eq(6) > td:eq(2)").text()
       },
       "evaluation_criteria" : window.$(info_nav + "tr:eq(7) > td:eq(1)").text(),
       "materials" : window.$(info_nav + "tr:eq(8) > td:eq(1)").text(),
