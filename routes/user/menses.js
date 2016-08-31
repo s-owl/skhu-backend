@@ -5,27 +5,48 @@ var run = function(req, res, next){
 
   var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES03P.ASPX?&maincd=O&systemcd=S&seq=104";
 
-  utils.get(req, res, next, url, true)
-  .then(function(window, rawData){
+  if(req.body.action=="fetch"){
+    utils.get(req, res, next, url, true)
+    .then(function(window, rawData){
+      var history = [];
+      window.$("#dgList:eq(0) > tbody > tr")
+        .each(function(index, element){
+            jsonAttendance.push({
+              "year" : utils.trim(window.$( element ).children("td:eq(0)").text()),
+              "semester" : utils.trim(window.$( element ).children("td:eq(1)").text()),
+              "code" : utils.trim(window.$( element ).children("td:eq(2)").text()),
+              "subject" : utils.trim(window.$( element ).children("td:eq(3)").text()),
+              "class" : utils.trim(window.$( element ).children("td:eq(4)").text()),
+              "professor" : utils.trim(window.$( element ).children("td:eq(5)").text()),
+              "applied_at" : utils.trim(window.$( element ).children("td:eq(6)").text()),
+              "absent_at" : utils.trim(window.$( element ).children("td:eq(7)").text()),
+              "delete" : utils.trim(window.$( element ).children("td:eq(8)").text()),
+            });
+        });
 
-    var jsonMenses = [];
-    window.$("#dgList > tbody > tr")
-      .each(function(index, element){
-           jsonMenses.push({
-            "year" : window.$( element ).children("td:eq(0)").text(),
-            "semester" : window.$( element ).children("td:eq(1)").text(),
-            "code" : window.$( element ).children("td:eq(2)").text(),
-            "name" : window.$( element ).children("td:eq(3)").text(),
-            "class" : window.$( element ).children("td:eq(4)").text(),
-            "professor" : window.$( element ).children("td:eq(5)").text(),
-            "day" : window.$( element ).children("td:eq(6)").text()
-          });
-      });
-    res.send(JSON.stringify({
-      "menses" : jsonMenses
-    }));
-  });
+      var available = [];
+      window.$("#dgList:eq(1) > tbody > tr")
+        .each(function(index, element){
+            jsonAttendance.push({
+              "year" : utils.trim(window.$( element ).children("td:eq(0)").text()),
+              "semester" : utils.trim(window.$( element ).children("td:eq(1)").text()),
+              "code" : utils.trim(window.$( element ).children("td:eq(2)").text()),
+              "subject" : utils.trim(window.$( element ).children("td:eq(3)").text()),
+              "class" : utils.trim(window.$( element ).children("td:eq(4)").text()),
+              "professor" : utils.trim(window.$( element ).children("td:eq(5)").text()),
+              "day" : utils.trim(window.$( element ).children("td:eq(6)").text()),
+            });
+        });
 
+      res.send(JSON.stringify({
+        "history" : history,
+        "available" : available
+      }));
+
+    });
+  }else if(req.body.action=="apply"){
+
+  }
 }
 
 module.exports = run;
