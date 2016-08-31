@@ -65,7 +65,8 @@ var run = function(req, res, next){
                 "depart" : window.$( element ).children("td:eq(6)").text(),
                 "professor" : window.$( element ).children("td:eq(7)").text(),
                 "isopened" : window.$( element ).children("td:eq(8)").text(),
-                "url" : processIntoUrl(window.$( element ).children("td:eq(8)").html()),
+                "url" : processIntoUrl(window.$( element ).children("td:eq(8)").html(),
+                            window.$( element ).children("td:eq(8)").text()),
                 "writted" : window.$( element ).children("td:eq(9)").text(),
               });
             });
@@ -81,9 +82,9 @@ var run = function(req, res, next){
 }
 
 
-function processIntoUrl(rawTag){
+function processIntoUrl(rawTag, isOpened){
   var utils = require('../utils');
-  if(rawTag.includes("비공개")){
+  if(isOpened == "비공개"){
     return "";
   }else{
     var rawstr = rawTag.split("&quot;");
