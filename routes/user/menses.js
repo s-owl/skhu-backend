@@ -9,9 +9,9 @@ var run = function(req, res, next){
     utils.get(req, res, next, url, true)
     .then(function(window, rawData){
       var history = [];
-      window.$("#dgList:eq(0) > tbody > tr")
+      window.$("#dgList1 > tbody > tr")
         .each(function(index, element){
-            jsonAttendance.push({
+            history.push({
               "year" : utils.trim(window.$( element ).children("td:eq(0)").text()),
               "semester" : utils.trim(window.$( element ).children("td:eq(1)").text()),
               "code" : utils.trim(window.$( element ).children("td:eq(2)").text()),
@@ -25,9 +25,9 @@ var run = function(req, res, next){
         });
 
       var available = [];
-      window.$("#dgList:eq(1) > tbody > tr")
+      window.$("#dgList > tbody > tr")
         .each(function(index, element){
-            jsonAttendance.push({
+            available.push({
               "year" : utils.trim(window.$( element ).children("td:eq(0)").text()),
               "semester" : utils.trim(window.$( element ).children("td:eq(1)").text()),
               "code" : utils.trim(window.$( element ).children("td:eq(2)").text()),
