@@ -21,4 +21,8 @@ router.post('/credits', credits);
 var attendance = require('./attendance');
 router.post('/attendance', attendance);
 
+// POST - MENSES
+var menses = require('./menses');
+router.post('/menses', menses);
+
 module.exports = router;
