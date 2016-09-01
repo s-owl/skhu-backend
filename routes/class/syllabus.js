@@ -87,7 +87,13 @@ function processIntoUrl(rawTag, isOpened){
   if(isOpened == "비공개"){
     return "";
   }else{
-    var rawstr = rawTag.split("&quot;");
+    var rawstr;
+    try{
+        rawstr = rawTag.toString().split("&quot;");
+    }catch(exception){
+        rawstr = "";
+        console.log(exception);
+    }
     console.log(rawstr[1]);
     var data = rawstr[1].split("|");
     console.log(data);
