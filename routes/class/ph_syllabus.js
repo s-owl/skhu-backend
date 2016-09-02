@@ -6,10 +6,10 @@ var page = webPage.create();
 
 // var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
 var url = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
-var TXTYY = system.args[1];
-var DDLHAGGI = system.args[2];
-var DDLSEARCH = system.args[3];
-var TXTSEARCH = system.args[4];
+var TXTYY = system.args[1] == undefined ? "" : system.args[1];
+var DDLHAGGI = system.args[2] == undefined ? "" : system.args[2];
+var DDLSEARCH = system.args[3] == undefined ? "" : system.args[3];
+var TXTSEARCH = system.args[4] == undefined ? "" : system.args[4];
 var COOKIE1_domain = system.args[5];
 var COOKIE1_httponly = system.args[6];
 var COOKIE1_name = system.args[7];
