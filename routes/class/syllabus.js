@@ -78,14 +78,11 @@ var run = function(req, res, next){
     // pass cookies to the client
     // res.send(stdout);
   })
-
 }
-
 
 function processIntoUrl(rawTag, isOpened){
   var utils = require('../utils');
   if(isOpened == "공개"){
-
       var rawstr = rawTag.split("&quot;");
       console.log(rawstr[1]);
       var data = rawstr[1].split("|");
