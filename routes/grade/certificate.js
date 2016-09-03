@@ -2,6 +2,8 @@ var utils = require('../utils');
 
 var run = function(req, res, next){
   console.log("POST /grade/certificate");
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
 
   var url = utils.baseurl+"/GATE/SAM/SCORE/S/SSJS06S.ASPX?&maincd=O&systemcd=S&seq=1";
 

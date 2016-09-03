@@ -2,6 +2,8 @@ var utils = require('../utils');
 
 var run = function(req, res, next){
   console.log("POST /page/syllabus_details");
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
 
   var url = req.body.url;
   console.log(url);

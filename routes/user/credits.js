@@ -1,7 +1,9 @@
 var utils = require('../utils');
 
 var run = function(req, res, next){
-  console.log("POST /user/attendance");
+  console.log("POST /user/credits");
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
 
   var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
 

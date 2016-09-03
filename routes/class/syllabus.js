@@ -1,6 +1,8 @@
 var jsdom = require('jsdom');
 var run = function(req, res, next){
-  console.log("POST /class/syllabus")
+  console.log("POST /class/syllabus");
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
 
   var path = require('path');
   var childProcess = require('child_process');

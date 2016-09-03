@@ -2,7 +2,9 @@
 
 
 var run = function(req, res, next){
-  console.log("Logging In...")
+  console.log("POST /user/login")
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
 
   var path = require('path');
   var childProcess = require('child_process');
