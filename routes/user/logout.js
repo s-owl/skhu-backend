@@ -1,4 +1,8 @@
 var run = function(req, res, next){
+  console.log("POST /user/logout");
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
+  
   var utils = require('../utils');
   var url = utils.baseurl + "/Gate/LogOut.aspx";
   utils.get(req, res, next, url, false)

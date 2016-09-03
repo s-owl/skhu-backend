@@ -2,6 +2,8 @@ var utils = require('../utils');
 
 var run = function(req, res, next){
   console.log("POST /userinfo");
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
 
   var url = utils.baseurl+"/Gate/UniTopMenu.aspx";
 

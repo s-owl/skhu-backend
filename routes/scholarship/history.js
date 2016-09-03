@@ -2,6 +2,8 @@ var utils = require('../utils');
 
 var run = function(req, res, next){
   console.log("POST /scholarship/history");
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
 
   var url = utils.baseurl+"/GATE/SAM/SCHOLARSHIP/S/SJHS01S.ASPX?&maincd=O&systemcd=S&seq=1";
 

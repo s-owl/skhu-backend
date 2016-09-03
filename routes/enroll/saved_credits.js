@@ -2,6 +2,8 @@ var utils = require('../utils');
 
 var run = function(req, res, next){
   console.log("POST /enroll/saved_credits");
+  console.log("REMOTE IP : " + req.ip);
+  console.log("REMOTE IPS : " + req.ips);
 
   var url = utils.baseurl+"/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100";
 
