@@ -9,7 +9,7 @@ services:
       - app-2:app-2
       - app-3:app-3
     ports:
-      - 80:3000
+      - 4000:80
     depends_on:
       - app-1
       - app-2
@@ -17,18 +17,21 @@ services:
 
   app-1:
     container_name: forest-nodejs-1
-    build: .
+    # build: .
+    image: registry.gitlab.com/sukso96100/forest-nodejs:latest
     ports:
       - 3000
 
   app-2:
     container_name: forest-nodejs-2
-    build: .
+    # build: .
+    image: registry.gitlab.com/sukso96100/forest-nodejs:latest
     ports:
       - 3000
 
   app-3:
     container_name: forest-nodejs-3
-    build: .
+    # build: .
+    image: registry.gitlab.com/sukso96100/forest-nodejs:latest
     ports:
       - 3000
