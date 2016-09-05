@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  nginx:
+    container_name: forest-nginx-lb
+    build: ./nginx
+    links:
+      - app-1:app-1
+      - app-2:app-2
+      - app-3:app-3
+    ports:
+      - 80:3000
+    depends_on:
+      - app-1
+      - app-2
+      - app-3
+
+  app-1:
+    container_name: forest-nodejs-1
+    build: .
+    ports:
+      - 3000
+
+  app-2:
+    container_name: forest-nodejs-2
+    build: .
+    ports:
+      - 3000
+
+  app-3:
+    container_name: forest-nodejs-3
+    build: .
+    ports:
+      - 3000
