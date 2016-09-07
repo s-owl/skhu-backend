@@ -2,6 +2,10 @@
 var express = require('express');
 var router = express.Router();
 
+// "/" will display some information about this server
+var serverinfo = require('./serverinfo');
+router.get('/', serverinfo);
+
 // USER
 var user = require('./user/routes_user');
 router.use('/user', user);
