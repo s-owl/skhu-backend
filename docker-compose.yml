@@ -4,12 +4,16 @@ services:
   nginx:
     container_name: forest-nginx-lb
     build: ./nginx
+    environment:
+      - SERVER_DOMAIN=f.youngbin.xyz
+      - SERVER_EMAIL=we.sss.you@gmail.com
     links:
       - app-1:app-1
       - app-2:app-2
       - app-3:app-3
     ports:
-      - 4000:80
+      - 80:80
+      - 443:443
     depends_on:
       - app-1
       - app-2
@@ -17,21 +21,18 @@ services:
 
   app-1:
     container_name: forest-nodejs-1
-    # build: .
     image: registry.gitlab.com/sukso96100/forest-nodejs:latest
     ports:
       - 3000
 
   app-2:
     container_name: forest-nodejs-2
-    # build: .
-    image: registry.gitlab.com/sukso96100/forest-nodejs:latest
+    build: .
     ports:
       - 3000
 
   app-3:
     container_name: forest-nodejs-3
-    # build: .
-    image: registry.gitlab.com/sukso96100/forest-nodejs:latest
+    build: .
     ports:
       - 3000
