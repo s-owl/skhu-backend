@@ -13,7 +13,7 @@ Node.js 기반으로 작성된 foressst API 서버
 
  - `nodejs` 와 `npm` 을 설치합니다. 설치 방법은 [nodejs.org](https://nodejs.org) 를 참고하세요.
  - 실행에 필요한 의존성을 설치합니다.
- 
+
   ```bash
   npm install
   ```
@@ -44,6 +44,7 @@ Node.js 기반으로 작성된 foressst API 서버
   ```
 
   - 컨테이너를 중지하려면 다음 명령을 실행합니다.
+  
   ```bash
   docker stop <컨테이너 이름>
   ```
