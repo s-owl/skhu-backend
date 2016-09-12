@@ -15,12 +15,16 @@ var get = function(req, res, next, url, doParse){
     var Iconv = require('iconv').Iconv;
     var iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE');
 
-    var uni_value = req.body.cookie[1].value;
-    var auth_value = req.body.cookie[2].value;
+    try{
+      var uni_value = req.body.cookie[1].value;
+      var auth_value = req.body.cookie[2].value;
 
-    // Add Cookies to the Cookie Jar
-    cookiejar.add('.AuthCookie='+auth_value, url);
-    cookiejar.add('UniCookie='+uni_value, url);
+      // Add Cookies to the Cookie Jar
+      cookiejar.add('.AuthCookie='+auth_value, url);
+      cookiejar.add('UniCookie='+uni_value, url);
+    }catch(exception e){
+      console.log(e);
+    }
 
     // Send request to forest
     unirest.get(url)
