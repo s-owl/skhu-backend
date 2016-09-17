@@ -22,8 +22,8 @@ var get = function(req, res, next, url, doParse){
       // Add Cookies to the Cookie Jar
       cookiejar.add('.AuthCookie='+auth_value, url);
       cookiejar.add('UniCookie='+uni_value, url);
-    }catch(exception e){
-      console.log(e);
+    }catch(err){
+      console.log(err);
     }
 
     // Send request to forest
