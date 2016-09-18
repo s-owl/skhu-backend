@@ -25,4 +25,8 @@ router.post('/attendance', attendance);
 var menses = require('./menses');
 router.post('/menses', menses);
 
+// POST - EXPCHECK
+var expcheck = require('./expcheck');
+router.post('/expcheck', expcheck);
+
 module.exports = router;
