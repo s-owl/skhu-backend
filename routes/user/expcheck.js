@@ -11,7 +11,7 @@ var run = function(req, res, next){
   .then(function(rawData){
     console.log("CHECKING IF COOKIE HAS BEEN EXPIRED");
     console.log(rawData);
-    var expired = rawData.includes("로그인") ? true : false;
+    var expired = (rawData.includes("txtID") && rawData.includes("txtPW")) ? true : false;
     res.send(JSON.stringify({
       "expired" : expired
     }))
