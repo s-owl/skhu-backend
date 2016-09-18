@@ -36,6 +36,7 @@ var get = function(req, res, next, url, doParse){
     .jar(cookiejar)
     .end(function (response) {
       console.log("=====GOT RESPONSSE=====");
+      console.log(response.headers);
       console.log(response.body);
       // Convert encoding from EUC-KR to UTF-8 using Iconv
       var buffer = new Buffer(response.body, 'binary');
