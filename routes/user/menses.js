@@ -47,7 +47,7 @@ var run = function(req, res, next){
 
     });
   }else if(req.body.action=="apply"){
-
+    res.send("NOT IMPLEMENTED YET.");
   }
 }
 
