@@ -23,11 +23,16 @@ var run = function(req, res, next){
               var code_tutor = item.split("(")[1].split(")")[0];
               var codeval = code_tutor.split("-")[0] + "-" + code_tutor.split("-")[1];
               if(utils.isDuplicated(data[i], "code", codeval)==false){
+                var time = item.split("(")[1].split(")")[1].substring(0,13);
                 data[i].push({
                   "subject" : item.split("(")[0],
                   "code" : codeval,
                   "tutor" : code_tutor.split("-")[2],
-                  "time" : item.split("(")[1].split(")")[1].substring(0,13),
+                  "time" : time,
+                  "start" : [parseInt(time.split("~")[0].split(":")[0]),
+                    parseInt(time.split("~")[0].split(":")[1])],
+                  "end" : [parseInt(time.split("~")[1].split(":")[0]),
+                    parseInt(time.split("~")[1].split(":")[1])],
                   "location" : item.split("(")[1].split(")")[1].substring(13,17)
                 });
               }
