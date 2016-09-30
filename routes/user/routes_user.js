@@ -1,3 +1,5 @@
+// 사용자 관련 라우팅 모음
+
 var express = require('express');
 var router = express.Router();
 
