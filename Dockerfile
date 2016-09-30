@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:xenial
 #FROM node:latest
 # Install Deps
 RUN apt-get update 
