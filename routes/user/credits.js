@@ -1,5 +1,6 @@
 var utils = require('../utils');
 
+// 이수학점 조회
 var run = function(req, res, next){
   console.log("POST /user/credits");
   console.log("REMOTE IP : " + req.ip);
@@ -7,6 +8,7 @@ var run = function(req, res, next){
 
   var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
 
+  // GET 요청 및 파싱 준비
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){
     // Parse credits data
@@ -21,6 +23,7 @@ var run = function(req, res, next){
       }
     }
 
+    // JSON 으로 처리하여 클라이언트에 응답
     res.send(JSON.stringify({
       "credits" : jsonCredits
     }));

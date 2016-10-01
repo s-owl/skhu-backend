@@ -1,6 +1,6 @@
 //OK! Let't work around using phantomjs!
 
-
+// 로그인 작업을 수행
 var run = function(req, res, next){
   console.log("POST /user/login")
   console.log("REMOTE IP : " + req.ip);
@@ -11,12 +11,12 @@ var run = function(req, res, next){
   var phantomjs = require('phantomjs-prebuilt');
   var binPath = phantomjs.path;
 
-  // Arguments
+  // 명령행 인자값들을 담는 배열
   var childArgs = [
-    '--ignore-ssl-errors=yes',
-    path.join(__dirname, 'ph_login.js'),
-    req.body.userid,
-    req.body.userpw
+    '--ignore-ssl-errors=yes', // SSL 오류 무시
+    path.join(__dirname, 'ph_login.js'), // 자식 프로세스로 실행할 phantom.js 스크립트
+    req.body.userid, // 학번
+    req.body.userpw // 비밀번호
   ]
 
   // Execute Phantomjs script

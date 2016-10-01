@@ -1,17 +1,19 @@
 var utils = require('../utils');
-
+// 개인 시간표 조회
 var run = function(req, res, next){
   console.log("POST /timetable");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
+  // 개인 시간표 데이터를 파싱할 페이지 URL
   var url = utils.baseurl+"/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=100";
 
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){
-    // Parse some data
+    // 파싱한 데이터를 보관할 배열
     var data = [[],[],[],[],[],[]];
 
+    // id 가 tblTimeSheet 인 테이블의 데이터 긁어오기
     window.$("#tblTimeSheet > tbody > tr")
       .each(function(index, element){
         if(index>0){
@@ -40,6 +42,8 @@ var run = function(req, res, next){
           }
         }
       });
+
+    // JSON 으로 처리하여 클라이언트에 응답
     res.send(JSON.stringify({
         "monday" : data[0],
         "tuesday" : data[1],

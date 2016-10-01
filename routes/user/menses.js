@@ -1,5 +1,6 @@
 var utils = require('../utils');
 
+// 생리공결 조회 및 신청
 var run = function(req, res, next){
   console.log("POST /user/menses");
   console.log("REMOTE IP : " + req.ip);
@@ -8,8 +9,12 @@ var run = function(req, res, next){
   var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES03P.ASPX?&maincd=O&systemcd=S&seq=104";
 
   if(req.body.action=="fetch"){
+    // action 값이 fetch 인 경우, 생리공결 현황을 조회함
     utils.get(req, res, next, url, true)
     .then(function(window, rawData){
+
+      // 생리공결 기록 파싱해오기
+      // #dgList1 에 해당하는 태그 안의 테이블에 있음
       var history = [];
       window.$("#dgList1 > tbody > tr")
         .each(function(index, element){
@@ -26,6 +31,8 @@ var run = function(req, res, next){
             });
         });
 
+        // 생리공결 신청 가능한 강의 조회
+        // #dgList 에 해당하는 태그 안의 테이블에 있음
       var available = [];
       window.$("#dgList > tbody > tr")
         .each(function(index, element){
@@ -40,6 +47,7 @@ var run = function(req, res, next){
             });
         });
 
+        //　JSON 으로 처리하여 클라이언트에 응답
       res.send(JSON.stringify({
         "history" : history,
         "available" : available
@@ -47,6 +55,8 @@ var run = function(req, res, next){
 
     });
   }else if(req.body.action=="apply"){
+    // action 값이 apply 인 경우, 모두 신청 처리.
+    // ===== 아직 구현되지 않음. =====
     res.send("NOT IMPLEMENTED YET.");
   }
 }
