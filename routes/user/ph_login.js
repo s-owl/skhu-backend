@@ -7,8 +7,11 @@ var mainPageUrl = "https://forest.skhu.ac.kr/Gate/UniMyMain.aspx";
 
 var tried = false;
 
+// 인자값으로 넘겨받은 학번, 비밀번호 불러오기
 var ID = system.args[1];
 var PW = system.args[2];
+
+//　userAgent - IE 로 설정
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
 page.settings.javascriptEnabled = true;
 
@@ -20,7 +23,7 @@ page.open(logInPageUrl, function(status) {
 page.onLoadFinished = function(status) {
   if(page.url == logInPageUrl){
     if(tried){
-      // f page's url is sams as log in page's url, but tried is true. this is an error!
+      // If page's url is sams as log in page's url, but tried is true. this is an error!
       console.log("LOGIN FAILED");
       phantom.exit();
       }else{

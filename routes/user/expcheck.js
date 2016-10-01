@@ -1,5 +1,5 @@
 var utils = require('../utils');
-
+// 쿠키 만료 여부 확인 작업을 수행함
 var run = function(req, res, next){
   console.log("POST /user/expcheck");
   console.log("REMOTE IP : " + req.ip);
@@ -8,9 +8,10 @@ var run = function(req, res, next){
   var url = utils.baseurl+"/Gate/UniTopMenu.aspx";
 
   var unirest = require('unirest');
-  var cookiejar = unirest.jar();
+  var cookiejar = unirest.jar(); // 쿠키를 담을 Cookie Jar 준비
 
   try{
+    // 요청 바디에서 쿠키값 로드
     var uni_value = req.body.cookie[1].value;
     var auth_value = req.body.cookie[2].value;
 
@@ -33,13 +34,14 @@ var run = function(req, res, next){
     console.log("=====GOT RESPONSSE=====");
     console.log(response.cookies);
     var tcookie = response.cookies;
-    
+
     // if cookie from forest has ASP.NET_SessionId, .AuthCookie, UniCookie
     // Cookie that we got from user is an expired one..
     var expired = (tcookie.hasOwnProperty("ASP.NET_SessionId")&&
       tcookie.hasOwnProperty(".AuthCookie")&&
       tcookie.hasOwnProperty("UniCookie")) ? true : false;
 
+      // 쿠키 만료 여부를 JSON 으로 처리하여 응답
     res.send(JSON.stringify({
       "expired":expired
     }));
