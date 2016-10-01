@@ -21,9 +21,11 @@ for(var i=6; i<cookiestart; i+=2){
   formvals.push(system.args[i+1]);
 }
 
+// Set userAgent as IE
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
 page.settings.javascriptEnabled = true;
 
+// Add cookie to the phantom client
 for(var i=cookiestart; i<=system.args.length; i+=6){
   phantom.addCookie({
     'domain':system.args[i],
@@ -34,8 +36,6 @@ for(var i=cookiestart; i<=system.args.length; i+=6){
     'value':system.args[i+5]
   });
 }
-
-// console.log(url, resurl, formid, btnid, formlen, formids, formvals);
 
 // Load page
 page.open(url, function(status) {
