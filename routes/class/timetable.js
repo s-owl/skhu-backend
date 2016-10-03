@@ -22,8 +22,9 @@ var run = function(req, res, next){
             console.log(window.$( element ).children("td.TT_ItemCell:eq("+i+")").text());
             var item = window.$( element ).children("td.TT_ItemCell:eq("+i+")").text();
             if(item.length>0){
-              var code_tutor = item.split("(")[1].split(")")[0];
-              var codeval = code_tutor.split("-")[0] + "-" + code_tutor.split("-")[1];
+              var code_tutor = item.split("(")[1].split(")")[0]; // 강사 또는 교수
+              var codeval = code_tutor.split("-")[0] + "-" + code_tutor.split("-")[1]; // 과목코드
+              // 과목코드로 배열에서 중복되는 요소인지 여부 검사
               if(utils.isDuplicated(data[i], "code", codeval)==false){
                 var time = item.split("(")[1].split(")")[1].substring(0,13);
                 data[i].push({

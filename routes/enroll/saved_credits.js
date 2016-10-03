@@ -1,5 +1,5 @@
 var utils = require('../utils');
-
+// 학점 세이브 조회
 var run = function(req, res, next){
   console.log("POST /enroll/saved_credits");
   console.log("REMOTE IP : " + req.ip);
@@ -10,7 +10,9 @@ var run = function(req, res, next){
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){
 
+    // 학점 세이브 상세 정보를 보관할 배열
     var details = [];
+    // id 가 gvDetails인 테이블 안의 데이터 가져오기
     window.$("#gvDetails > tbody > tr")
     .each(function(index, element){
       if(index > 0){
@@ -23,7 +25,10 @@ var run = function(req, res, next){
       }
     });
 
+    // 학점 세이브 요약 데이터 파싱
     var status_nav = "#fvList > tbody > tr > td > table > tbody > tr >";
+
+    // JSON 으로 처리하여 클라이언트에 응답
     res.send(JSON.stringify({
       "status" : {
         "accrued" : utils.trim(window.$(status_nav+"td:eq(0)").text()),

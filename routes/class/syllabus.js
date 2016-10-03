@@ -58,7 +58,7 @@ var run = function(req, res, next){
     jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
       function (err, window) {
         if(err==undefined){
-          // 강의계쇡서 검색 결과 파싱
+          // 강의계획서 검색 결과 파싱
           var syllabus = [];
           window.$("#dgList > tbody > tr")
             .each(function(index, element){
@@ -101,7 +101,6 @@ function processIntoUrl(rawTag, isOpened){
       var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
             + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15]
     				+ "&HN=" + data[16] + "&BB=" + data[17] + "&SB=" +data[18];
-            // +"&SBN="+ data[19];
       console.log(url);
       return url;
   }else{
