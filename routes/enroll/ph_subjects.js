@@ -3,10 +3,13 @@ var webPage = require('webpage');
 var page = webPage.create();
 
 var url = "https://forest.skhu.ac.kr/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
-var TXTYY = system.args[1];
-var DDLHAGGI = system.args[2];
-var DDLSOSOC = system.args[3];
-var TXTPERMNM = system.args[4];
+
+// 명령행 인자에서 값 가져와서 저장
+var TXTYY = system.args[1]; // 년도
+var DDLHAGGI = system.args[2]; // 학기
+var DDLSOSOC = system.args[3]; // 학과(학부)
+var TXTPERMNM = system.args[4]; // 교수명
+// 쿠키값
 var COOKIE1_domain = system.args[5];
 var COOKIE1_httponly = system.args[6];
 var COOKIE1_name = system.args[7];
@@ -39,7 +42,7 @@ phantom.addCookie({'domain':COOKIE1_domain, 'httponly':COOKIE1_httponly, 'name':
 phantom.addCookie({'domain':COOKIE2_domain, 'httponly':COOKIE2_httponly, 'name':COOKIE2_name, 'path':COOKIE2_path, 'secure':COOKIE2_secure, 'value':COOKIE2_value});
 phantom.addCookie({'domain':COOKIE3_domain, 'httponly':COOKIE3_httponly, 'name':COOKIE3_name, 'path':COOKIE3_path, 'secure':COOKIE3_secure, 'value':COOKIE3_value});
 phantom.addCookie({'domain':COOKIE4_domain, 'httponly':COOKIE4_httponly, 'name':COOKIE4_name, 'path':COOKIE4_path, 'secure':COOKIE4_secure, 'value':COOKIE4_value});
-
+// userAgent - IE
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
 page.settings.javascriptEnabled = true;
 

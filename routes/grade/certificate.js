@@ -1,5 +1,5 @@
 var utils = require('../utils');
-
+// 교내 제출용 성적증명서 조회
 var run = function(req, res, next){
   console.log("POST /grade/certificate");
   console.log("REMOTE IP : " + req.ip);
@@ -10,16 +10,20 @@ var run = function(req, res, next){
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){
 
+    // 사용자 정보 저장할 배열
     var userinfo = [];
     var tmpName;
+    // 사용자 정보 파싱
     window.$("#Table3 > tbody > tr > td")
     .each(function(index, element){
       console.log("index="+index);
       console.log(window.$( element ).text());
       if(index%2 == 0){
+        // index 가 짝수 == 속성 이름
         tmpName = utils.trim(window.$( element ).text());
         console.log("TMPNAME="+tmpName);
       }else{
+        // index 가 홀수 == 속성 값
         userinfo.push({
           "name" : tmpName,
           "value" : utils.trim(window.$( element ).text())
@@ -27,7 +31,9 @@ var run = function(req, res, next){
       }
     });
 
+    // 상세 성적 정보 배열
     var details = [];
+    // 성적 정보 파싱
     window.$("#dgList > tbody > tr")
     .each(function(index, element){
         details.push({
@@ -41,7 +47,9 @@ var run = function(req, res, next){
         });
     });
 
+    // 요약 정보 배열
     var summary = [];
+    // 요약 정보 파싱
     for(var i=0; i<17; i++){
       summary.push({
         "type" : window.$("#Table2 > tbody > tr:eq(0) > td:eq("+i+")").text(),
@@ -49,6 +57,7 @@ var run = function(req, res, next){
       })
     }
 
+    // JSON 으로 처리하여 클라이언트에 응답
     res.send(JSON.stringify({
       "userinfo" : userinfo,
       "details" : details,

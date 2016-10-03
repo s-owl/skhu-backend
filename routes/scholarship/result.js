@@ -1,5 +1,5 @@
 var utils = require('../utils');
-
+// 장학 신청 결과 조회
 var run = function(req, res, next){
   console.log("POST /scholarship/result");
   console.log("REMOTE IP : " + req.ip);
@@ -9,8 +9,9 @@ var run = function(req, res, next){
 
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){
-    var history = [];
 
+    // 장학 신청 내역 및 결과 파싱
+    var history = [];
     window.$("#dgList > tbody > tr")
     .each(function(index, element){
       history.push({
@@ -23,9 +24,9 @@ var run = function(req, res, next){
       });
     });
 
-
+    // JSON 으로 처리하여 클라이언트에 응답
     res.send(JSON.stringify({
-      "userinfo" : {
+      "userinfo" : { // 사용자 정보
         "univtype" : window.$("#lblDaehagNm").text(),
         "depart" : window.$("#lblHagbuNm").text(),
         "major" : window.$("#lblSosogNm").text(),
