@@ -4,7 +4,18 @@ build_image:
   - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build -t registry.gitlab.com/sukso96100/forest-nodejs:latest .
-    - docker push registry.gitlab.com/sukso96100/forest-nodejs:latest
+    - docker build -t registry.gitlab.com/sukso96100/forest-nodejs:test
+    - docker push registry.gitlab.com/sukso96100/forest-nodejs:test
   only:
     - master
+    
+stable:
+  image: docker:git
+  services:
+  - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/sukso96100/forest-nodejs:latest
+    - docker push registry.gitlab.com/sukso96100/forest-nodejs:latest
+  only:
+    - stable
