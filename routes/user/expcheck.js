@@ -5,7 +5,7 @@ var run = function(req, res, next){
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  var url = utils.baseurl+"/Gate/UniTopMenu.aspx";
+  var url = utils.forestBaseUrl+"/Gate/UniTopMenu.aspx";
 
   var unirest = require('unirest');
   var cookiejar = unirest.jar(); // 쿠키를 담을 Cookie Jar 준비

@@ -98,7 +98,7 @@ function processIntoUrl(rawTag, isOpened){
       var data = rawstr[1].split("|"); // rawstr[1] 을 | 를 기준으로 쪼개서 배열로 저장
       console.log(data);
       // 쪼개기로 만들 배열의 요소와 문자열을 조합하여 URL 만들기
-      var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
+      var url = utils.forestBaseUrl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
             + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15]
     				+ "&HN=" + data[16] + "&BB=" + data[17] + "&SB=" +data[18];
       console.log(url);

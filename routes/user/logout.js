@@ -4,7 +4,7 @@ var run = function(req, res, next){
   console.log("REMOTE IPS : " + req.ips);
 
   var utils = require('../utils');
-  var url = utils.baseurl + "/Gate/LogOut.aspx";
+  var url = utils.forestBaseUrl + "/Gate/LogOut.aspx";
   // 로그아웃 요청 보내기 - 파싱 안함
   utils.get(req, res, next, url, false)
   .then(function(rawData){

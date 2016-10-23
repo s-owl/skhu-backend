@@ -1,7 +1,7 @@
 var utils = require('../utils');
 // 학사일정 조회
 var run = function(req, res, next){
-  console.log("POST /page/calendar");
+  console.log("POST /life/schedules");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
