@@ -5,7 +5,7 @@ var run = function(req, res, next){
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  var url = utils.baseurl+"/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1";
+  var url = utils.forestBaseUrl+"/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1";
 
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){

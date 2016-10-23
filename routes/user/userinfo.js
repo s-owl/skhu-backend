@@ -8,7 +8,7 @@ var run = function(req, res, next){
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  var url = utils.baseurl+"/Gate/UniTopMenu.aspx";
+  var url = utils.forestBaseUrl+"/Gate/UniTopMenu.aspx";
 
   // GET 요청 작업 수행 및, html parser 준비된 객체 받기
   utils.get(req, res, next, url, true)
