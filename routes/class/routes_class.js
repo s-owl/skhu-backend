@@ -13,4 +13,9 @@ router.post('/timetable', timetable);
 var syllabus = require('./syllabus');
 router.post('/syllabus', syllabus);
 
+// 강의실별 시간표 조회
+// POST - 강의실 검색
+var searchClassroom = require('./timetable_classroom').searchClassroom;
+router.post('/timetable_classroom/search', searchClassroom);
+
 module.exports = router;
