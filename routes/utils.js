@@ -1,5 +1,6 @@
 // 베이스 URL
-exports.baseurl = "http://forest.skhu.ac.kr";
+exports.forestBaseUrl = "http://forest.skhu.ac.kr";
+exports.skhuBaseUrl = "http://skhu.ac.kr";
 
 // 문자열에서 불필요한 요소를 제거하는 함수
 var trim = function(raw){

@@ -6,7 +6,7 @@ var run = function(req, res, next){
   console.log("REMOTE IPS : " + req.ips);
 
   // 개인 시간표 데이터를 파싱할 페이지 URL
-  var url = utils.baseurl+"/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=100";
+  var url = utils.forestBaseUrl+"/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=100";
 
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){

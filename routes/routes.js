@@ -39,5 +39,10 @@ router.use('/grade', grade);
 var page = require('./page/routes_page');
 router.use('/page', page);
 
+// 학교생활 관련 라우팅
+// 요청 경로 : /life/*
+var life = require('./life/routes_life');
+router.use('/life', life);
+
 // 다른 모듈에서 사용 가능하도록 노출
 module.exports = router;

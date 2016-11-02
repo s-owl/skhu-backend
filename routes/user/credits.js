@@ -6,7 +6,7 @@ var run = function(req, res, next){
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  var url = utils.baseurl+"/Gate/UniMainStudent.aspx";
+  var url = utils.forestBaseUrl+"/Gate/UniMainStudent.aspx";
 
   // GET 요청 및 파싱 준비
   utils.get(req, res, next, url, true)

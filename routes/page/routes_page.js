@@ -6,9 +6,4 @@ var router = express.Router();
 var syllabus_details = require('./syllabus_details');
 router.post('/syllabus_details', syllabus_details);
 
-// 학사일정 조회
-// POST - CALENDAR
-var calendar = require('./calendar');
-router.post('/calendar', calendar);
-
 module.exports = router;

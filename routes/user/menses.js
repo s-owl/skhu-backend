@@ -6,7 +6,7 @@ var run = function(req, res, next){
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES03P.ASPX?&maincd=O&systemcd=S&seq=104";
+  var url = utils.forestBaseUrl+"/GATE/SAM/LESSON/S/SSES03P.ASPX?&maincd=O&systemcd=S&seq=104";
 
   if(req.body.action=="fetch"){
     // action 값이 fetch 인 경우, 생리공결 현황을 조회함
