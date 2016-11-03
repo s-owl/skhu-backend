@@ -11,6 +11,6 @@ router.post('/syllabus', syllabus);
 
 // POST - Professor timetable
 var proTimetable = require('./proTimetable');
-router.post('/proTimetable', proTimetagle);
+router.post('/proTimetable', proTimetable);
 
 module.exports = router;
