@@ -18,17 +18,8 @@ var run = function(req, res, next){
   var childArgs = [
     '--ignore-ssl-errors=yes',
     path.join(__dirname, 'ph_professorList.js'),
-    req.body.year,
-    req.body.semester,
-    req.body.txtStaffNO,
-    req.body.txtStaffName,
-    req.body.hidStaffNO,
-    req.body.hidJikjongCode,
-    req.body.hidJikgubCode,
-    req.body.hidDaehagCd,
-    req.body.hidHagbuCd,
-    req.body.hidSosogCd,
-    req.body.hidSocialNO,
+    req.body.rblSearch,
+    req.body.search,
      cookie[0].domain,
      cookie[0].httponly,
      cookie[0].name,
@@ -66,24 +57,11 @@ var run = function(req, res, next){
             .each(function(index, element){
               professorList.push({
                 // 음 사번에 링크로되어있는데 누르면 담당교수별 수업시간표에 정보가 넘어감.! 이걸 어캐구현하지?
-                // "code" : processIntoUrl(window.$( element ).children("td:eq(0)").html(),
-                //             window.$( element ).children("td:eq(0)").text()),
-                "code" : window.$( element ).children("td:eq(0)").text(),
+                "code" : processIntoUrl(window.$( element ).children("td:eq(0)").html()),
                 "name" : window.$( element ).children("td:eq(1)").text(),
                 "occupations" : window.$( element ).children("td:eq(2)").text(),
                 "rank" : window.$( element ).children("td:eq(3)").text(),
                 "belong" : window.$( element ).children("td:eq(4)").text()
-                // txtYy:2016
-                // ddlHaggi:Z0102
-                // objStaff$txtStaffNO:100035
-                // objStaff$txtStaffName:홍은지
-                // objStaff$hidStaffNO:100035
-                // objStaff$hidJikjongCode:4
-                // objStaff$hidJikgubCode:A110
-                // objStaff$hidDaehagCd:U000000
-                // objStaff$hidHagbuCd:U050000
-                // objStaff$hidSosogCd:U050300
-                // objStaff$hidSocialNO:undefined
               });
             });
             res.send(JSON.stringify({
@@ -91,28 +69,23 @@ var run = function(req, res, next){
             }));
         }
       });
-    // pass cookies to the client
-    // res.send(stdout);
   })
 }
 
-// function processIntoUrl(rawTag, isOpened){
-//   var utils = require('../utils');
-//   if(isOpened == "공개"){
-//       var rawstr = rawTag.split("&quot;");
-//       console.log(rawstr[1]);
-//       var data = rawstr[1].split("|");
-//       console.log(data);
-//       javascript:SelectCode("objStaff","500879","가야마","20","A290","U000000","U010000","U010110","외래교수","교양학부")
-//       var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
-//             + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15]
-//     				+ "&HN=" + data[16] + "&BB=" + data[17] + "&SB=" +data[18];
-//             // +"&SBN="+ data[19];
-//       console.log(url);
-//       return url;
-//   }else{
-//     return "";
-//   }
-// }
+function processIntoUrl(rawTag){
+  var utils = require('../utils');
+
+  var rawstr = rawTag.split("&quot;");
+  console.log(rawstr[1]);
+  var data = rawstr[1].split("|");
+  console.log(data);
+  var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
+        + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15]
+  			+ "&HN=" + data[16] + "&BB=" + data[17] + "&SB=" +data[18];
+        // +"&SBN="+ data[19];
+  console.log(url);
+  return url;
+
+
 
 module.exports = run;
