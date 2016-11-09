@@ -56,8 +56,8 @@ var run = function(req, res, next){
           window.$("#dgList > tbody > tr")
             .each(function(index, element){
               professorList.push({
-                // 음 사번에 링크로되어있는데 누르면 담당교수별 수업시간표에 정보가 넘어감.! 이걸 어캐구현하지?
-                "code" : processIntoUrl(window.$( element ).children("td:eq(0)").html()),
+                // 담당교수조회 그대로 javascript포함된 a 태그를 반환함
+                "code" : SelectCode(window.$( element ).children("td:eq(0)").html()),
                 "name" : window.$( element ).children("td:eq(1)").text(),
                 "occupations" : window.$( element ).children("td:eq(2)").text(),
                 "rank" : window.$( element ).children("td:eq(3)").text(),
@@ -72,20 +72,15 @@ var run = function(req, res, next){
   })
 }
 
-function processIntoUrl(rawTag){
+function SelectCode(rawTag){
   var utils = require('../utils');
 
   var rawstr = rawTag.split("&quot;");
-  console.log(rawstr[1]);
-  var data = rawstr[1].split("|");
-  console.log(data);
-  var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
-        + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15]
-  			+ "&HN=" + data[16] + "&BB=" + data[17] + "&SB=" +data[18];
-        // +"&SBN="+ data[19];
-  console.log(url);
-  return url;
 
+  var query = '<a href="javascript:SelectCode("'+rawstr[1]+'","'+rawstr[3]+'","'+rawstr[5]+'","'+rawstr[7]+'","'+rawstr[9]+'","'+rawstr[11]+'","'+rawstr[13]+'","'+rawstr[15]+'","'+rawstr[17]+'","'+rawstr[19]+'")">'+rawstr[3]+'</a>';
+  console.log(query);
+  return query;
+};
 
 
 module.exports = run;
