@@ -90,6 +90,7 @@ const searchClassroom = function(req, res, next){
 exports.searchClassroom = searchClassroom;
 
 const getTimetableOfClassroom = function(req, res, next){
+  const utils = require('../../utils');
   console.log("POST /class/timetable/classroom");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
@@ -155,27 +156,32 @@ const getTimetableOfClassroom = function(req, res, next){
               if(index>0){
                 console.log("========================================");
                 for(let i=0; i<6; i++){
-                  console.log(window.$( element ).children("td.TT_ItemCell:eq("+i+")").text());
-                  let item = window.$( element ).children("td.TT_ItemCell:eq("+i+")").text();
-                  if(item.length>0){
-                    let code_tutor = item.split("(")[1].split(")")[0]; // 강사 또는 교수
-                    let codeval = code_tutor.split("-")[0] + "-" + code_tutor.split("-")[1]; // 과목코드
-                    // 과목코드로 배열에서 중복되는 요소인지 여부 검사
-                    if(utils.isDuplicated(data[i], "code", codeval)==false){
-                      let time = item.split("(")[1].split(")")[1].substring(0,13);
-                      data[i].push({
-                        "subject" : item.split("(")[0],
-                        "code" : codeval,
-                        "tutor" : code_tutor.split("-")[2],
-                        "time" : time,
-                        "start" : [parseInt(time.split("~")[0].split(":")[0]),
-                          parseInt(time.split("~")[0].split(":")[1])],
-                        "end" : [parseInt(time.split("~")[1].split(":")[0]),
-                          parseInt(time.split("~")[1].split(":")[1])],
-                        // "location" : item.split("(")[1].split(")")[1].substring(13,17)
-                      });
+                  let items = window.$( element ).children(`td.TT_ItemCell:eq(${i})`)
+                    .html().split('<div class="TT_TimeItemValue"><b>');
+                  items.forEach((rawitem)=>{
+                    let item = rawitem.replace('</div>','');
+                    console.log(item);
+                    if(item!=undefined && item.length>0){
+                      // 줄바꿈 기준으로 쪼개기
+                      let splited = item.split('<br>');
+                      // 교수 또는 강사
+                      let code_tutor = splited[1].replace('(','').replace(')','');
+                      let codeval = `${code_tutor.split("-")[0]}-${code_tutor.split("-")[1]}`; // 과목코드
+                      // 과목코드로 배열에서 중복되는 요소인지 여부 검사
+                      if(utils.isDuplicated(data[i], "code", codeval)==false){
+                        data[i].push({
+                          "subject" : splited[0].replace('</b>', ''),
+                          "code" : codeval,
+                          "tutor" : code_tutor.split("-")[2],
+                          "time" :  splited[2],
+                          "start" : [parseInt(splited[2].split("~")[0].split(":")[0]),
+                            parseInt(splited[2].split("~")[0].split(":")[1])],
+                          "end" : [parseInt(splited[2].split("~")[1].split(":")[0]),
+                            parseInt(splited[2].split("~")[1].split(":")[1])]
+                        });
+                      }
                     }
-                  }
+                  });
                 }
               }
             });

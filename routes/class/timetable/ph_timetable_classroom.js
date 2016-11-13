@@ -57,7 +57,7 @@ page.onLoadFinished = function(status) {
     // Set Value on Input
     document.querySelector('#txtYy').value = year;
     document.querySelector('#ddlHaggi').value = semester;
-    document.querySelector('#objRoom_txtPlaceCode').value = roomcode;
+    document.querySelector('#objRoom_txtPlaceCode').value = placecode;
     document.querySelector('#objRoom_txtRoomCodeNote').value	= name;
     document.querySelector('#objRoom_hidPlaceCode').value	= placecode;
     document.querySelector('#objRoom_hidBuildCode').value	= building;
@@ -66,6 +66,7 @@ page.onLoadFinished = function(status) {
 
     // Submit
     document.querySelector("#Form1").submit();
+    // document.querySelector("#btnList").click();
   }, YEAR, SEMESTER, ROOMCODE, BUILDING, NAME, PLACECODE);
     submited = true;
   }else{
