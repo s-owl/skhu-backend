@@ -3,9 +3,10 @@ var webPage = require('webpage');
 var page = webPage.create();
 
 // var utils = require('../utils');
-
+// window.open("/Gate/SAM/Lesson/COREControl/SSEX03O.aspx?id="+qid+"&arg1="+SearchGubun+"&arg2=" + SN
+// 				,"PopupGanguisil","top=" + sx + ",left=" + sy + ",HEIGHT=450,WIDTH=500,scrollbars=no,status=no,toolbar=no,titlebar=no,menubar=no,location=no");
 // 명령행 인자로 넘겨바든 값 불러와서 변수로 저장
-var url = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
+var url = "http://forest.skhu.ac.kr/Gate/SAM/Lesson/COREControl/SSEX03O.aspx?id=objRoom&arg1=1&arg2=";
 var TYPE = system.args[1] == undefined ? "name" : system.args[1]; // 검색 유형
 var KEYWORD = system.args[2] == undefined ? "" : system.args[2]; // 키워드
 // 쿠키값 로드
@@ -37,10 +38,14 @@ var COOKIE4_value = system.args[26];
 var submited = false;
 
 // Add Cookies
-phantom.addCookie({'domain':COOKIE1_domain, 'httponly':COOKIE1_httponly, 'name':COOKIE1_name, 'path':COOKIE1_path, 'secure':COOKIE1_secure, 'value':COOKIE1_value});
-phantom.addCookie({'domain':COOKIE2_domain, 'httponly':COOKIE2_httponly, 'name':COOKIE2_name, 'path':COOKIE2_path, 'secure':COOKIE2_secure, 'value':COOKIE2_value});
-phantom.addCookie({'domain':COOKIE3_domain, 'httponly':COOKIE3_httponly, 'name':COOKIE3_name, 'path':COOKIE3_path, 'secure':COOKIE3_secure, 'value':COOKIE3_value});
-phantom.addCookie({'domain':COOKIE4_domain, 'httponly':COOKIE4_httponly, 'name':COOKIE4_name, 'path':COOKIE4_path, 'secure':COOKIE4_secure, 'value':COOKIE4_value});
+phantom.addCookie({'domain':COOKIE1_domain, 'httponly':COOKIE1_httponly, 'name':COOKIE1_name,
+ 'path':COOKIE1_path, 'secure':COOKIE1_secure, 'value':COOKIE1_value});
+phantom.addCookie({'domain':COOKIE2_domain, 'httponly':COOKIE2_httponly, 'name':COOKIE2_name,
+ 'path':COOKIE2_path, 'secure':COOKIE2_secure, 'value':COOKIE2_value});
+phantom.addCookie({'domain':COOKIE3_domain, 'httponly':COOKIE3_httponly, 'name':COOKIE3_name,
+ 'path':COOKIE3_path, 'secure':COOKIE3_secure, 'value':COOKIE3_value});
+phantom.addCookie({'domain':COOKIE4_domain, 'httponly':COOKIE4_httponly, 'name':COOKIE4_name,
+ 'path':COOKIE4_path, 'secure':COOKIE4_secure, 'value':COOKIE4_value});
 
 // userAgent - IE
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
@@ -53,15 +58,15 @@ page.open(url, function(status) {
 // If Page is fully loaded
 page.onLoadFinished = function(status) {
   if(submited==false){
-  page.evaluate(function(type, keyword){
-    // Set Value on Input
-    var typeVal = (type == "name" ? 'N' : 'C');
-    document.querySelector('[name="rblSearch"]').value = typeVal;
-    document.querySelector('#txtSearch').value = keyword
-    // Submit
-    document.querySelector("#Form1").submit();
-  }, TYPE, KEYWORD);
-    submited = true;
+    page.evaluate(function(type, keyword){
+      // Set Value on Input
+      var typeVal = (type == "name" ? 'N' : 'C');
+      document.querySelector('[name="rblSearch"]').value = typeVal;
+      document.querySelector('#txtSearch').value = keyword;
+      // Submit
+      document.querySelector("#Form1").submit();
+    }, TYPE, KEYWORD);
+      submited = true;
   }else{
     page.evaluate(function(){
       // Click the button to load data
@@ -97,8 +102,8 @@ page.onResourceRequested = function(requestData, networkRequest) {
 // When "Search" button clicked, it will make this event invoked soon.
 // use this event to get data
 page.onResourceReceived = function(response){
-    var doneurl = "https://forest.skhu.ac.kr/Gate/SAM/Lesson/COREControl/SSEX03O.aspx?id=objRoom&arg1=1&arg2=";
-    if(response.url == doneurl){
+    var doneurl = "http://forest.skhu.ac.kr/Gate/SAM/Lesson/COREControl/SSEX03O.aspx?id=objRoom&arg1=1&arg2=";
+    if(response.url == doneurl && submited == true){
         // Wait for data to be displayed on the page.
         // For one sec maybe?
         setTimeout(function(){

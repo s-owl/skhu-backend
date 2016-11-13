@@ -2,6 +2,8 @@ const path = require('path');
 const childProcess = require('child_process');
 const phantomjs = require('phantomjs-prebuilt');
 const binPath = phantomjs.path;
+var jsdom = require('jsdom');
+
 
 var searchClassroom = function(req, res, next){
   var url = "https://forest.skhu.ac.kr/Gate/SAM/Lesson/COREControl/SSEX03O.aspx?id=objRoom&arg1=2&arg2=1406";
@@ -13,7 +15,7 @@ var searchClassroom = function(req, res, next){
   console.log("REMOTE IPS : " + req.ips);
 
   // 요청 바디에서 쿠키값 로드
-  var cookie = {};
+  var cookie = [];
   for( var i = 0; i<req.body.cookie.length; i++){
     cookie[i] = req.body.cookie[i];
   }
@@ -53,7 +55,9 @@ var searchClassroom = function(req, res, next){
 
   // Execute Phantomjs script
   childProcess.execFile(binPath, childArgs, (err, stdout, stderr)=>{
-    console.log(err, stdout, stderr);
+    console.log(err);
+    console.log(stdout);
+    console.log(stderr);
     // 표준 출력(stdout) 으로 받은 것을 파싱
     jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
       (err, window)=>{
@@ -77,17 +81,18 @@ var searchClassroom = function(req, res, next){
                 },
                 'capacity' : window.$( element ).children("td:eq(11)").text()
               });
-            });
             res.send({
               'classrooms' : classrooms
-            })
-        }});
+            });
+          });
+        }
+      });
+});
 }
-
 exports.searchClassroom = searchClassroom;
 
-var getTimetableOfClassroom = function(){
-  var url = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/A/SSEA32S.ASPX?&maincd=O&systemcd=S&seq=1";
-}
-
-exports.getTimetableOfClassroom = getTimetableOfClassroom;
+// var getTimetableOfClassroom = function(){
+//   var url = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/A/SSEA32S.ASPX?&maincd=O&systemcd=S&seq=1";
+// }
+//
+// exports.getTimetableOfClassroom = getTimetableOfClassroom;
