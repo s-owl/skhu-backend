@@ -4,13 +4,34 @@ const phantomjs = require('phantomjs-prebuilt');
 const binPath = phantomjs.path;
 var jsdom = require('jsdom');
 
+//javascript:SelectCode("objRoom","A1106","자료보관 문서창고","1.승연관","1106","")
 
+/*
+
+        <!--
+        function SelectCode(qid,PlaceCode,RoomCodeNote,BuildCode,RoomCode,Note)
+        {
+            opener.document.all[qid + "_txtPlaceCode"].value = RoomCode;
+            opener.document.all[qid + "_txtRoomCodeNote"].value	= RoomCodeNote;
+            opener.document.all[qid + "_hidPlaceCode"].value	= PlaceCode;
+            opener.document.all[qid + "_hidBuildCode"].value	= BuildCode;
+            opener.document.all[qid + "_hidRoomCode"].value		= RoomCode;
+            opener.document.all[qid + "_hidNote"].value			= Note;
+
+            //alert(GwamogCd+"\n"+GwamogKorNm+"\n"+GwamogEngNm+"\n"+IsuGb+"\n"+IsuGbNm+"\n"+Hagjeom+"\n"+IronTm+"\n"+SilseubTm+"\n"+PyejiYn+"\n"+DaehagGb+"\n"+DaehagCd+"\n"+HagbuCd+"\n"+SosogCd);
+            self.close();
+        }
+
+        //-->
+		
+
+*/
 var searchClassroom = function(req, res, next){
   var url = "https://forest.skhu.ac.kr/Gate/SAM/Lesson/COREControl/SSEX03O.aspx?id=objRoom&arg1=2&arg2=1406";
-  // type : name, code
+  // type : <String> - N - name, C - code
   // keyword : <String>
 
-  console.log("POST /class/timetable_classroom/search");
+  console.log("POST /class/timetable/classroom/search");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
