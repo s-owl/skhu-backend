@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 // POST - TIMETABLE
-var timetable = require('./timetable');
+const timetable = require('./timetable');
 router.post('/timetable', timetable);
 
 // POST - SYLLABUS
-var syllabus = require('./syllabus');
+const syllabus = require('./syllabus');
 router.post('/syllabus', syllabus);
 
-// POST - Professot List
-var professorList = require('./professorList');
-router.post('/professorList', professorList);
+// POST - Professor List
+const professorList = require('./timetable/professorList').professorList;
+router.post('/timetable/professorList/', professorList);
 
-// POST - Professor timetable
-var proTimetable = require('./proTimetable');
-router.post('/proTimetable', proTimetable);
+// POST = Professor Timetable Search
+const professorTimetable = require('./timetable/professorList').professorTimetable;
+router.post('/timetable/professorTimetable',professorTimetable)
 
 module.exports = router;
