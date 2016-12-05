@@ -4,8 +4,7 @@
 FROM ubuntu:xenial
 
 # 의존성 설치 - 패키지 저장소 갱신, 런타임과 로케일 패키지 설치 등
-RUN apt-get update
-RUN apt-get install -y curl sudo build-essential apt-utils python language-pack-ko libfontconfig1 libfontconfig1-dbg libfontconfig1-dev
+RUN apt-get update && apt-get install -y curl sudo build-essential apt-utils python language-pack-ko libfontconfig1 libfontconfig1-dbg libfontconfig1-dev
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
