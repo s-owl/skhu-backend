@@ -52,16 +52,16 @@ var run = function(req, res, next){
   ]
 
   // Execute Phantomjs script
-  childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+  childProcess.execFile(binPath, childArgs, (err, stdout, stderr)=>{
     console.log(err, stdout, stderr);
     // 표준 출력(stdout) 으로 받은 것을 파싱
     jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
-      function (err, window) {
+      (err, window)=>{
         if(err==undefined){
           // 강의계획서 검색 결과 파싱
           var syllabus = [];
           window.$("#dgList > tbody > tr")
-            .each(function(index, element){
+            .each((index, element)=>{
               syllabus.push({
                 "code" : window.$( element ).children("td:eq(0)").text(),
                 "subject" : window.$( element ).children("td:eq(1)").text(),
@@ -98,9 +98,8 @@ function processIntoUrl(rawTag, isOpened){
       var data = rawstr[1].split("|"); // rawstr[1] 을 | 를 기준으로 쪼개서 배열로 저장
       console.log(data);
       // 쪼개기로 만들 배열의 요소와 문자열을 조합하여 URL 만들기
-      var url = utils.forestBaseUrl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
-            + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15]
-    				+ "&HN=" + data[16] + "&BB=" + data[17] + "&SB=" +data[18];
+      var url = `${utils.forestBaseUrl}/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=${data[10]}&HG=${data[11]}&GC=${data[12]}
+            &DC=${data[13]}&HC=${data[14]}&SC=${data[15]}&HN=${data[16]}&BB=${data[17]}&SB=${data[18]}`;
       console.log(url);
       return url;
   }else{
