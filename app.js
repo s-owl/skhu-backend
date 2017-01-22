@@ -23,9 +23,10 @@ app.use('/', routes);
 // 404 오류 처리
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+    console.log("REQ PATH : " + req.baseUrl);
   var err = new Error('Not Found');
   err.status = 404;
-  next(req.baseUrl + "\n" + err);
+  next(err);
 });
 
 // error handlers
@@ -36,7 +37,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.send("ERROR!\n" + err.message + "\n" + err.stack);
+    res.send("ERROR!\n" + err.message + "\n" + err.stack + "\n Requested Path : " + req.baseUrl);
   });
 }
 
