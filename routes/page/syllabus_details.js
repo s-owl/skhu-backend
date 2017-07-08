@@ -5,11 +5,14 @@ var run = function(req, res, next){
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
+  // 요청으로 넘겨받은 URL 을 사용하여 파싱
   var url = req.body.url;
   console.log(url);
 
   utils.get(req, res, next, url, true)
   .then(function(window, rawData){
+
+    // 강의 기본정보 파싱
     var about_nav = "table#txtKey > tbody >";
     var about = {
       "year_semester" : window.$(about_nav + "tr:eq(0) > td:eq(1)").text(),
@@ -23,6 +26,7 @@ var run = function(req, res, next){
       "grade_type" : window.$(about_nav + "tr:eq(3) > td:eq(1)").text()
     };
 
+    // 강의 상세정보 파싱
     var info_nav = "table#txtInput > tbody >";
     var info = {
       "lab" : utils.trim(window.$(info_nav + "tr:eq(0) > td:eq(1)").text()),
@@ -42,6 +46,7 @@ var run = function(req, res, next){
       "note" : window.$(info_nav + "tr:eq(9) > td:eq(1)").text()
     };
 
+    // 강의 주별진도 파싱
     var details = [];
     window.$("#txtInput2 > tbody > tr")
     .each(function(index, element){
@@ -51,7 +56,7 @@ var run = function(req, res, next){
       });
     });
 
-
+    // JSON 으로 처리하여 클라이언트에 응답.
     res.send(JSON.stringify({
       "about" : about,
       "info" : info,

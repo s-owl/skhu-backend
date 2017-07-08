@@ -1,3 +1,4 @@
+// 베이스 URL
 exports.baseurl = "http://forest.skhu.ac.kr";
 
 var jsdom = require('jsdom');

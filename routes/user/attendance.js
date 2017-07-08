@@ -1,6 +1,7 @@
 // 팬텀 유틸
 var ph_utils = require('../ph_utils');
 
+// 출결현황 조회
 var run = function(req, res, next){
   console.log("POST /user/attendance");
   console.log("REMOTE IP : " + req.ip);
@@ -31,9 +32,10 @@ var run = function(req, res, next){
           }
         });
 
-    res.send(JSON.stringify({
-      "attendance" : jsonAttendance
-    }));
+      // JSON 으로 처리하여 클라이언트에 응답
+      res.send(JSON.stringify({
+        "attendance" : jsonAttendance
+      }));
 
     } else {
       console.log(err, stdout, stderr);

@@ -2,38 +2,37 @@ var system = require('system');
 var webPage = require('webpage');
 var page = webPage.create();
 
-var url = "https://forest.skhu.ac.kr/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
-
-// 명령행 인자에서 값 가져와서 저장
-var TXTYY = system.args[1]; // 년도
-var DDLHAGGI = system.args[2]; // 학기
-var DDLSOSOC = system.args[3]; // 학과(학부)
-var TXTPERMNM = system.args[4]; // 교수명
-// 쿠키값
-var COOKIE1_domain = system.args[5];
-var COOKIE1_httponly = system.args[6];
-var COOKIE1_name = system.args[7];
-var COOKIE1_path = system.args[8];
-var COOKIE1_secure = system.args[9];
-var COOKIE1_value = system.args[10];
-var COOKIE2_domain = system.args[11];
-var COOKIE2_httponly = system.args[12];
-var COOKIE2_name = system.args[13];
-var COOKIE2_path = system.args[14];
-var COOKIE2_secure = system.args[15];
-var COOKIE2_value = system.args[16];
-var COOKIE3_domain = system.args[17];
-var COOKIE3_httponly = system.args[18];
-var COOKIE3_name = system.args[19];
-var COOKIE3_path = system.args[20];
-var COOKIE3_secure = system.args[21];
-var COOKIE3_value = system.args[22];
-var COOKIE4_domain = system.args[23];
-var COOKIE4_httponly = system.args[24];
-var COOKIE4_name = system.args[25];
-var COOKIE4_path = system.args[26];
-var COOKIE4_secure = system.args[27];
-var COOKIE4_value = system.args[28];
+var url = 'https://forest.skhu.ac.kr/GATE/SAM/LESSON/A/SSEA32S.ASPX?maincd=O&systemcd=S&seq=1';
+var YEAR = system.args[1] == undefined ? '' : system.args[1];
+var SEMESTER = system.args[2] == undefined ? '' : system.args[2];
+var ROOMCODE = system.args[3] == undefined ? '' : system.args[3];
+var BUILDING = system.args[4] == undefined ? '' : system.args[4];
+var NAME = system.args[5] == undefined ? '' : system.args[5];
+var PLACECODE = system.args[6] == undefined ? '' : system.args[6];
+var COOKIE1_domain = system.args[7];
+var COOKIE1_httponly = system.args[8];
+var COOKIE1_name = system.args[9];
+var COOKIE1_path = system.args[10];
+var COOKIE1_secure = system.args[11];
+var COOKIE1_value = system.args[12];
+var COOKIE2_domain = system.args[13];
+var COOKIE2_httponly = system.args[14];
+var COOKIE2_name = system.args[15];
+var COOKIE2_path = system.args[16];
+var COOKIE2_secure = system.args[17];
+var COOKIE2_value = system.args[18];
+var COOKIE3_domain = system.args[19];
+var COOKIE3_httponly = system.args[20];
+var COOKIE3_name = system.args[21];
+var COOKIE3_path = system.args[22];
+var COOKIE3_secure = system.args[23];
+var COOKIE3_value = system.args[24];
+var COOKIE4_domain = system.args[25];
+var COOKIE4_httponly = system.args[26];
+var COOKIE4_name = system.args[27];
+var COOKIE4_path = system.args[28];
+var COOKIE4_secure = system.args[29];
+var COOKIE4_value = system.args[30];
 
 var submited = false;
 
@@ -42,7 +41,7 @@ phantom.addCookie({'domain':COOKIE1_domain, 'httponly':COOKIE1_httponly, 'name':
 phantom.addCookie({'domain':COOKIE2_domain, 'httponly':COOKIE2_httponly, 'name':COOKIE2_name, 'path':COOKIE2_path, 'secure':COOKIE2_secure, 'value':COOKIE2_value});
 phantom.addCookie({'domain':COOKIE3_domain, 'httponly':COOKIE3_httponly, 'name':COOKIE3_name, 'path':COOKIE3_path, 'secure':COOKIE3_secure, 'value':COOKIE3_value});
 phantom.addCookie({'domain':COOKIE4_domain, 'httponly':COOKIE4_httponly, 'name':COOKIE4_name, 'path':COOKIE4_path, 'secure':COOKIE4_secure, 'value':COOKIE4_value});
-// userAgent - IE
+
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
 page.settings.javascriptEnabled = true;
 
@@ -50,23 +49,30 @@ page.settings.javascriptEnabled = true;
 page.open(url, function(status) {
 });
 
-// If Page is fully loaded
+// If Page is fully loaded032-341-1120
 page.onLoadFinished = function(status) {
   if(submited==false){
-  page.evaluate(function(year, haggi, ddlsosoc, txtpermnm){
+  page.evaluate(function(year, semester, roomcode, building, name, placecode){
+
     // Set Value on Input
-    document.querySelector("#txtYy").value = year;
-    document.querySelector("#ddlHaggi").value = haggi;
-    document.querySelector("#ddlSosog").value = ddlsosoc;
-    document.querySelector("#txtPermNm").value = txtpermnm;
+    document.querySelector('#txtYy').value = year;
+    document.querySelector('#ddlHaggi').value = semester;
+    document.querySelector('#objRoom_txtPlaceCode').value = placecode;
+    document.querySelector('#objRoom_txtRoomCodeNote').value	= name;
+    document.querySelector('#objRoom_hidPlaceCode').value	= placecode;
+    document.querySelector('#objRoom_hidBuildCode').value	= building;
+    document.querySelector('#objRoom_hidRoomCode').value = roomcode;
+    document.querySelector('#objRoom_hidNote').value = '';
+
     // Submit
     document.querySelector("#Form1").submit();
-    }, TXTYY, DDLHAGGI, DDLSOSOC, TXTPERMNM);
+    // document.querySelector("#btnList").click();
+  }, YEAR, SEMESTER, ROOMCODE, BUILDING, NAME, PLACECODE);
     submited = true;
   }else{
     page.evaluate(function(){
       // Click the button to load data
-      document.querySelector("#CSMenuButton1_List").click();
+      document.querySelector("#btnList").click();
     });
   }
 };
@@ -95,11 +101,10 @@ page.onResourceRequested = function(requestData, networkRequest) {
   }
 };
 
-
 // When "Search" button clicked, it will make this event invoked soon.
 // use this event to get data
 page.onResourceReceived = function(response){
-    var doneurl = "https://forest.skhu.ac.kr/GATE/SAM/LECTURE/S/SSGS09S.ASPX?maincd=O&systemcd=S&seq=1";
+    var doneurl = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/A/SSEA32S.ASPX?maincd=O&systemcd=S&seq=1";
     if(response.url == doneurl){
         // Wait for data to be displayed on the page.
         // For one sec maybe?

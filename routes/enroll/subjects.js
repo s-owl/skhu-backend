@@ -1,6 +1,6 @@
 //var utils = require('../utils');
 var jsdom = require('jsdom');
-
+// 개설과목 조회
 var run = function(req, res, next){
   console.log("POST /enroll/subjects");
   console.log("REMOTE IP : " + req.ip);
@@ -11,21 +11,20 @@ var run = function(req, res, next){
   var phantomjs = require('phantomjs-prebuilt');
   var binPath = phantomjs.path;
 
-  var cookie = {};
+  var cookie = {}; // 요청으로부터의 쿠키를 얻어서 저장할 배열
   for( var i = 0; i<req.body.cookie.length; i++){
     cookie[i] = req.body.cookie[i];
   }
 
-  // console.log("professor = " + req.body.professor + " = finish");
-
-  // Arguments
+  // 자식 프로세스로 실행할 명령행의 인자
   var childArgs = [
     '--ignore-ssl-errors=yes',
     path.join(__dirname, 'ph_subjects.js'),
-    req.body.year,
-    req.body.semester,
-    req.body.depart,
-    req.body.professor,
+    req.body.year, // 년도
+    req.body.semester, // 학기
+    req.body.depart, // 학과(학부)
+    req.body.professor, // 교수명
+    // 쿠키값
      cookie[0].domain,
      cookie[0].httponly,
      cookie[0].name,
@@ -52,24 +51,15 @@ var run = function(req, res, next){
      cookie[3].value
   ]
 
-  // var url = utils.baseurl+"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1";
-  // var formdata = []
-  // formdata.push({"id" : "txtYy", "value" : req.body.data.year});
-  // formdata.push({"id" : "ddlHaggi", "value" : utils.getSemesterCode(req.body.data.semester)});
-  // formdata.push({"id" : "ddlSosog", "value" : getDepartCode(req.body.data.depart)});
-  // formdata.push({"id" : "txtPermNm", "value" : req.body.data.professor});
-  //
-  // var jsondata = {
-  //   "cookie" : req.body.cookie,
-  //   "form" : formdata,
-  //   "btnid" : "CSMenuButton1_List"
-  // };
+  // 자식 프로세스로 phantom.js 스크립트를 실행
   // Execute Phantomjs script
   childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
     console.log(err, stdout, stderr);
+    // 자식 프로세서에서 출력한 표준출력을 파싱
     jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
       function (err, window) {
         if(err==undefined){
+          // 조회 결과 데이터 파싱
           var subjects = [];
           window.$("#dgList > tbody > tr")
             .each(function(index, element){
@@ -88,6 +78,8 @@ var run = function(req, res, next){
                 "headcounts": window.$( element ).children("td:eq(11)").text()
               });
             });
+
+            // JSON 으로 처리하여 클라이언트에 응답.
             res.send(JSON.stringify({
               "subjects" : subjects
             }));

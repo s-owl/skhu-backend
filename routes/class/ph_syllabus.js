@@ -4,12 +4,13 @@ var page = webPage.create();
 
 // var utils = require('../utils');
 
-// var url = utils.baseurl+"/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
+// 명령행 인자로 넘겨바든 값 불러와서 변수로 저장
 var url = "https://forest.skhu.ac.kr/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1";
-var TXTYY = system.args[1] == undefined ? "" : system.args[1];
-var DDLHAGGI = system.args[2] == undefined ? "" : system.args[2];
-var DDLSEARCH = system.args[3] == undefined ? "" : system.args[3];
-var TXTSEARCH = system.args[4] == undefined ? "" : system.args[4];
+var TXTYY = system.args[1] == undefined ? "" : system.args[1]; // 년도
+var DDLHAGGI = system.args[2] == undefined ? "" : system.args[2]; // 학기코드
+var DDLSEARCH = system.args[3] == undefined ? "" : system.args[3]; // 검색 유형
+var TXTSEARCH = system.args[4] == undefined ? "" : system.args[4]; // 검색 키워드
+// 쿠키값 로드
 var COOKIE1_domain = system.args[5];
 var COOKIE1_httponly = system.args[6];
 var COOKIE1_name = system.args[7];
@@ -43,6 +44,7 @@ phantom.addCookie({'domain':COOKIE2_domain, 'httponly':COOKIE2_httponly, 'name':
 phantom.addCookie({'domain':COOKIE3_domain, 'httponly':COOKIE3_httponly, 'name':COOKIE3_name, 'path':COOKIE3_path, 'secure':COOKIE3_secure, 'value':COOKIE3_value});
 phantom.addCookie({'domain':COOKIE4_domain, 'httponly':COOKIE4_httponly, 'name':COOKIE4_name, 'path':COOKIE4_path, 'secure':COOKIE4_secure, 'value':COOKIE4_value});
 
+// userAgent - IE
 page.settings.userAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
 page.settings.javascriptEnabled = true;
 

@@ -2,6 +2,7 @@
 var ph_utils = require('../ph_utils');
 var utils = require('../utils');
 
+// 이수 학점 조회
 var run = function(req, res, next) {
   console.log("POST /user/credits");
   console.log("REMOTE IP : " + req.ip);

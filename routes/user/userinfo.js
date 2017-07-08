@@ -1,8 +1,10 @@
 // 팬텀 유틸
 var ph_utils = require('../ph_utils');
 
+// 학생 정보를 보여주는 라우팅
+// 메소드 : POST | 경로 : /user/userinfo
 var run = function(req, res, next){
-  console.log("POST /userinfo");
+  console.log("POST /user/userinfo");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 

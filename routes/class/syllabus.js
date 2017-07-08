@@ -1,4 +1,5 @@
 var jsdom = require('jsdom');
+// 강의 계획서 조회
 var run = function(req, res, next){
   console.log("POST /class/syllabus");
   console.log("REMOTE IP : " + req.ip);
@@ -9,19 +10,21 @@ var run = function(req, res, next){
   var phantomjs = require('phantomjs-prebuilt');
   var binPath = phantomjs.path;
 
+  // 요청 바디에서 쿠키값 로드
   var cookie = {};
   for( var i = 0; i<req.body.cookie.length; i++){
     cookie[i] = req.body.cookie[i];
   }
-  //console.log(cookie[0].domain);
-  // Arguments
+
+  // 자식 프로세스로 실행할 명령행 인자
   var childArgs = [
     '--ignore-ssl-errors=yes',
     path.join(__dirname, 'ph_syllabus.js'),
-    req.body.year,
-    req.body.semester,
-    req.body.type,
-    req.body.keyword,
+    req.body.year, // 년도
+    req.body.semester, // 학기
+    req.body.type, // 유형
+    req.body.keyword, // 검색 키워드
+    // 쿠키값
      cookie[0].domain,
      cookie[0].httponly,
      cookie[0].name,
@@ -49,14 +52,16 @@ var run = function(req, res, next){
   ]
 
   // Execute Phantomjs script
-  childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+  childProcess.execFile(binPath, childArgs, (err, stdout, stderr)=>{
     console.log(err, stdout, stderr);
+    // 표준 출력(stdout) 으로 받은 것을 파싱
     jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
-      function (err, window) {
+      (err, window)=>{
         if(err==undefined){
+          // 강의계획서 검색 결과 파싱
           var syllabus = [];
           window.$("#dgList > tbody > tr")
-            .each(function(index, element){
+            .each((index, element)=>{
               syllabus.push({
                 "code" : window.$( element ).children("td:eq(0)").text(),
                 "subject" : window.$( element ).children("td:eq(1)").text(),
@@ -72,6 +77,8 @@ var run = function(req, res, next){
                 "writted" : window.$( element ).children("td:eq(9)").text(),
               });
             });
+
+            // JSON 으로 처리하여 클라이언트에 응답
             res.send(JSON.stringify({
               "syllabus" : syllabus
             }));
@@ -82,17 +89,17 @@ var run = function(req, res, next){
   })
 }
 
+// 강의계획서 상세사항 URL 처리 함수
 function processIntoUrl(rawTag, isOpened){
   var utils = require('../utils');
   if(isOpened == "공개"){
-      var rawstr = rawTag.split("&quot;");
+      var rawstr = rawTag.split("&quot;"); // &quot 를 기준으로 쪼개기
       console.log(rawstr[1]);
-      var data = rawstr[1].split("|");
+      var data = rawstr[1].split("|"); // rawstr[1] 을 | 를 기준으로 쪼개서 배열로 저장
       console.log(data);
-      var url = utils.baseurl + "/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=" + data[10] + "&HG=" + data[11] + "&GC=" + data[12]
-            + "&DC=" + data[13] + "&HC=" + data[14] + "&SC=" + data[15]
-    				+ "&HN=" + data[16] + "&BB=" + data[17] + "&SB=" +data[18];
-            // +"&SBN="+ data[19];
+      // 쪼개기로 만들 배열의 요소와 문자열을 조합하여 URL 만들기
+      var url = `${utils.forestBaseUrl}/Gate/SAM/Lesson/WEB/SSEW02O.aspx?Y=${data[10]}&HG=${data[11]}&GC=${data[12]}
+            &DC=${data[13]}&HC=${data[14]}&SC=${data[15]}&HN=${data[16]}&BB=${data[17]}&SB=${data[18]}`;
       console.log(url);
       return url;
   }else{
