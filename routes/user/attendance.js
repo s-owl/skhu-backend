@@ -7,10 +7,8 @@ var run = function(req, res, next){
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  // 파일별 설정 (url, 폴더경로, 파일경로)
+  // 파일별 url 설정
   var url = ph_utils.baseurl+"/Gate/UniMainStudent.aspx";
-  var folderDir = __dirname;
-  var fileDir = "ph/ph_get.js";
 
   // 파일별 콜백 함수
   var callbackFunc = (err, window) => {
@@ -43,7 +41,7 @@ var run = function(req, res, next){
   };
 
   // ph get 호출
-  ph_utils.get(req, res, url, folderDir, fileDir, callbackFunc);
+  ph_utils.get(req, res, url, callbackFunc);
 }
 
 module.exports = run;

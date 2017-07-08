@@ -13,17 +13,10 @@ var run = function(req, res, next){
 
   // 명령행 인자값들을 담는 배열
   var childArgs = [
-<<<<<<< HEAD
-    '--ignore-ssl-errors=yes',
-    path.join(__dirname, 'ph/ph_login.js'),
-    req.body.userid,
-    req.body.userpw
-=======
     '--ignore-ssl-errors=yes', // SSL 오류 무시
     path.join(__dirname, 'ph_login.js'), // 자식 프로세스로 실행할 phantom.js 스크립트
     req.body.userid, // 학번
     req.body.userpw // 비밀번호
->>>>>>> e2e51c71e4b4c98dd710ad2a8c7d333c4d0606ce
   ]
 
   // Execute Phantomjs script

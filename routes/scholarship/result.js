@@ -1,15 +1,18 @@
-var utils = require('../utils');
+// 팬텀 유틸
+var ph_utils = require('../ph_utils');
+
 // 장학 신청 결과 조회
 var run = function(req, res, next){
   console.log("POST /scholarship/result");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  var url = utils.forestBaseUrl+"/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1";
+  // 파일별 url 설정
+  var url = ph_utils.forestBaseUrl+"/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1";
 
-  utils.get(req, res, next, url, true)
-  .then(function(window, rawData){
-
+  // 파일별 콜백 함수
+  var callbackFunc = (err, window) => {
+    if(err == undefined) {
     // 장학 신청 내역 및 결과 파싱
     var history = [];
     window.$("#dgList > tbody > tr")
@@ -37,7 +40,14 @@ var run = function(req, res, next){
         "phone" : window.$("#lblHdpNo").text()
       },
       "apply_history" : history
-    }))
-  });
+    }));
+
+  } else {
+      console.log(err, stdout, stderr);
+    }
+  };
+
+  // ph get 호출
+  ph_utils.get(req, res, url, callbackFunc);
 }
 module.exports = run;

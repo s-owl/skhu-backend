@@ -1,4 +1,5 @@
 // 베이스 URL
+exports.forestBaseUrl = "http://forest.skhu.ac.kr";
 exports.baseurl = "http://forest.skhu.ac.kr";
 
 var jsdom = require('jsdom');
@@ -7,7 +8,7 @@ var childProcess = require('child_process');
 var phantomjs = require('phantomjs-prebuilt');
 var binPath = phantomjs.path;
 
-var get = (req, res, url, folderDir, fileDir, callbackFunc) => {
+var get = (req, res, url, callbackFunc) => {
 
     var cookie = {};
     for( var i = 0; i < req.body.cookie.length; i++){
@@ -16,7 +17,7 @@ var get = (req, res, url, folderDir, fileDir, callbackFunc) => {
 
     var childArgs = [
     '--ignore-ssl-errors=yes',
-    path.join(folderDir, fileDir),
+    path.join(__dirname, 'ph_get.js'),
         cookie[0].domain,
         cookie[0].httponly,
         cookie[0].name,

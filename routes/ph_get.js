@@ -1,4 +1,5 @@
-// 기존 Get방식 공통 ph파일
+// 기존 Get방식 공통 팬텀 파일
+// Cookie만 받아서 처리함
 
 // Libraries
 var system = require('system');
