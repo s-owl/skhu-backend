@@ -1,22 +1,22 @@
-// 팬텀 유틸
-var ph_utils = require('../ph_utils');
+// cURL 유틸
+const curl_utils = require('../curl_utils');
 
 // 장학 신청 내역 조회
-var run = function(req, res, next){
+const run = (req, res, next) => {
   console.log("POST /scholarship/history");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
   // 파일별 url 설정
-  var url = ph_utils.forestBaseUrl+"/GATE/SAM/SCHOLARSHIP/S/SJHS01S.ASPX?&maincd=O&systemcd=S&seq=1";
+  const url = "http://forest.skhu.ac.kr/GATE/SAM/SCHOLARSHIP/S/SJHS01S.ASPX?&maincd=O&systemcd=S&seq=1";
 
   // 파일별 콜백 함수
-  var callbackFunc = (err, window) => {
+  const callbackFunc = (err, window) => {
     if(err == undefined) {
       // 장학 신청 내역 파싱
-      var history = [];
+      const history = [];
       window.$("#dgList > tbody > tr")
-        .each(function(index, element){
+        .each( (index, element) => {
           history.push({
             "year" : window.$( element ).children("td:eq(0)").text(),
             "semester" : window.$( element ).children("td:eq(1)").text(),
@@ -40,8 +40,8 @@ var run = function(req, res, next){
     }
   };
 
-  // ph get 호출
-  ph_utils.get(req, res, url, callbackFunc);
+  // cURL.get() 호출
+  curl_utils.get(req, res, url, callbackFunc);
 }
 
 module.exports = run;

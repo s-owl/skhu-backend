@@ -1,32 +1,32 @@
-// 팬텀 유틸
-var ph_utils = require('../ph_utils');
-var utils = require('../utils');
+// cURL 유틸
+const curl_utils = require('../curl_utils');
+const utils = require('../utils');
 
 // 교내 제출용 성적증명서 조회
-var run = function(req, res, next){
+const run = (req, res, next) => {
   console.log("POST /grade/certificate");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
   // 파일별 url 설정
-  var url = ph_utils.forestBaseUrl+"/GATE/SAM/SCORE/S/SSJS06S.ASPX?&maincd=O&systemcd=S&seq=1";
+  const url = "/GATE/SAM/SCORE/S/SSJS06S.ASPX?&maincd=O&systemcd=S&seq=1";
  
   // 파일별 콜백 함수
-  var callbackFunc = (err, window) => {
+  const callbackFunc = (err, window) => {
     if(err == undefined) {
       // 사용자 정보 저장할 배열
-      var userinfo = [];
-      var tmpName;
+      const userinfo = [];
+      let tmpName;
       // 사용자 정보 파싱
       window.$("#Table3 > tbody > tr > td")
-      .each(function(index, element){
+      .each( (index, element) => {
         console.log("index="+index);
         console.log(window.$( element ).text());
-        if(index%2 == 0){
+        if(index % 2 == 0){
           // index 가 짝수 == 속성 이름
           tmpName = utils.trim(window.$( element ).text());
           console.log("TMPNAME="+tmpName);
-        }else{
+        } else {
           // index 가 홀수 == 속성 값
           userinfo.push({
             "name" : tmpName,
@@ -36,10 +36,10 @@ var run = function(req, res, next){
       });
 
       // 상세 성적 정보 배열
-      var details = [];
+      const details = [];
       // 성적 정보 파싱
       window.$("#dgList > tbody > tr")
-      .each(function(index, element){
+      .each( (index, element) => {
           details.push({
             "year" : window.$( element ).children("td:eq(0)").text(),
             "semester" : window.$( element ).children("td:eq(1)").text(),
@@ -52,9 +52,9 @@ var run = function(req, res, next){
       });
 
       // 요약 정보 배열
-      var summary = [];
+      const summary = [];
       // 요약 정보 파싱
-      for(var i=0; i<17; i++){
+      for(let i = 0; i < 17; i++){
         summary.push({
           "type" : window.$("#Table2 > tbody > tr:eq(0) > td:eq("+i+")").text(),
           "credit" : window.$("#Table2 > tbody > tr:eq(1) > td:eq("+i+")").text()
@@ -74,8 +74,8 @@ var run = function(req, res, next){
     }
   };
 
-  // ph get 호출
-  ph_utils.get(req, res, url, callbackFunc);
+  // cURL.get() 호출
+  curl_utils.get(req, res, url, callbackFunc);
 }
 
 module.exports = run;

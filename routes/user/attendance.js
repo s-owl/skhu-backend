@@ -1,22 +1,23 @@
-// 팬텀 유틸
-var ph_utils = require('../ph_utils');
+// cURL 유틸
+const curl_utils = require('../curl_utils');
+const utils = require('../utils');
 
 // 출결현황 조회
-var run = function(req, res, next){
+const run = (req, res, next) => {
   console.log("POST /user/attendance");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
   // 파일별 url 설정
-  var url = ph_utils.baseurl+"/Gate/UniMainStudent.aspx";
+  const url = "http://forest.skhu.ac.kr/Gate/UniMainStudent.aspx";
 
   // 파일별 콜백 함수
-  var callbackFunc = (err, window) => {
+  const callbackFunc = (err, window) => {
     if(err == undefined) {
-      var jsonAttendance = [];
+      const jsonAttendance = [];
       window.$("#gvList > tbody > tr")
-        .each(function(index, element){
-          if(index>=1){
+        .each( (index, element) => {
+          if(index >= 1){
             jsonAttendance.push({
               "subject" : utils.trim(window.$( element ).children("td:eq(0)").text()),
               "time" : utils.trim(window.$( element ).children("td:eq(1)").text()),
@@ -40,8 +41,8 @@ var run = function(req, res, next){
     }
   };
 
-  // ph get 호출
-  ph_utils.get(req, res, url, callbackFunc);
+  // cURL.get() 호출
+  curl_utils.get(req, res, url, callbackFunc);
 }
 
 module.exports = run;

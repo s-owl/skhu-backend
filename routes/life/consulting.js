@@ -1,18 +1,18 @@
-// 팬텀 유틸
-var ph_utils = require('../ph_utils');
+// cURL 유틸
+const curl_utils = require('../curl_utils');
 
 // 상담 이력 조회
 // POST - /life/consulting
-const run = function(req, res, next){
+const run = (req, res, next) => {
   console.log("POST /life/consulting");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
   // 파일별 url 설정
-  var url = ph_utils.forestBaseUrl+"/Gate/InnerService/C/CS/A/ACSA07S.aspx?&maincd=O&systemcd=S&seq=99";
+  const url = "http://forest.skhu.ac.kr/Gate/InnerService/C/CS/A/ACSA07S.aspx?&maincd=O&systemcd=S&seq=99";
 
   // 파일별 콜백 함수
-  var callbackFunc = (err, window) => {
+  const callbackFunc = (err, window) => {
     if(err == undefined) {
       let adviser = [];
       let history = [];
@@ -54,7 +54,7 @@ const run = function(req, res, next){
     }
   };
 
-  // ph get 호출
-  ph_utils.get(req, res, url, callbackFunc);
+  // cURL.get() 호출
+  curl_utils.get(req, res, url, callbackFunc);
 }
 module.exports = run;

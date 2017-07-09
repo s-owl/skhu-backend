@@ -8,6 +8,71 @@ var trim = function(raw){
 }
 exports.trim = trim;
 
+var get = function(req, res, next, url, doParse){
+
+  // Promise 를 반환함.
+  return new Promise(function(resolve, reject) {
+    // http client 모듈
+    var unirest = require('unirest');
+    var cookiejar = unirest.jar();
+    var jsdom = require('jsdom'); // html parser
+    var Iconv = require('iconv').Iconv; // 인코딩 변환 모듈
+    var iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE');
+
+    try{
+
+      //요청에서 쿠키값 가져오기
+      var uni_value = req.body.cookie[1].value;
+      var auth_value = req.body.cookie[2].value;
+
+      // 쿠키를 Cookie Jar 에 추가
+      cookiejar.add('.AuthCookie='+auth_value, url);
+      cookiejar.add('UniCookie='+uni_value, url);
+    }catch(err){
+      console.log(err);
+    }
+
+    // forest 에 GET 요청 보내기
+    unirest.get(url)
+    .encoding('binary') // 인코딩 : binary
+    .headers({
+      'Content-Type': 'application/json',
+      'userAgent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)'
+        })
+    .jar(cookiejar) // 미리 준비한 쿠키와 함꼐 요청 보내기
+    .end(function (response) {
+      // 응답 처리
+      console.log("=====GOT RESPONSSE=====");
+      console.log(response.headers);
+      console.log(response.body);
+      // Iconv 를 이용하여, EUC-KR　에서 UTF-8 로 변환
+      var buffer = new Buffer(response.body, 'binary');
+      var converted = iconv.convert(buffer).toString();
+      console.log(converted);
+      if(doParse){
+        // doParse 가 true 인 경우, html parser 를 준비
+        jsdom.env( converted, ["http://code.jquery.com/jquery.js"],
+          function (err, window) {
+            if(err==undefined){
+              // 오류가 없는 경우, html parser 를 준비.
+              // Promise 작업 성공 처리
+              resolve(window, converted);
+            }else{
+              // 오류
+              // Promise 작업 실패 처리
+              reject(err);
+            }
+          });
+      }else{
+        // doParse 가 false 인 경우
+        // html parser 준비 없이 Promise 작업 성공 처리
+        resolve(converted);
+      }
+    });
+  });
+}
+exports.get = get;
+
 
 var isDuplicated = function(array, key, value){
   for(var i=0; i<array.length; i++){

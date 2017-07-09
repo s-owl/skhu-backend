@@ -1,23 +1,28 @@
-var run = function(req, res, next){
+// cURL 유틸
+const curl_utils = require('../curl_utils');
+
+const run = (req, res, next) => {
   console.log("POST /user/logout");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  var utils = require('../utils');
-  var url = utils.forestBaseUrl + "/Gate/LogOut.aspx";
-  // 로그아웃 요청 보내기 - 파싱 안함
-  utils.get(req, res, next, url, false)
-  .then(function(rawData){
-    console.log("==================================");
-    console.log(rawData);
-    console.log("==================================");
-    // "안전하게 로그아웃 되었습니다!" 가 있으면, 로그아웃 성공 처리
-    if(rawData.includes("안전하게 로그아웃 되었습니다!")){
-      res.send("LOGGED OUT!");
-    }else{
-      res.send("ERROR!")
+  const url = "http://forest.skhu.ac.kr/Gate/LogOut.aspx";
+  
+  // 파일별 콜백 함수
+  const callbackFunc = (err, window) => {
+    if(err == undefined) {
+      if(window.includes("안전하게 로그아웃 되었습니다!")){
+        res.send("LOGGED OUT!");
+      } else {
+        res.send("ERROR!")
+      }
+    } else {
+      console.log(err, stdout, stderr);
     }
-  });
+  };
+
+  // cURL.get() 호출
+  curl_utils.get(req, res, url, callbackFunc);
 }
 
 module.exports = run;

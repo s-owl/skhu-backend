@@ -1,26 +1,26 @@
-// 팬텀 유틸
-var ph_utils = require('../ph_utils');
-var utils = require('../utils');
+// cURL 유틸
+const curl_utils = require('../curl_utils');
+const utils = require('../utils');
 
 // 학점 세이브 조회
-var run = function(req, res, next){
+const run = (req, res, next) => {
   console.log("POST /enroll/saved_credits");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
   // 파일별 url 설정
-  var url = ph_utils.forestBaseUrl+"/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100";
+  const url = "/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100";
 
 
   // 파일별 콜백 함수
-  var callbackFunc = (err, window) => {
+  const callbackFunc = (err, window) => {
     if(err == undefined) {
 
       // 학점 세이브 상세 정보를 보관할 배열
-      var details = [];
+      const details = [];
       // id 가 gvDetails인 테이블 안의 데이터 가져오기
       window.$("#gvDetails > tbody > tr")
-      .each(function(index, element){
+      .each( (index, element) => {
         if(index > 0){
           details.push({
             "year" : window.$( element ).children("td:eq(0)").text(),
@@ -32,7 +32,7 @@ var run = function(req, res, next){
       });
 
       // 학점 세이브 요약 데이터 파싱
-      var status_nav = "#fvList > tbody > tr > td > table > tbody > tr >";
+      const status_nav = "#fvList > tbody > tr > td > table > tbody > tr >";
 
       // JSON 으로 처리하여 클라이언트에 응답
       res.send(JSON.stringify({
@@ -51,8 +51,8 @@ var run = function(req, res, next){
     }
   };
 
-  // ph get 호출
-  ph_utils.get(req, res, url, callbackFunc);
+  // cURL.get() 호출
+  curl_utils.get(req, res, url, callbackFunc);
 }
 
 module.exports = run;
