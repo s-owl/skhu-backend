@@ -12,37 +12,39 @@ const run = (req, res, next) => {
   const url = "http://forest.skhu.ac.kr/Gate/UniMainStudent.aspx";
 
   // 파일별 콜백 함수
-  const callbackFunc = (err, window) => {
-    if(err == undefined) {
-      const jsonAttendance = [];
-      window.$("#gvList > tbody > tr")
-        .each( (index, element) => {
-          if(index >= 1){
-            jsonAttendance.push({
-              "subject" : utils.trim(window.$( element ).children("td:eq(0)").text()),
-              "time" : utils.trim(window.$( element ).children("td:eq(1)").text()),
-              "attend" : utils.trim(window.$( element ).children("td:eq(2)").text()),
-              "late" : utils.trim(window.$( element ).children("td:eq(3)").text()),
-              "absence" : utils.trim(window.$( element ).children("td:eq(4)").text()),
-              "approved" : utils.trim(window.$( element ).children("td:eq(5)").text()),
-              "menstrual" : utils.trim(window.$( element ).children("td:eq(6)").text()),
-              "early" : utils.trim(window.$( element ).children("td:eq(7)").text())
-            });
-          }
-        });
-
-      // JSON 으로 처리하여 클라이언트에 응답
-      res.send(JSON.stringify({
-        "attendance" : jsonAttendance
-      }));
-
-    } else {
-      console.log(err, stdout, stderr);
-    }
-  };
+  // const callbackFunc = (err, window) => {
+  //   if(err == undefined) {
+  //
+  //   } else {
+  //     console.log(err, stdout, stderr);
+  //   }
+  // };
 
   // cURL.get() 호출
-  curl_utils.get(req, res, url, callbackFunc);
+  curl_utils.get(req, res, url).then((window)=>{
+    const jsonAttendance = [];
+    window.$("#gvList > tbody > tr")
+      .each( (index, element) => {
+        if(index >= 1){
+          jsonAttendance.push({
+            "subject" : utils.trim(window.$( element ).children("td:eq(0)").text()),
+            "time" : utils.trim(window.$( element ).children("td:eq(1)").text()),
+            "attend" : utils.trim(window.$( element ).children("td:eq(2)").text()),
+            "late" : utils.trim(window.$( element ).children("td:eq(3)").text()),
+            "absence" : utils.trim(window.$( element ).children("td:eq(4)").text()),
+            "approved" : utils.trim(window.$( element ).children("td:eq(5)").text()),
+            "menstrual" : utils.trim(window.$( element ).children("td:eq(6)").text()),
+            "early" : utils.trim(window.$( element ).children("td:eq(7)").text())
+          });
+        }
+      });
+
+    // JSON 으로 처리하여 클라이언트에 응답
+    res.send(JSON.stringify({
+      "attendance" : jsonAttendance
+    }));
+
+  }).catch((err)=>{console.log(err)});
 }
 
 module.exports = run;
