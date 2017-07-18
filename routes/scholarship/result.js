@@ -1,19 +1,22 @@
-var utils = require('../utils');
+// cURL 유틸
+const curl_utils = require('../curl_utils');
+
 // 장학 신청 결과 조회
-var run = function(req, res, next){
+const run = (req, res, next) => {
   console.log("POST /scholarship/result");
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  var url = utils.forestBaseUrl+"/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1";
+  // 파일별 url 설정
+  const url = "http://forest.skhu.ac.kr/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1";
 
-  utils.get(req, res, next, url, true)
-  .then(function(window, rawData){
-
+  // 파일별 콜백 함수
+  const callbackFunc = (err, window) => {
+    if(err == undefined) {
     // 장학 신청 내역 및 결과 파싱
-    var history = [];
+    const history = [];
     window.$("#dgList > tbody > tr")
-    .each(function(index, element){
+    .each( (index, element) => {
       history.push({
         "year" : window.$( element ).children("td:eq(0)").text(),
         "semester" : window.$( element ).children("td:eq(1)").text(),
@@ -37,7 +40,14 @@ var run = function(req, res, next){
         "phone" : window.$("#lblHdpNo").text()
       },
       "apply_history" : history
-    }))
-  });
+    }));
+
+  } else {
+      console.log(err, stdout, stderr);
+    }
+  };
+
+  // cURL.get() 호출
+  curl_utils.get(req, res, url, callbackFunc);
 }
 module.exports = run;
