@@ -55,7 +55,7 @@ function get (req, res, url) {
       cookieParam += `${item.name}=${item.value}`;
     }
 
-    const cmdLine = `curl -X GET --cookie ${cookieParam} ${url}`;
+    const cmdLine = `curl -X GET --cookie "${cookieParam}" ${url}`;
     // Execute curl command
     childProcess.exec(cmdLine, (err, stdout, stderr)=>{
       if(err==undefined){
