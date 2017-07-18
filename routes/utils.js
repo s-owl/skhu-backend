@@ -8,9 +8,6 @@ var trim = function(raw){
 }
 exports.trim = trim;
 
-// GET 요청을 forest 에 보낸 후 응답을 받아 필요에 따라 html parser 준비까지 하는 함수
-// req : Express 요청 객체, res : Express 응답 객체, next : Express 의 next 객체
-// url : 요청 보낼 url, doParse ; html parse 준비 여부(true : parse 준비, false : parser 준비 안함)
 var get = function(req, res, next, url, doParse){
 
   // Promise 를 반환함.
@@ -77,66 +74,6 @@ var get = function(req, res, next, url, doParse){
 exports.get = get;
 
 
-// ===== 사용하지 않는 함수 =====
-// POST 요청을 forest 에 보낸 후 응답을 받아 필요에 따라 html parser 준비까지 하는 함수
-// req : Express 요청 객체, res : Express 응답 객체
-// url : 요청 보낼 url, doParse ; html parse 준비 여부(true : parse 준비, false : parser 준비 안함)
-// data : 전송할 데이터
-var post = function(req, res, next, url, doParse, data){
-  return new Promise(function(resolve, reject) {
-
-    var unirest = require('unirest');
-    var cookiejar = unirest.jar();
-    var jsdom = require('jsdom');
-    var Iconv = require('iconv').Iconv;
-    var iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE');
-
-    var kis_value = req.body.cookie[0].value;
-    var uni_value = req.body.cookie[1].value;
-    var auth_value = req.body.cookie[2].value;
-
-    // Add Cookies to the Cookie Jar
-    cookiejar.add('.KIS='+kis_value, url);
-    cookiejar.add('.AuthCookie='+auth_value, url);
-    cookiejar.add('UniCookie='+uni_value, url);
-
-    // Send request to forest
-    unirest.post(url)
-    .encoding('binary')
-    .headers({
-      'Content-Type': 'application/x-www-form-urlencoded;',
-      'userAgent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)',
-      'Referer' : 'https://forest.skhu.ac.kr/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1',
-      'Origin' : 'https://forest.skhu.ac.kr'
-    })
-    .jar(cookiejar)
-    .form(data)
-    .end(function (response) {
-      // Convert encoding from EUC-KR to UTF-8 using Iconv
-      var buffer = new Buffer(response.body, 'binary');
-      var converted = iconv.convert(buffer).toString();
-      console.log(converted);
-      if(doParse){
-      jsdom.env( converted, ["http://code.jquery.com/jquery.js"],
-        function (err, window) {
-          if(err==undefined){
-            // We can now parse some data from html page
-            resolve(window, converted);
-          }else{
-            // Error!
-            reject(err);
-          }
-        });
-      }else{
-        resolve(converted);
-      }
-    });
-  });
-
-}
-exports.post = post;
-
-// 배열에 있는 값 중복 여부 체크 함수
 var isDuplicated = function(array, key, value){
   for(var i=0; i<array.length; i++){
     if(key==""){
