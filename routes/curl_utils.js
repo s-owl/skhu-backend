@@ -1,16 +1,17 @@
 // javascript로 만들어진 iconv-lite
-const iconv = require('iconv-lite');
-iconv.skipDecodeWarning = true;
-
+// const iconv = require('iconv-lite');
+// iconv.skipDecodeWarning = true;
+const Iconv = require('iconv').Iconv; // 인코딩 변환 모듈
+const iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE');
 const jsdom = require('jsdom');
 
 // 자식 프로세스로 커맨드라인 실행 환경 설정
-let exec = require('child_process').exec,
-    child;
+// let exec = require('child_process').exec,
+//     child;
 const childProcess = require('child_process');
 
 function get (req, res, url) {
-  return new new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject)=>{
 
 
     // cURL 옵션설정
@@ -50,16 +51,23 @@ function get (req, res, url) {
     // });
 
 /////////
+    let cookieObj = req.body.cookie;
+    console.log(cookieObj);
     let cookieParam = "";
-    for(let item in  req.body.cookie){
-      cookieParam += `${item.name}=${item.value}`;
+    for(let i=0; i<cookieObj.length; i++){
+      cookieParam += `${cookieObj[i].name}=${cookieObj[i].value};`;
     }
 
-    const cmdLine = `curl -X GET --cookie "${cookieParam}" ${url}`;
+    const cmdLine = `curl -X GET --raw --cookie "${cookieParam}"`
+     +` -H "Content-Type: application/json;"`
+     +` --user-agent "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)" ${url}`;
+     console.log(cmdLine);
     // Execute curl command
     childProcess.exec(cmdLine, (err, stdout, stderr)=>{
       if(err==undefined){
-        jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
+        var buffer = new Buffer(stdout, 'binary');
+        var converted = iconv.convert(buffer).toString();
+        jsdom.env( converted, ["http://code.jquery.com/jquery.js"],
           (err, window)=>{
             if(err == undefined){
               resolve(window);
