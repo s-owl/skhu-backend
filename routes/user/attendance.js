@@ -11,17 +11,8 @@ const run = (req, res, next) => {
   // 파일별 url 설정
   const url = "http://forest.skhu.ac.kr/Gate/UniMainStudent.aspx";
 
-  // 파일별 콜백 함수
-  // const callbackFunc = (err, window) => {
-  //   if(err == undefined) {
-  //
-  //   } else {
-  //     console.log(err, stdout, stderr);
-  //   }
-  // };
-
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window)=>{
+  curl_utils.get(req, res, url).then((window) => {
     const jsonAttendance = [];
     window.$("#gvList > tbody > tr")
       .each( (index, element) => {
@@ -44,7 +35,7 @@ const run = (req, res, next) => {
       "attendance" : jsonAttendance
     }));
 
-  }).catch((err)=>{console.log(err)});
+  }).catch((err) => { console.log(err) });
 }
 
 module.exports = run;

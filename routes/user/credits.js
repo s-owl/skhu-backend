@@ -11,31 +11,8 @@ const run = function(req, res, next) {
   // 파일별 url 설정
   const url = "http://forest.skhu.ac.kr/Gate/UniMainStudent.aspx";
 
-  // 파일별 콜백 함수
-  // const callbackFunc = (err, window) => {
-  //   if(err == undefined) {
-  //     const jsonCredits = [];
-  //     const creditsNav = "#upContents > #divContainer > div:eq(2) > table > tbody";
-  //     for(let i = 0; i < 12; i += 2){
-  //       for(let j = 0; j < 3; j++){
-  //         jsonCredits.push({
-  //           "type" : utils.trim(window.$(`${creditsNav} > tr:eq(${i}) > td:eq(${j})`).text()),
-  //           "earned" : utils.trim(window.$(`${creditsNav} > tr:eq(${i+1}) > td:eq(${j})`).text())
-  //         })
-  //       }
-  //     }
-  //
-  //     res.send(JSON.stringify({
-  //       "credits" : jsonCredits
-  //     }));
-  //
-  //   } else {
-  //     console.log(err, stdout, stderr);
-  //   }
-  // };
-
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window)=>{
+  curl_utils.get(req, res, url).then((window) => {
     const jsonCredits = [];
     const creditsNav = "#upContents > #divContainer > div:eq(2) > table > tbody";
     for(let i = 0; i < 12; i += 2){
@@ -50,7 +27,7 @@ const run = function(req, res, next) {
     res.send(JSON.stringify({
       "credits" : jsonCredits
     }));
-  }).catch((err)=>{console.log(err);});
+  }).catch((err) => { console.log(err) });
 };
 
 module.exports = run;

@@ -11,17 +11,8 @@ const run = (req, res, next) => {
   // 개인 시간표 데이터를 파싱할 페이지 URL
   const url = "http://forest.skhu.ac.kr/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=100";
 
-  // 파일별 콜백 함수
-  // const callbackFunc = (err, window) => {
-  //   if(err == undefined) {
-  //
-  //   } else {
-  //     console.log(err, stdout, stderr);
-  //   }
-  // };
-
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window)=>{
+  curl_utils.get(req, res, url).then((window) => {
     // 파싱한 데이터를 보관할 배열
     const data = [[],[],[],[],[],[]];
 
@@ -66,7 +57,7 @@ const run = (req, res, next) => {
         "saturday" : data[5]
     }));
 
-  }).catch((err)=>{console.log(err)});
+  }).catch((err) => { console.log(err) });
 }
 
 module.exports = run;

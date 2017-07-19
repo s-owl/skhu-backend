@@ -11,17 +11,8 @@ const run = (req, res, next) => {
   // 파일별 url 설정
   const url = "/GATE/SAM/SCORE/S/SSJS06S.ASPX?&maincd=O&systemcd=S&seq=1";
 
-  // 파일별 콜백 함수
-  // const callbackFunc = (err, window) => {
-  //   if(err == undefined) {
-  //
-  //   } else {
-  //     console.log(err, stdout, stderr);
-  //   }
-  // };
-
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window)=>{
+  curl_utils.get(req, res, url).then((window) => {
     // 사용자 정보 저장할 배열
     const userinfo = [];
     let tmpName;
@@ -77,7 +68,7 @@ const run = (req, res, next) => {
       "date" : window.$("#lblDt").text()
     }));
 
-  }).catch((err)=>{console.log(err)});
+  }).catch((err) => { console.log(err) });
 }
 
 module.exports = run;

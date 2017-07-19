@@ -11,19 +11,8 @@ const run = (req, res, next) => {
   // 파일별 url 설정
   const url = "/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100";
 
-  // 
-  // // 파일별 콜백 함수
-  // const callbackFunc = (err, window) => {
-  //   if(err == undefined) {
-  //
-  //
-  //   } else {
-  //     console.log(err, stdout, stderr);
-  //   }
-  // };
-
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window)=>{
+  curl_utils.get(req, res, url).then((window) => {
     // 학점 세이브 상세 정보를 보관할 배열
     const details = [];
     // id 가 gvDetails인 테이블 안의 데이터 가져오기
@@ -54,7 +43,7 @@ const run = (req, res, next) => {
       "details" : details
     }));
 
-  }).catch((err)=>{console.log(err)});
+  }).catch((err) => { console.log(err) });
 }
 
 module.exports = run;
