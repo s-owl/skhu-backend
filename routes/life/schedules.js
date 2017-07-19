@@ -10,17 +10,8 @@ const run = (req, res, next) => {
   // 학교 홈페이지에서 학사일정 파싱
   const url = "http://skhu.ac.kr/calendar/calendar_list_1.aspx?strYear="+req.body.year+"&strMonth="+req.body.month;
 
-  // 파일별 콜백 함수
-  // const callbackFunc = (err, window) => {
-  //   if(err == undefined) {
-  //
-  //   } else {
-  //     console.log(err, stdout, stderr);
-  //   }
-  // };
-
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window)=>{
+  curl_utils.get(req, res, url).then((window) => {
     // 학사 일정 파싱
     const calendar = [];
     window.$("table:eq(1) > tbody > tr")
@@ -38,7 +29,7 @@ const run = (req, res, next) => {
       "calendar" : calendar
     }));
 
-  }).catch((err)=>{console.log(err)});
+  }).catch((err) => { console.log(err) });
 }
 
 module.exports = run;

@@ -11,18 +11,8 @@ const run = (req, res, next) => {
   // 파일별 url 설정
   const url = "http://forest.skhu.ac.kr/Gate/InnerService/C/CS/A/ACSA07S.aspx?&maincd=O&systemcd=S&seq=99";
 
-  // 파일별 콜백 함수
-  // const callbackFunc = (err, window) => {
-  //   if(err == undefined) {
-  //
-  //
-  //   } else {
-  //     console.log(err, stdout, stderr);
-  //   }
-  // };
-
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window)=>{
+  curl_utils.get(req, res, url).then((window) => {
     let adviser = [];
     let history = [];
 
@@ -57,6 +47,6 @@ const run = (req, res, next) => {
       "adviser" : adviser,
       "history" : history
     });
-  }).catch((err)=>{console.log(err)});
+  }).catch((err) => { console.log(err) });
 }
 module.exports = run;
