@@ -10,17 +10,8 @@ const run = (req, res, next) => {
   // 파일별 url 설정
   const url = "http://forest.skhu.ac.kr/GATE/SAM/SCHOLARSHIP/S/SJHS01S.ASPX?&maincd=O&systemcd=S&seq=1";
 
-  // 파일별 콜백 함수
-  // const callbackFunc = (err, window) => {
-  //   if(err == undefined) {
-  //
-  //   } else {
-  //     console.log(err, stdout, stderr);
-  //   }
-  // };
-
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window)=>{
+  curl_utils.get(req, res, url).then((window) => {
     // 장학 신청 내역 파싱
     const history = [];
     window.$("#dgList > tbody > tr")
@@ -43,7 +34,7 @@ const run = (req, res, next) => {
       "scholarship_history" : history
     }));
 
-  }).catch((err)=>{console.log(err)});
+  }).catch((err) => { console.log(err) });
 }
 
 module.exports = run;
