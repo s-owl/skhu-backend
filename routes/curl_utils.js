@@ -58,9 +58,9 @@ function get (req, res, url) {
       cookieParam += `${cookieObj[i].name}=${cookieObj[i].value};`;
     }
 
-    const cmdLine = `curl -X GET --raw --cookie "${cookieParam}"`
+    const cmdLine = `curl -X GET --cookie "${cookieParam}"`
      +` -H "Content-Type: application/json;"`
-     +` --user-agent "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)" ${url}`;
+     +` --user-agent "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)" -s ${url}`;
      console.log(cmdLine);
     // Execute curl command
     childProcess.exec(cmdLine, (err, stdout, stderr)=>{
