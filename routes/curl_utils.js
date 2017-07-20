@@ -15,7 +15,7 @@ function get (req, res, url) {
         const cmdLine = `curl -X GET --cookie "${cookieParam}"`
         +` -H "Content-Type: application/json;"`
         +` --user-agent "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)" -s ${url}`;
-        console.log(cmdLine);
+        // console.log(cmdLine);
 
         // Execute curl command
         childProcess.exec(cmdLine, { encoding: null }, (err, stdout, stderr) => {
