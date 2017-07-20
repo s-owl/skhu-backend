@@ -9,7 +9,7 @@ const run = (req, res, next) => {
   console.log("REMOTE IPS : " + req.ips);
 
   // 파일별 url 설정
-  const url = "/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100";
+  const url = "http://forest.skhu.ac.kr/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100";
 
   // cURL.get() 호출
   curl_utils.get(req, res, url).then((window) => {
