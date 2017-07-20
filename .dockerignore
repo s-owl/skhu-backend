@@ -1,2 +1,7 @@
-node_modules/
-nginx/
+.git
+.gitignore
+.npm
+.DS_Store
+logs
+*.log
+npm-debug.log*
