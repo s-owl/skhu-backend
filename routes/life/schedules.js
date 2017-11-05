@@ -25,7 +25,7 @@ const run = (req, res, next) => {
     },
     (err, res, body) => {
       // 인코딩 변환
-      let buffer = new Buffer(stdout, 'binary');
+      let buffer = new Buffer(body, 'binary');
       let converted = iconv.convert(buffer).toString();
       jsdom.env( converted, ["http://code.jquery.com/jquery.js"], (err, window) => {
           if(err == undefined) {
