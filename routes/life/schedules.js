@@ -12,12 +12,9 @@ const run = (req, res, next) => {
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
 
-  // 학교 홈페이지에서 학사일정 파싱
-  const url = utils.skhuBaseUrl + `/calendar/calendar_list_1.aspx?strYear=${req.body.year}&strMonth=${req.body.month}`;
-
   request({
       method: 'GET',
-      url: utils.skhuBaseUrl + '/calendar/calendar_list_1.aspx?strYear=2017&strMonth=11',
+      url: utils.skhuBaseUrl + `/calendar/calendar_list_1.aspx?strYear=${req.body.year}&strMonth=${req.body.month}`,
       encoding: null,
       headers: {
         'User-Agent': utils.userAgentMacOSChrome
