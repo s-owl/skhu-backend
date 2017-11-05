@@ -23,7 +23,7 @@ const run = (req, res, next) => {
         'User-Agent': utils.userAgentMacOSChrome
       }
     },
-    (err, res, body) => {
+    (err, response, body) => {
       // 인코딩 변환
       let buffer = new Buffer(body, 'binary');
       let converted = iconv.convert(buffer).toString();
