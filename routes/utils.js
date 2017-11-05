@@ -1,6 +1,7 @@
 // 베이스 URL
 exports.forestBaseUrl = "http://forest.skhu.ac.kr";
 exports.skhuBaseUrl = "http://skhu.ac.kr";
+exports.userAgentMacOSChrome = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36";
 
 // 문자열에서 불필요한 요소를 제거하는 함수
 var trim = function(raw){
