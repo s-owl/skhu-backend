@@ -1,4 +1,3 @@
-
 // 베이스 URL
 const forestBaseUrl = "http://forest.skhu.ac.kr";
 const skhuBaseUrl = "http://skhu.ac.kr";
@@ -15,13 +14,10 @@ let trim = function(raw){
   url : 요청을 위한 Url
   isEucKr : Url 로 요청을 보내면 받는 응답의 인코딩. EUC-KR 라면 true, UTF-8 이라면 false
 */
-let get = function(req, res, url, isEucKr, doParse){
+let get = function(req, res, url, isEucKr){
   // Promise 를 반환함.
   return new Promise((resolve, reject) => {
 
-    let jsdom = require('jsdom'); // html parser
-    let Iconv = require('iconv').Iconv; // 인코딩 변환 모듈
-    let iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE'); // 인코딩 변환 모듈
     const request = require('request');// http client 모듈
 
     let reqHeaders = {'User-Agent': userAgentMacOSChrome};
@@ -39,28 +35,12 @@ let get = function(req, res, url, isEucKr, doParse){
         if(err != undefined && err != null) reject(err);
         let content = body;
         if(isEucKr){
+          let Iconv = require('iconv').Iconv; // 인코딩 변환 모듈
+          let iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE'); // 인코딩 변환 모듈
           let buffer = new Buffer(body, 'binary');
           content = iconv.convert(buffer).toString();
         }
-        if(doParse){
-          // doParse 가 true 인 경우, html parser 를 준비
-          jsdom.env( content, ["http://code.jquery.com/jquery.js"],
-            function (err, window) {
-              if(err==undefined){
-                // 오류가 없는 경우, html parser 를 준비.
-                // Promise 작업 성공 처리
-                resolve(content, window);
-              }else{
-                // 오류
-                // Promise 작업 실패 처리
-                reject(err);
-              }
-            });
-        }else{
-          // doParse 가 false 인 경우
-          // html parser 준비 없이 Promise 작업 성공 처리
-          resolve(content, null);
-        }
+          resolve(content);
       });
     });
 }
