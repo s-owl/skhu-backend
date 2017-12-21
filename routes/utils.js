@@ -1,13 +1,13 @@
+
 // 베이스 URL
-exports.forestBaseUrl = "http://forest.skhu.ac.kr";
-exports.skhuBaseUrl = "http://skhu.ac.kr";
-exports.userAgentMacOSChrome = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36";
+const forestBaseUrl = "http://forest.skhu.ac.kr";
+const skhuBaseUrl = "http://skhu.ac.kr";
+const userAgentMacOSChrome = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36";
 
 // 문자열에서 불필요한 요소를 제거하는 함수
 let trim = function(raw){
   return raw.toString().replace(/[\n\t\r]/g,"").replace(/  /g,'');
 }
-exports.trim = trim;
 
 /*
   req : Express 요청 객체
@@ -24,7 +24,7 @@ let get = function(req, res, url, isEucKr, doParse){
     let iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE'); // 인코딩 변환 모듈
     const request = require('request');// http client 모듈
 
-    let reqHeaders = {'User-Agent': utils.userAgentMacOSChrome};
+    let reqHeaders = {'User-Agent': userAgentMacOSChrome};
     if(req.get("token") != undefined && req.get("token") != null){
       headers.Cookie = req.get("token");
     }
@@ -64,8 +64,6 @@ let get = function(req, res, url, isEucKr, doParse){
       });
     });
 }
-exports.get = get;
-
 
 let isDuplicated = function(array, key, value){
   for(let i=0; i<array.length; i++){
@@ -81,7 +79,6 @@ let isDuplicated = function(array, key, value){
   }
   return false;
 }
-exports.isDuplicated = isDuplicated;
 
 // 학기 코드 변환 함수
 let getSemesterCode = function(semester){
@@ -98,4 +95,13 @@ let getSemesterCode = function(semester){
       return "Z0101";
   }
 }
-exports.getSemesterCode = getSemesterCode;
+
+module.exports = {
+  forestBaseUrl: forestBaseUrl,
+  skhuBaseUrl: skhuBaseUrl,
+  userAgentMacOSChrome: userAgentMacOSChrome,
+  trim: trim,
+  get: get,
+  isDuplicated: isDuplicated,
+  getSemesterCode: getSemesterCode
+};
