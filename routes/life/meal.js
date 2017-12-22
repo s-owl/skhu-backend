@@ -2,10 +2,8 @@ var utils = require('../utils');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 // Show Meal URLs
-var getUrls = function(req, res, next){
+const getUrls = function(req, res, next){
   console.log("GET /life/meal/urls");
-  console.log("REMOTE IP : " + req.ip);
-  console.log("REMOTE IPS : " + req.ips);
   var url = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_list.aspx";
   utils.get(req, res, url, true)
     .then((rawData)=>{
@@ -24,16 +22,15 @@ var getUrls = function(req, res, next){
       "urls" : urls
     }));
   })
-  .catch((err)=>{});
+  .catch((err)=>{
+    console.log(err);
+  });
 };
 exports.getUrls = getUrls;
 
 // Show Meal Data
-var getData = function(req, res, next){
+const getData = function(req, res, next){
   console.log("POST /life/meal/data");
-  console.log("REMOTE IP : " + req.ip);
-  console.log("REMOTE IPS : " + req.ips);
-
   // Parse Meal Data from the url
   var defaultUrl = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_first.aspx";
   var url = req.body.url == undefined || req.body.url == "" ? defaultUrl : req.body.url;
@@ -75,6 +72,9 @@ var getData = function(req, res, next){
     res.send(JSON.stringify({
       "data" : meal
     }))
+  })
+  .catch((err)=>{
+
   });
 };
 exports.getData = getData;
