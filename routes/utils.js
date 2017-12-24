@@ -21,8 +21,8 @@ let get = function(req, res, url, isEucKr){
     const request = require('request');// http client 모듈
 
     let reqHeaders = {'User-Agent': userAgentMacOSChrome};
-    if(req.get("token") != undefined && req.get("token") != null){
-      headers.Cookie = req.get("token");
+    if(req.get("Credential") != undefined && req.get("Credential") != null){
+      reqHeaders.Cookie = req.get("Credential");
     }
     let reqEncoding = isEucKr ? null : "UTF-8";
     request({
