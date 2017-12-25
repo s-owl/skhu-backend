@@ -1,75 +1,68 @@
 var utils = require('../utils');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 // Show Meal URLs
-var getUrls = function(req, res, next){
+const getUrls = function(req, res, next){
   console.log("GET /life/meal/urls");
-  console.log("REMOTE IP : " + req.ip);
-  console.log("REMOTE IPS : " + req.ips);
   var url = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_list.aspx";
-  utils.get(req, res, url, true, true)
-  .then((rawData, window)=>{
-    var urls = [];
-    window.$("table.board_list > tbody > tr")
-      .each(function(index, element){
-        console.log(window.$( element ).children("td:eq(1)").html());
-        var rawtag = window.$( element ).children("td:eq(1)").html();
-        var splited = rawtag.split('href="')[1];
-        var itemurl = utils.skhuBaseUrl + "/uni_zelkova/" + splited.split('">')[0];
-        var finalurl = itemurl.replace("&amp;","&");
+  utils.get(req, res, url, true)
+    .then((rawData)=>{
+      const { document } = (new JSDOM(rawData)).window;
+      let urls = [];
+      let rawList = document.querySelectorAll("table.board_list > tbody > tr");
+      for(let i=0; i<rawList.length; i++){
+        let tds = rawList[i].querySelectorAll("td");
         urls.push({
-          "title" : window.$( element ).children("td:eq(1)").text(),
-          "url" :  finalurl,
-          "date" : window.$( element ).children("td:eq(3)").text()
-        })
-      });
-
+          "title" : tds[1].querySelector('a').text,
+          "url" :  utils.skhuBaseUrl + "/uni_zelkova/" + tds[1].querySelector('a').href,
+          "date" : tds[3].text
+        });
+    }
     res.send(JSON.stringify({
       "urls" : urls
     }));
   })
   .catch((err)=>{
-
+    console.log(err);
   });
 };
 exports.getUrls = getUrls;
 
 // Show Meal Data
-var getData = function(req, res, next){
+const getData = function(req, res, next){
   console.log("POST /life/meal/data");
-  console.log("REMOTE IP : " + req.ip);
-  console.log("REMOTE IPS : " + req.ips);
-
   // Parse Meal Data from the url
   var defaultUrl = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_first.aspx";
   var url = req.body.url == undefined || req.body.url == "" ? defaultUrl : req.body.url;
 
-  utils.get(req, res, next, url, true)
-  .then(function(window, rawData){
-
+  utils.get(req, res, url, true)
+  .then((rawData)=>{
+    const { document } = (new JSDOM(rawData)).window;
     // Process into JSON
-    var meal = [];
-    var nav = "table.cont_c"
+    let meal = [];
+    let table = document.querySelector("table.cont_c");
     for(var i=0; i<5; i++){
       meal.push({
-        "date" : window.$(nav+" > thead > tr:eq(1) > th:eq("+(i+2)+")").text(),
-        "day" : window.$(nav+" > thead > tr:eq(0) > th:eq("+(i+1)+")").text(),
+        "day" : table.querySelector(`thead > tr:nth-child(1) > th:nth-child(${i+2})`).textContent,
+        "date" : table.querySelector(`thead > tr:nth-child(2) > th:nth-child(${i+3})`).textContent,
         "lunch" : {
           "a" : {
-            "diet" : window.$(nav+" > tbody > tr:eq(0) > td:eq("+i+")").text(),
-            "calorie" : window.$(nav+" > tbody > tr:eq(1) > td:eq("+i+")").text()
+            "diet" : table.querySelector(`tbody > tr:nth-child(1) > td:nth-child(${i+3})`).innerHTML.replace(/<br>/gi, "\n"),
+            "calorie" : table.querySelector(`tbody > tr:nth-child(2) > td:nth-child(${i+3})`).textContent
           },
           "b" : {
-            "diet" : window.$(nav+" > tbody > tr:eq(2) > td:eq("+i+")").text(),
-            "calorie" : window.$(nav+" > tbody > tr:eq(3) > td:eq("+i+")").text()
+            "diet" : table.querySelector(`tbody > tr:nth-child(3) > td:nth-child(${i+3})`).innerHTML.replace(/<br>/gi, "\n"),
+            "calorie" : table.querySelector(`tbody > tr:nth-child(4) > td:nth-child(${i+3})`).textContent
           },
           "c" : {
-            "diet" : window.$(nav+" > tbody > tr:eq(4) > td:eq("+i+")").text(),
-            "calorie" : window.$(nav+" > tbody > tr:eq(5) > td:eq("+i+")").text()
+            "diet" : table.querySelector(`tbody > tr:nth-child(5) > td:nth-child(${i+3})`).innerHTML.replace(/<br>/gi, "\n"),
+            "calorie" : table.querySelector(`tbody > tr:nth-child(6) > td:nth-child(${i+3})`).textContent
           }
         },
         "dinner" : {
           "a" : {
-            "diet" : window.$(nav+" > tbody > tr:eq(6) > td:eq("+i+")").text(),
-            "calorie" : window.$(nav+" > tbody > tr:eq(7) > td:eq("+i+")").text()
+            "diet" : table.querySelector(`tbody > tr:nth-child(7) > td:nth-child(${i+3})`).innerHTML.replace(/<br>/gi, "\n"),
+            "calorie" : table.querySelector(`tbody > tr:nth-child(8) > td:nth-child(${i+3})`).textContent
           }
         }
       });
@@ -79,6 +72,9 @@ var getData = function(req, res, next){
     res.send(JSON.stringify({
       "data" : meal
     }))
+  })
+  .catch((err)=>{
+
   });
 };
 exports.getData = getData;
