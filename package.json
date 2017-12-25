@@ -9,17 +9,17 @@
     "esversion": 6
   },
   "dependencies": {
-    "body-parser": "~1.15.1",
+    "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "express": "~4.13.4",
+    "debug": "~3.1.0",
+    "express": "~4.16.2",
     "iconv": "^2.3.0",
     "jsdom": "^11.5.1",
-    "morgan": "~1.7.0",
+    "morgan": "~1.9.0",
     "phantomjs-prebuilt": "^2.1.16",
     "puppeteer": "^0.13.0",
     "request": "^2.83.0",
-    "serve-favicon": "~2.3.0",
+    "serve-favicon": "~2.4.5",
     "unirest": "^0.5.0"
   }
 }
