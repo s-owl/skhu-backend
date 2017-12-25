@@ -19,9 +19,9 @@ const userinfo = require('./userinfo');
 router.post('/userinfo', userinfo);
 
 // 이수 학점 조회
-// POST - CREDITS
+// GET - CREDITS
 const credits = require('./credits');
-router.post('/credits', credits);
+router.get('/credits', credits);
 
 // 출결 현항 조회
 // POST - ATTENDANCE
