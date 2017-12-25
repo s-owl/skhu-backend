@@ -9,5 +9,5 @@ router.post('/subjects', subjects);
 // 학점 세이브 조회
 // POST -SAVED_CREDITES
 const saved_credits = require('./saved_credits');
-router.post('/saved_credits', saved_credits);
+router.get('/saved_credits', saved_credits);
 module.exports = router;
