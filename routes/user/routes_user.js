@@ -48,8 +48,6 @@ router.post('/userinfo', userinfo);
  *    get:
  *      summary: "이수 학점 조회"
  *      tags: ["user"]
- *      consumes:
- *        - application/json
  *      produces:
  *        - application/json
  *      parameters:
@@ -57,7 +55,7 @@ router.post('/userinfo', userinfo);
  *          name: Credential
  *          type: string
  *          required: true
- *          description: "로그인 성공 할떄 받은 사용자 인증키."
+ *          description: "로그인 성공 할때 받은 사용자 인증키."
  *      responses:
  *        200:
  *          description: 이수 학점 내역
