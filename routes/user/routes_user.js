@@ -8,8 +8,32 @@ const router = express.Router();
 const login = require('./login');
 router.post('/login', login);
 
-// 로그아웃
-// POST - LOGOUT
+
+/**
+ *  @swagger
+ *  /user/login:
+ *    post:
+ *      summary: "로그인 기능"
+ *      tags: ["user"]
+ *      consumes:
+ *        - application/json
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *        - in: body
+ *          name: userid
+ *          type: string
+ *          required: true
+ *          description: "사용자 학번."
+ *        - in: body
+ *          name: userpw
+ *          type: string
+ *          required: true
+ *          description: "사용자 비밀번호."
+ *      responses:
+ *        200:
+ *          description: login
+ */
 const logout = require('./logout');
 router.post('/logout', logout);
 
@@ -18,8 +42,41 @@ router.post('/logout', logout);
 const userinfo = require('./userinfo');
 router.post('/userinfo', userinfo);
 
-// 이수 학점 조회
-// GET - CREDITS
+/**
+ *  @swagger
+ *  /user/credits:
+ *    get:
+ *      summary: "이수 학점 조회"
+ *      tags: ["user"]
+ *      consumes:
+ *        - application/json
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *        - in: header
+ *          name: Credential
+ *          type: string
+ *          required: true
+ *          description: "로그인 성공 할떄 받은 사용자 인증키."
+ *      responses:
+ *        200:
+ *          description: 이수 학점 내역
+ *          schema:
+ *            type: object
+ *            properties:
+ *              credits:
+ *                type: array
+ *                description: "이수 학점 목록"
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
+ *                      type: string
+ *                      description: "이수 학점 유형"
+ *                    earned:
+ *                      type: string
+ *                      description: "이수학 학점 총량"
+ */
 const credits = require('./credits');
 router.get('/credits', credits);
 
