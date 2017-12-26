@@ -1,10 +1,10 @@
-var utils = require('../utils');
+const utils = require('../utils');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 // Show Meal URLs
 const getUrls = function(req, res, next){
   console.log("GET /life/meal/urls");
-  var url = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_list.aspx";
+  const url = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_list.aspx";
   utils.get(req, res, url, true)
     .then((rawData)=>{
       const { document } = (new JSDOM(rawData)).window;
@@ -24,6 +24,7 @@ const getUrls = function(req, res, next){
   })
   .catch((err)=>{
     console.log(err);
+    res.sendStatus(500);
   });
 };
 exports.getUrls = getUrls;
@@ -32,8 +33,8 @@ exports.getUrls = getUrls;
 const getData = function(req, res, next){
   console.log("POST /life/meal/data");
   // Parse Meal Data from the url
-  var defaultUrl = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_first.aspx";
-  var url = req.body.url == undefined || req.body.url == "" ? defaultUrl : req.body.url;
+  const defaultUrl = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_first.aspx";
+  const url = req.body.url == undefined || req.body.url == "" ? defaultUrl : req.body.url;
 
   utils.get(req, res, url, true)
   .then((rawData)=>{
@@ -41,7 +42,7 @@ const getData = function(req, res, next){
     // Process into JSON
     let meal = [];
     let table = document.querySelector("table.cont_c");
-    for(var i=0; i<5; i++){
+    for(let i=0; i<5; i++){
       meal.push({
         "day" : table.querySelector(`thead > tr:nth-child(1) > th:nth-child(${i+2})`).textContent,
         "date" : table.querySelector(`thead > tr:nth-child(2) > th:nth-child(${i+3})`).textContent,
@@ -74,7 +75,8 @@ const getData = function(req, res, next){
     }))
   })
   .catch((err)=>{
-
+    console.log(err);
+    res.sendStatus(500);
   });
 };
 exports.getData = getData;

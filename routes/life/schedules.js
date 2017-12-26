@@ -10,22 +10,23 @@ const run = (req, res, next) => {
     .then((rawData)=>{
       const { document } = (new JSDOM(rawData)).window;
       // 학사 일정 파싱
-      let calendar = [];
+      let schedules = [];
       let table = document.querySelectorAll("div.info > table > tbody > tr");
       for(let i=1; i<table.length; i++){
         let item = table[i].querySelectorAll("td");
-        calendar.push({
+        schedules.push({
           "period": item[0].textContent,
           "content": item[1].textContent
         });
       }
         // JSON 으로 처리하여 클라이언트에 응답
         res.send(JSON.stringify({
-          "calendar": calendar
+          "schedules": schedules
         }));
     })
     .catch((err)=>{
       console.log(err);
+      res.sendStatus(500);
     });
 }
 
