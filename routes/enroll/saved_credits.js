@@ -19,8 +19,8 @@ const run = (req, res, next) => {
         details.push({
           "year" : rawDetails[i].children[0].textContent,
           "semester" : rawDetails[i].children[1].textContent,
-          "used" : rawDetails[i].children[2].textContent,
-          "available" : rawDetails[i].children[3].textContent
+          "saved" : rawDetails[i].children[2].textContent,
+          "used" : rawDetails[i].children[3].textContent
         });
       }
 
