@@ -16,7 +16,7 @@ router.post('/logout', logout);
 // 사용자 정보
 // POST - USERINFO
 const userinfo = require('./userinfo');
-router.post('/userinfo', userinfo);
+router.get('/userinfo', userinfo);
 
 // 이수 학점 조회
 // GET - CREDITS
