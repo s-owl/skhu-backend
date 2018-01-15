@@ -40,7 +40,7 @@ router.post('/logout', logout);
 // 사용자 정보
 // POST - USERINFO
 const userinfo = require('./userinfo');
-router.post('/userinfo', userinfo);
+router.get('/userinfo', userinfo);
 
 /**
  *  @swagger
