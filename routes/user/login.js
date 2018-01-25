@@ -1,31 +1,71 @@
-//OK! Let't work around using phantomjs!
-
+const puppeteer = require('puppeteer');
+const utils = require('../utils');
 // 로그인 작업을 수행
-var run = function(req, res, next){
+const run = async (req, res, next) => {
   console.log("POST /user/login")
-  console.log("REMOTE IP : " + req.ip);
-  console.log("REMOTE IPS : " + req.ips);
 
-  var path = require('path');
-  var childProcess = require('child_process');
-  var phantomjs = require('phantomjs-prebuilt');
-  var binPath = phantomjs.path;
+  // Page urls
+  const logInPageUrl = `${utils.forestBaseUrl}/Gate/UniLogin.aspx`;
+  const mainPageUrl = `${utils.forestBaseUrl}/Gate/UniMyMain.aspx`;
 
-  // 명령행 인자값들을 담는 배열
-  var childArgs = [
-    '--ignore-ssl-errors=yes', // SSL 오류 무시
-    path.join(__dirname, 'ph_login.js'), // 자식 프로세스로 실행할 phantom.js 스크립트
-    req.body.userid, // 학번
-    req.body.userpw // 비밀번호
-  ]
+  const ID = req.body.userid, PW = req.body.userpw;
+  let tried = false;
 
-  // Execute Phantomjs script
-  childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
-    console.log(err, stdout, stderr);
-    // pass cookies to the client
-    res.send(stdout);
-  })
+  // Prepare headless chrome browser
+  const browser = await puppeteer.launch({ignoreHTTPSErrors: true});
+  const page = await browser.newPage();
+  await page.setJavaScriptEnabled(true);
+  await page.setUserAgent(utils.userAgentIE);
 
+  // Listen for page fully loaded event
+  page.on('load', () => {
+    if(page.url() == logInPageUrl){
+      if(tried){
+        // If page is still login page, then it's failed.
+        res.send("LOGIN FAILED!");
+      }else{
+        // Put ID and PW then log in.
+        (async ()=>{
+          try{
+            await page.evaluate((id, pw) => {
+              // Set ID and PW value into the form
+              console.log(id);
+              console.log(pw);
+              document.getElementById("txtID").value = id;
+              document.getElementById("txtPW").value = pw;
+              // Log In
+              document.all.ibtnLogin.click();
+            }, ID, PW);
+          }catch(e){
+            console.log(e);
+          }
+        })();
+      }
+    }else if(page.url() == mainPageUrl){
+      // Logged in.
+      (async ()=>{
+        try{
+          // Get cookie from the page
+          const credential = await page.evaluate(() => {
+            return document.cookie;
+          });
+          // Send it to client
+          res.json({
+            "credential-old" : credential
+          });
+        }catch(e){
+          console.log(e);
+        }
+      })();
+    }
+  });
+
+  try{
+    // Open Log In Page
+    await page.goto(logInPageUrl);
+  } catch(e){
+    console.log(e);
+  }
 }
 
 module.exports = run;
