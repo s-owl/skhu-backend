@@ -1,8 +1,9 @@
 // 베이스 URL
 const forestBaseUrl = "http://forest.skhu.ac.kr";
 const skhuBaseUrl = "http://skhu.ac.kr";
+const samBaseUrl = "http://sam.skhu.ac.kr"
 const userAgentMacOSChrome = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36";
-
+const userAgentIE = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
 // 문자열에서 불필요한 요소를 제거하는 함수
 let trim = function(raw){
   return raw.toString().replace(/[\n\t\r]/g,"").replace(/  /g,'');
@@ -79,7 +80,9 @@ let getSemesterCode = function(semester){
 module.exports = {
   forestBaseUrl: forestBaseUrl,
   skhuBaseUrl: skhuBaseUrl,
+  samBaseUrl: samBaseUrl,
   userAgentMacOSChrome: userAgentMacOSChrome,
+  userAgentIE: userAgentIE,
   trim: trim,
   get: get,
   isDuplicated: isDuplicated,
