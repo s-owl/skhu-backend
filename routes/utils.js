@@ -80,6 +80,7 @@ let getSemesterCode = function(semester){
 module.exports = {
   forestBaseUrl: forestBaseUrl,
   skhuBaseUrl: skhuBaseUrl,
+  samBaseUrl: samBaseUrl,
   userAgentMacOSChrome: userAgentMacOSChrome,
   userAgentIE: userAgentIE,
   trim: trim,
