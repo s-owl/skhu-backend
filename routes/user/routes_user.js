@@ -32,7 +32,21 @@ router.post('/login', login);
  *          description: "사용자 비밀번호."
  *      responses:
  *        200:
- *          description: login
+ *          description: "로그인 성공시 얻는 인증 토큰"
+ *          schema:
+ *            type: object
+ *            properties:
+ *              credential-old:
+ *                type: string
+ *                description: forest.skhu.ac.kr 인증 토큰
+ *              credential-new:
+ *                type: string
+ *                description: sam.skhu.ac.kr 인증 토큰1
+ *              credential-new-token:
+ *                type: string
+ *                description: sam.skhu.ac.kr 인증 토큰2
+ *        403:
+ *          description: "로그인 실패"
  */
 const logout = require('./logout');
 router.post('/logout', logout);
