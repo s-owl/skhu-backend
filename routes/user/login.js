@@ -19,7 +19,7 @@ const run = async (req, res, next) => {
   let credentialNewToken = "";
 
   // Prepare headless chrome browser
-  const browser = await puppeteer.launch({ignoreHTTPSErrors: true});
+  const browser = await puppeteer.launch({ignoreHTTPSErrors: true, headless: false});
   const page = await browser.newPage();
   await page.setJavaScriptEnabled(true);
   await page.setUserAgent(utils.userAgentIE);
@@ -30,16 +30,14 @@ const run = async (req, res, next) => {
     if(page.url() == logInPageUrl){
       if(tried){
         // If page is still login page, then it's failed.
-        res.send("LOGIN FAILED!");
+        res.status(403).end("Login Failed");
       }else{
         // 2. Put ID and PW then log in.
         console.log("forest.skhu.ac.kr - logging in");
         (async ()=>{
-          let elementHandle = await page.$('#txtID');
-          await elementHandle.type(ID);
-          elementHandle = await page.$('#txtPW');
-          await elementHandle.type(PW);
-          elementHandle.press("Enter")
+          await page.type('#txtID', ID);
+          await page.type('#txtPW', PW);
+          (await page.$('#txtPW')).press("Enter");
         })();
       }
     }else if(page.url() == mainPageUrl){
@@ -63,13 +61,16 @@ const run = async (req, res, next) => {
     }else if(page.url().startsWith(newLogInPageUrl)){
       (async ()=>{
         try{
+          //
+          page.waitForSelector('body.ng-scope.modal-open')
+            .then(() => {
+              // If a modal is shown, then login task is failed.
+              res.status(403).end("Login Failed");
+            });
           console.log("cas.skhu.ac.kr - logging in");
-          let elementHandle = await page.$('#login-username');
-          await elementHandle.type(ID);
-          elementHandle = await page.$('#login-password');
-          await elementHandle.type(PW);
-          elementHandle.press("Enter")
-          // await page.click('div.panel-body > button');
+          await page.type('#login-username', ID);
+          await page.type('#login-password', PW);
+          (await page.$('#login-password')).press("Enter");
         }catch(e){
           console.log(e);
         }
@@ -86,7 +87,7 @@ const run = async (req, res, next) => {
         credentialNewToken = await page.evaluate(() => {
           return document.body.getAttribute("ncg-request-verification-token");
         });
-
+        await browser.close();
         // 12. send it to client
         res.json({
           "credential-old": credentialOld,
