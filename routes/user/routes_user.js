@@ -94,6 +94,62 @@ router.get('/credits', credits);
 
 // 출결 현항 조회
 // POST - ATTENDANCE
+/**
+ *  @swagger
+ *  /user/attendance
+ *    post:
+ *      summary: "출결 현황 조회"
+ *      tags: ["user"]
+ *      consumes:
+ *        - application/json
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *        - in: body
+ *          name: cookie
+ *          type: string
+ *          description: "로그인 세션 쿠키"
+ *          required: true
+ *      response:
+ *        200:
+ *          description: "출결 현황 데이터"
+ *          schema:
+ *            type: object
+ *            properties:
+ *              attendance:
+ *                type: array
+ *                description: "출결 현황 데이터 배열"
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    subject:
+ *                      type: string
+ *                      description: "과목"
+ *                    time:
+ *                      type: string
+ *                      description: "시간"
+ *                    attend:
+ *                      type: string
+ *                      description: "출석"
+ *                    late:
+ *                      type: string
+ *                      description: "지각"
+ *                    absence:
+ *                      type: string
+ *                      description: "결석"
+ *                    approved:
+ *                      type: string
+ *                      description: "공결"
+ *                    menstrual:
+ *                      type: string
+ *                      description: "생리공결"
+ *                    early:
+ *                      type: string
+ *                      description: "조퇴"
+ *
+ *
+ *
+ */
 const attendance = require('./attendance');
 router.post('/attendance', attendance);
 

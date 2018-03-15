@@ -170,7 +170,7 @@ router.get('/meal/urls', meal_urls);
 const meal_data = require('./meal').getData;
 router.post('/meal/data', meal_data);
 
-// 상담 이력 조회
+// 상담 이력 조회 - 안해도 됌
 // POST　-　consulting
 const consulting = require('./consulting');
 router.post('/consulting', consulting);
