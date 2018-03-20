@@ -5,6 +5,7 @@ var getUrls = function(req, res, next){
   console.log("REMOTE IP : " + req.ip);
   console.log("REMOTE IPS : " + req.ips);
   var url = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_list.aspx";
+
   utils.get(req, res, url, true, true)
   .then((rawData, window)=>{
     var urls = [];

@@ -12,7 +12,7 @@ const run = (req, res, next) => {
   const url = "http://forest.skhu.ac.kr/GATE/SAM/SCORE/S/SSJS06S.ASPX?&maincd=O&systemcd=S&seq=1";
 
   // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window) => {
+  utils.get(req, res, url).then((window) => {
     // 사용자 정보 저장할 배열
     const userinfo = [];
     let tmpName;
