@@ -94,11 +94,11 @@ router.get('/credits', credits);
 
 // 출결 현항 조회
 // POST - ATTENDANCE
-/**
+/** 
  *  @swagger
- *  /user/attendance
+ *  /user/attendance:
  *    post:
- *      summary: "출결 현황 조회"
+ *      summary: "출결 현황 조회 (업데이트 필요)"
  *      tags: ["user"]
  *      consumes:
  *        - application/json
@@ -110,7 +110,7 @@ router.get('/credits', credits);
  *          type: string
  *          description: "로그인 세션 쿠키"
  *          required: true
- *      response:
+ *      responses:
  *        200:
  *          description: "출결 현황 데이터"
  *          schema:
@@ -146,9 +146,6 @@ router.get('/credits', credits);
  *                    early:
  *                      type: string
  *                      description: "조퇴"
- *
- *
- *
  */
 const attendance = require('./attendance');
 router.post('/attendance', attendance);
