@@ -94,7 +94,7 @@ router.get('/credits', credits);
 
 // 출결 현항 조회
 // POST - ATTENDANCE
-/** 
+/**
  *  @swagger
  *  /user/attendance:
  *    post:
@@ -148,7 +148,7 @@ router.get('/credits', credits);
  *                      description: "조퇴"
  */
 const attendance = require('./attendance');
-router.post('/attendance', attendance);
+router.get('/attendance', attendance);
 
 // 생리공결
 // POST - MENSES
