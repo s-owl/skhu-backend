@@ -1,5 +1,4 @@
 // cURL 유틸
-const curl_utils = require('../curl_utils');
 const utils = require('../utils');
 const {JSDOM} = require('jsdom');
 // 출결현황 조회
@@ -18,8 +17,7 @@ const run = (req, res, next) => {
     const elementNav = "#gvList > tbody > tr";
     const items = document.querySelectorAll(elementNav);
 
-    for(let i=0; i<items.length; i++){
-      if(index >= 1){
+    for(let i=1; i<items.length; i++){
         jsonAttendance.push({
           "subject" : utils.trim(items[i].children[0].textContent),
           "time" : utils.trim(items[i].children[1].textContent),
@@ -30,7 +28,6 @@ const run = (req, res, next) => {
           "menstrual" : utils.trim(items[i].children[6].textContent),
           "early" : utils.trim(items[i].children[7].textContent)
         });
-      }
     };
 
     // JSON 으로 처리하여 클라이언트에 응답
