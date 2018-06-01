@@ -172,7 +172,7 @@ router.post('/meal/data', meal_data);
 
 // 상담 이력 조회 - 안해도 됌
 // POST　-　consulting
-const consulting = require('./consulting');
-router.post('/consulting', consulting);
+// const consulting = require('./consulting');
+// router.post('/consulting', consulting);
 
 module.exports = router;
