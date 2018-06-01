@@ -48,7 +48,6 @@ const run = async(req,res,next)=>{
   for(let item of items){
     let data = [];
     for(let i=1; i<12; i++){
-      console.log(i);
       //각 행의 열 데이터를 뽑아 임시배열에 저장
       data.push(await item.$eval(`td:nth-of-type(${i})`, (node) => node.textContent));
     }
