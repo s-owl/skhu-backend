@@ -4,7 +4,7 @@ const router = express.Router();
 // 개설과목 조회
 // POST - SUBJECTS
 const subjects = require('./subjects');
-router.post('/subjects', subjects);
+router.get('/subjects', subjects);
 
 /**
  *  @swagger

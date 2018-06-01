@@ -1,120 +1,75 @@
-//var utils = require('../utils');
-var jsdom = require('jsdom');
-// 개설과목 조회
-var run = function(req, res, next){
-  console.log("POST /enroll/subjects");
-  console.log("REMOTE IP : " + req.ip);
-  console.log("REMOTE IPS : " + req.ips);
+const puppeteer= require('puppeteer');
+const utils = require('../utils');
 
-  var path = require('path');
-  var childProcess = require('child_process');
-  var phantomjs = require('phantomjs-prebuilt');
-  var binPath = phantomjs.path;
+// /enroll/subjects
+const run = async(req,res,next)=>{
 
-  var cookie = {}; // 요청으로부터의 쿠키를 얻어서 저장할 배열
-  for( var i = 0; i<req.body.cookie.length; i++){
-    cookie[i] = req.body.cookie[i];
+  // URL 빌드
+  let url = `${utils.forestBaseUrl}/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1`;
+
+  let credential = req.get('Credential'); // Request의 Header 에서 Credential 값 로드
+  const browser = await puppeteer.launch(); // Puppeteer 초기화
+  const page = await browser.newPage(); // 페이지 생성
+  await page.setJavaScriptEnabled(true); // Puppeteer 페이지에서 JS 활성화
+  await page.setUserAgent(utils.userAgentIE); // User Agent 를 IE 로 설정
+
+  // 문저열로 된 Credential 값을 쪼개서 JSON 객체 배열로 변환
+  let credentialArray = [];
+  let credentialItems=credential.split("; ");
+  credentialItems.forEach((item)=>{
+    let splited=item.split(/=(.+)/);
+    let obj = { "name":splited[0], "value":splited[1], "domain":"forest.skhu.ac.kr"};
+    if(splited[0] != "" && splited[1] != undefined){
+      credentialArray.push(obj);
+    }
+  });
+  console.log(credentialArray);
+  await page.goto(url); // 페이지 이동 - 빈 페이지에서는 쿠키 설정 불가
+  await page.setCookie(...credentialArray); // 객체 배열로 변환한 Credential 을 페이지 쿠키로 설정
+  console.log(await page.cookies());
+
+  // 특정 HTTP 요청 감시/차단
+  await page.setRequestInterception(true);
+  page.on('request', interceptedRequest => {
+    // 요청 URL 이 CoreSecurity.js 로 끝나면
+    if (interceptedRequest.url().endsWith('CoreSecurity.js')){
+      interceptedRequest.abort(); // 요청 탈취하야 취소 처리
+    }else{
+      interceptedRequest.continue(); // 그 외에는 그대로 진행
+    } 
+  });
+  await page.goto(url); // 이동
+  console.log(await page.url());
+  // 테이블 접근하여 각 행(가로방향으로 한 줄) 추출하여 배열로 생성
+  let items = await page.$$('#dgList > tbody > tr');
+  console.log(items);
+  let list = [];
+  // 요소 배열 순회하면서 JSON 객채로 변환하여 새 배열에 삽입
+  for(let item of items){
+    let data = [];
+    for(let i=1; i<12; i++){
+      //각 행의 열 데이터를 뽑아 임시배열에 저장
+      data.push(await item.$eval(`td:nth-of-type(${i})`, (node) => node.textContent));
+    }
+    // 임시배열에서 꺼내 최종 배열에 저장.
+    list.push({
+      "type": data[0],
+      "grade": data[1],
+      "code": data[2],
+      "class": data[3],
+      "subject": data[4],
+      "score": data[5],
+      "professor": data[6],
+      "grade_limit": data[7],
+      "major_limit": data[8],
+      "time": data[9],
+      "note": data[10],
+      "available": data[11]
+    });
   }
-
-  // 자식 프로세스로 실행할 명령행의 인자
-  var childArgs = [
-    '--ignore-ssl-errors=yes',
-    path.join(__dirname, 'ph_subjects.js'),
-    req.body.year, // 년도
-    req.body.semester, // 학기
-    req.body.depart, // 학과(학부)
-    req.body.professor, // 교수명
-    // 쿠키값
-     cookie[0].domain,
-     cookie[0].httponly,
-     cookie[0].name,
-     cookie[0].path,
-     cookie[0].secure,
-     cookie[0].value,
-     cookie[1].domain,
-     cookie[1].httponly,
-     cookie[1].name,
-     cookie[1].path,
-     cookie[1].secure,
-     cookie[1].value,
-     cookie[2].domain,
-     cookie[2].httponly,
-     cookie[2].name,
-     cookie[2].path,
-     cookie[2].secure,
-     cookie[2].value,
-     cookie[3].domain,
-     cookie[3].httponly,
-     cookie[3].name,
-     cookie[3].path,
-     cookie[3].secure,
-     cookie[3].value
-  ]
-
-  // 자식 프로세스로 phantom.js 스크립트를 실행
-  // Execute Phantomjs script
-  childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
-    console.log(err, stdout, stderr);
-    // 자식 프로세서에서 출력한 표준출력을 파싱
-    jsdom.env( stdout, ["http://code.jquery.com/jquery.js"],
-      function (err, window) {
-        if(err==undefined){
-          // 조회 결과 데이터 파싱
-          var subjects = [];
-          window.$("#dgList > tbody > tr")
-            .each(function(index, element){
-              subjects.push({
-                "type" : window.$( element ).children("td:eq(0)").text(),
-                "grade" : window.$( element ).children("td:eq(1)").text(),
-                "code" : window.$( element ).children("td:eq(2)").text(),
-                "class" : window.$( element ).children("td:eq(3)").text(),
-                "subject" : window.$( element ).children("td:eq(4)").text(),
-                "credits" : window.$( element ).children("td:eq(5)").text(),
-                "tutor" : window.$( element ).children("td:eq(6)").text(),
-                "grade_restriction" : window.$( element ).children("td:eq(7)").text(),
-                "depart_restriction" : window.$( element ).children("td:eq(8)").text(),
-                "time_location" : window.$( element ).children("td:eq(9)").text(),
-                "note": window.$( element ).children("td:eq(10)").text(),
-                "headcounts": window.$( element ).children("td:eq(11)").text()
-              });
-            });
-
-            // JSON 으로 처리하여 클라이언트에 응답.
-            res.send(JSON.stringify({
-              "subjects" : subjects
-            }));
-        }
-      });
-  })
-
-  // utils.phFormTask(req, res, next, url, true, jsondata)
-  // .then(function(window, rawData){
-  //   // Parse subjects data
-  //   var jsonSubjects = [];
-  //   window.$("#dgList > tbody > tr")
-  //     .each(function(index, element){
-  //       if(index>=1){
-  //         jsonSubjects.push({
-  //           "type" : window.$( element ).children("td:eq(0)").text(),
-  //           "grade" : window.$( element ).children("td:eq(1)").text(),
-  //           "code" : window.$( element ).children("td:eq(2)").text(),
-  //           "class" : window.$( element ).children("td:eq(3)").text(),
-  //           "subject" : window.$( element ).children("td:eq(4)").text(),
-  //           "credits" : window.$( element ).children("td:eq(5)").text(),
-  //           "tutor" : window.$( element ).children("td:eq(6)").text(),
-  //           "grade_restriction" : window.$( element ).children("td:eq(7)").text(),
-  //           "depart_restriction" : window.$( element ).children("td:eq(8)").text(),
-  //           "time_location" : window.$( element ).children("td:eq(9)").text(),
-  //           "note": window.$( element ).children("td:eq(10)").text(),
-  //           "headcounts": window.$( element ).children("td:eq(11)").text()
-  //         });
-  //       }
-  //     });
-  //   res.send(JSON.stringify({
-  //     "subjects" : jsonSubjects
-  //   }));
-  // });
-
-}
-
-module.exports = run;
+  // 처리된 데이터로 클라이언트의 요청에 응답
+  res.json({
+    "list": list
+  });
+};
+module.exports= run;
