@@ -3,7 +3,7 @@ const router = express.Router();
 
 // 개설과목 조회
 // POST - SUBJECTS
-const subjects = require('./subjects2');
+const subjects = require('./subjects');
 router.get('/subjects', subjects);
 
 /**
