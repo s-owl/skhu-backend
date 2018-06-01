@@ -10,8 +10,8 @@ const router = express.Router();
 
 // 강의계획서 조회
 // POST - SYLLABUS
-const syllabus = require('./syllabus');
-router.post('/syllabus', syllabus);
+// const syllabus = require('./syllabus');
+// router.post('/syllabus', syllabus);
 
 // 강의실별 시간표 조회
 // POST - 강의실 검색

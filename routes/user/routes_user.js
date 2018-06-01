@@ -48,8 +48,8 @@ router.post('/login', login);
  *        403:
  *          description: "로그인 실패"
  */
-const logout = require('./logout');
-router.post('/logout', logout);
+// const logout = require('./logout');
+// router.post('/logout', logout);
 
 // 사용자 정보
 // POST - USERINFO
@@ -157,7 +157,7 @@ router.post('/menses', menses);
 
 // 쿠키 만료 여부 확인
 // POST - EXPCHECK
-const expcheck = require('./expcheck');
-router.post('/expcheck', expcheck);
+// const expcheck = require('./expcheck');
+// router.post('/expcheck', expcheck);
 
 module.exports = router;
