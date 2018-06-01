@@ -52,12 +52,12 @@ const getData = function(req, res, next){
             "calorie" : table.querySelector(`tbody > tr:nth-child(2) > td:nth-child(${i+3})`).textContent
           },
           "b" : {
-            "diet" : table.querySelector(`tbody > tr:nth-child(3) > td:nth-child(${i+3})`).innerHTML.replace(/<br>/gi, "\n"),
-            "calorie" : table.querySelector(`tbody > tr:nth-child(4) > td:nth-child(${i+3})`).textContent
+            "diet" : table.querySelector(`tbody > tr:nth-child(3) > td:nth-child(${i+2})`).innerHTML.replace(/<br>/gi, "\n"),
+            "calorie" : table.querySelector(`tbody > tr:nth-child(4) > td:nth-child(${i+2})`).textContent
           },
           "c" : {
-            "diet" : table.querySelector(`tbody > tr:nth-child(5) > td:nth-child(${i+3})`).innerHTML.replace(/<br>/gi, "\n"),
-            "calorie" : table.querySelector(`tbody > tr:nth-child(6) > td:nth-child(${i+3})`).textContent
+            "diet" : table.querySelector(`tbody > tr:nth-child(5) > td:nth-child(${i+2})`).innerHTML.replace(/<br>/gi, "\n"),
+            "calorie" : table.querySelector(`tbody > tr:nth-child(6) > td:nth-child(${i+2})`).textContent
           }
         },
         "dinner" : {
