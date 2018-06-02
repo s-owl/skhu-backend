@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 
@@ -44,8 +44,8 @@ const router = express.Router();
  *        500:
  *          description: "서버 내부 오류"
  */
-const schedules = require('./schedules');
-router.post('/schedules', schedules);
+const schedules = require("./schedules");
+router.post("/schedules", schedules);
 
 /**
  *  @swagger
@@ -79,8 +79,8 @@ router.post('/schedules', schedules);
  *        500:
  *          description: "서버 내부 오류"
  */
-const meal_urls = require('./meal').getUrls;
-router.get('/meal/urls', meal_urls);
+const meal_urls = require("./meal").getUrls;
+router.get("/meal/urls", meal_urls);
 
 /**
  *  @swagger
@@ -167,11 +167,11 @@ router.get('/meal/urls', meal_urls);
  *        500:
  *          description: "서버 내부 오류"
  */
-const meal_data = require('./meal').getData;
-router.post('/meal/data', meal_data);
+const meal_data = require("./meal").getData;
+router.post("/meal/data", meal_data);
 
 // 상담 이력 조회 - 안해도 됌
-// POST　-　consulting
+// POST - consulting
 // const consulting = require('./consulting');
 // router.post('/consulting', consulting);
 

@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // 개설과목 조회
 // POST - SUBJECTS
-const subjects = require('./subjects');
-router.get('/subjects', subjects);
+const subjects = require("./subjects");
+router.get("/subjects", subjects);
 
 /**
  *  @swagger
@@ -65,6 +65,6 @@ router.get('/subjects', subjects);
  *        500:
  *          description: "서버 내부 오류"
  */
-const saved_credits = require('./saved_credits');
-router.get('/saved_credits', saved_credits);
+const saved_credits = require("./saved_credits");
+router.get("/saved_credits", saved_credits);
 module.exports = router;
