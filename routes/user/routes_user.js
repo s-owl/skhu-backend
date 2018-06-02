@@ -152,8 +152,8 @@ router.get("/attendance", attendance);
 
 // 생리공결
 // POST - MENSES
-const menses = require("./menses");
-router.post("/menses", menses);
+// const menses = require("./menses");
+// router.post("/menses", menses);
 
 // 쿠키 만료 여부 확인
 // POST - EXPCHECK
