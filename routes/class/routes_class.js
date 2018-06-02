@@ -1,6 +1,6 @@
 // 수업 관리 관련 라우팅
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // 시간표

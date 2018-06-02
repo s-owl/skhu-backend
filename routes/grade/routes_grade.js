@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 /**
@@ -81,7 +81,7 @@ const router = express.Router();
  *        500:
  *          description: "서버 내부 오류"
  */
-const certificate = require('./certificate');
-router.get('/certificate', certificate);
+const certificate = require("./certificate");
+router.get("/certificate", certificate);
 
 module.exports = router;

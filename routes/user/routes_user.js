@@ -1,12 +1,12 @@
 // 사용자 관련 라우팅 모음
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 // 로그인
 // POST - LOGIN
-const login = require('./login');
-router.post('/login', login);
+const login = require("./login");
+router.post("/login", login);
 
 
 /**
@@ -53,8 +53,8 @@ router.post('/login', login);
 
 // 사용자 정보
 // POST - USERINFO
-const userinfo = require('./userinfo');
-router.get('/userinfo', userinfo);
+const userinfo = require("./userinfo");
+router.get("/userinfo", userinfo);
 
 /**
  *  @swagger
@@ -89,8 +89,8 @@ router.get('/userinfo', userinfo);
  *                      type: string
  *                      description: "이수학 학점 총량"
  */
-const credits = require('./credits');
-router.get('/credits', credits);
+const credits = require("./credits");
+router.get("/credits", credits);
 
 // 출결 현항 조회
 // POST - ATTENDANCE
@@ -147,13 +147,13 @@ router.get('/credits', credits);
  *                      type: string
  *                      description: "조퇴"
  */
-const attendance = require('./attendance');
-router.get('/attendance', attendance);
+const attendance = require("./attendance");
+router.get("/attendance", attendance);
 
 // 생리공결
 // POST - MENSES
-const menses = require('./menses');
-router.post('/menses', menses);
+const menses = require("./menses");
+router.post("/menses", menses);
 
 // 쿠키 만료 여부 확인
 // POST - EXPCHECK

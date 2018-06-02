@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 /**
@@ -78,8 +78,8 @@ const router = express.Router();
  *        500:
  *          description: "서버 내부 오류"
  */
-const result = require('./result');
-router.get('/result', result);
+const result = require("./result");
+router.get("/result", result);
 
 /**
  *  @swagger
@@ -137,7 +137,7 @@ router.get('/result', result);
  *        500:
  *          description: "서버 내부 오류"
  */
-const history = require('./history');
-router.get('/history', history);
+const history = require("./history");
+router.get("/history", history);
 
 module.exports = router;
