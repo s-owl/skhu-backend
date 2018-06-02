@@ -14,11 +14,6 @@ router.get("/", serverinfo);
 const user = require("./user/routes_user");
 router.use("/user", user);
 
-// 수업 관리 관련 라우팅
-// 요청 경로 : /class/*
-const classs = require("./class/routes_class");
-router.use("/class", classs);
-
 // 수강관리 관련 라우팅
 // 요청 경로 : /enroll/*
 const enroll = require("./enroll/routes_enroll");
