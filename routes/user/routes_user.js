@@ -41,8 +41,10 @@ const router = express.Router();
  *              credential-new-token:
  *                type: string
  *                description: sam.skhu.ac.kr 인증 토큰2
- *        403:
- *          description: "로그인 실패"
+ *        400:
+ *          description: "로그인 실패 - 파라메터가 올바른 형식이 아님"
+ *        401:
+ *          description: "로그인 실패 - 학번 또는 비밀번호 재확인 요망"
  */
 const login = require("./login");
 router.post("/login", login);
