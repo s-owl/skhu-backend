@@ -12,7 +12,7 @@ const run = async (req, res, next) => {
 	const newLogInAuthUrl1 = `${utils.samBaseUrl}/Auth/LoginSSO_ConsumeResponse`;
 
 	const ID = req.body.userid, PW = req.body.userpw;
-	const tried = false;
+	let tried = false;
 
 	let credentialOld = "";
 	let credentialNew = "";
@@ -23,14 +23,21 @@ const run = async (req, res, next) => {
 	const page = await browser.newPage();
 	await page.setJavaScriptEnabled(true);
 	await page.setUserAgent(utils.userAgentIE);
-
+	if(ID == undefined || ID == "" || PW == undefined || PW == ""){
+		(async ()=>{
+			res.seatus(400).end("ID or PW is empty!");
+			await browser.close();
+		})();
+	}
 	// Listen for page fully loaded event
-	page.on("load", () => {
+	page.on("load", async() => {
 		console.log(page.url());
 		if(page.url() == logInPageUrl){
 			if(tried){
 				// If page is still login page, then it's failed.
-				res.status(403).end("Login Failed");
+				console.log("Stil same page!");
+				res.status(401).end("Login Failed");
+				await browser.close();
 			}else{
 				// 2. Put ID and PW then log in.
 				console.log("forest.skhu.ac.kr - logging in");
@@ -38,6 +45,10 @@ const run = async (req, res, next) => {
 					await page.type("#txtID", ID);
 					await page.type("#txtPW", PW);
 					(await page.$("#txtPW")).press("Enter");
+					tried = true;
+					page.on("dialog", async dialog => {
+						await dialog.dismiss();
+					});
 				})();
 			}
 		}else if(page.url() == mainPageUrl){
@@ -63,9 +74,10 @@ const run = async (req, res, next) => {
 				try{
 					//
 					page.waitForSelector("body.ng-scope.modal-open")
-						.then(() => {
+						.then(async() => {
 							// If a modal is shown, then login task is failed.
-							res.status(403).end("Login Failed");
+							res.status(401).end("Login Failed");
+							await browser.close();
 						});
 					console.log("cas.skhu.ac.kr - logging in");
 					await page.type("#login-username", ID);
