@@ -36,7 +36,7 @@ const run = async(req,res,next)=>{
 			interceptedRequest.abort(); // 요청 탈취하야 취소 처리
 		}else{
 			interceptedRequest.continue(); // 그 외에는 그대로 진행
-		} 
+		}
 	});
 	await page.goto(url); // 이동
 	console.log(await page.url());
@@ -71,5 +71,24 @@ const run = async(req,res,next)=>{
 	res.json({
 		"list": list
 	});
+
+	//#############
+	const input_items = await page.$$("#Table4 > tbody ");
+	const input_list = [];
+	for(const input_item of input_items){
+		const data = [];
+		for(let i=0,i<7;i++){
+			data.push(await item.$eval(`td:nth-of-type(${i})`, (node) => node.textContent));
+			list.push({
+				"years":data[1],
+				"semester":data[3],
+				"majors":data[5],
+				"professor":data[7]
+			});
+		}
+		res.json({
+			"list": input_list
+		});
+	}
 };
 module.exports= run;
