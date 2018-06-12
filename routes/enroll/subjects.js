@@ -1,4 +1,4 @@
-const puppeteer= require("puppeteer");
+const puppeteer = require("puppeteer");
 const utils = require("../utils");
 
 // /enroll/subjects
@@ -8,25 +8,26 @@ const run = async(req,res,next)=>{
 	const url = `${utils.forestBaseUrl}/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1`;
 
 	const credential = req.get("Credential"); // Request의 Header 에서 Credential 값 로드
-	const browser = await puppeteer.launch(); // Puppeteer 초기화
+	const browser = await puppeteer.launch({ignoreHTTPSErrors: true, headless: false}); // Puppeteer 초기화
 	const page = await browser.newPage(); // 페이지 생성
 	await page.setJavaScriptEnabled(true); // Puppeteer 페이지에서 JS 활성화
 	await page.setUserAgent(utils.userAgentIE); // User Agent 를 IE 로 설정
 
 	// 문저열로 된 Credential 값을 쪼개서 JSON 객체 배열로 변환
 	const credentialArray = [];
-	const credentialItems=credential.split("; ");
+	const credentialItems=credential.split(";");
 	credentialItems.forEach((item)=>{
 		const splited=item.split(/=(.+)/);
-		const obj = { "name":splited[0], "value":splited[1], "domain":"forest.skhu.ac.kr"};
+		const obj = {
+			"name":String(splited[0]).trim(),
+			"value":String(splited[1]).trim(),
+			"domain":"forest.skhu.ac.kr"};
 		if(splited[0] != "" && splited[1] != undefined){
 			credentialArray.push(obj);
 		}
 	});
-	console.log(credentialArray);
 	await page.goto(url); // 페이지 이동 - 빈 페이지에서는 쿠키 설정 불가
 	await page.setCookie(...credentialArray); // 객체 배열로 변환한 Credential 을 페이지 쿠키로 설정
-	console.log(await page.cookies());
 
 	// 특정 HTTP 요청 감시/차단
 	await page.setRequestInterception(true);
@@ -36,13 +37,12 @@ const run = async(req,res,next)=>{
 			interceptedRequest.abort(); // 요청 탈취하야 취소 처리
 		}else{
 			interceptedRequest.continue(); // 그 외에는 그대로 진행
-		} 
+		}
 	});
 	await page.goto(url); // 이동
 	console.log(await page.url());
 	// 테이블 접근하여 각 행(가로방향으로 한 줄) 추출하여 배열로 생성
 	const items = await page.$$("#dgList > tbody > tr");
-	console.log(items);
 	const list = [];
 	// 요소 배열 순회하면서 JSON 객채로 변환하여 새 배열에 삽입
 	for(const item of items){
@@ -67,9 +67,37 @@ const run = async(req,res,next)=>{
 			"available": data[11]
 		});
 	}
+	// 학기 선택지 가져오기
+	const semesterOptions = await page.$$eval("#ddlHaggi > option",
+	(node) => {
+		console.log(node);
+		let arr = [];
+		for(let item of node){
+			console.log(item);
+			arr.push(item.innerHTML);
+		}
+		return arr;
+	});
+
+	const majorOptions = await page.$$eval("#ddlSosog > option",
+	(node) => {
+		console.log(node);
+		let arr = [];
+		for(let item of node){
+			console.log(item);
+			arr.push(item.innerHTML);
+		}
+		return arr;
+	});
+
 	// 처리된 데이터로 클라이언트의 요청에 응답
 	res.json({
-		"list": list
+		"list": list,
+		"options":{
+			"semester": semesterOptions,
+			"major": majorOptions
+		}
 	});
+
 };
 module.exports= run;
