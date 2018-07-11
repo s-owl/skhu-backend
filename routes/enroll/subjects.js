@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 const utils = require("../utils");
-
+const putils = require("../putils");
 // /enroll/subjects
 const run = async(req,res,next)=>{
 
@@ -14,31 +14,12 @@ const run = async(req,res,next)=>{
 	await page.setUserAgent(utils.userAgentIE); // User Agent 를 IE 로 설정
 
 	// 문저열로 된 Credential 값을 쪼개서 JSON 객체 배열로 변환
-	const credentialArray = [];
-	const credentialItems=credential.split(";");
-	credentialItems.forEach((item)=>{
-		const splited=item.split(/=(.+)/);
-		const obj = {
-			"name":String(splited[0]).trim(),
-			"value":String(splited[1]).trim(),
-			"domain":"forest.skhu.ac.kr"};
-		if(splited[0] != "" && splited[1] != undefined){
-			credentialArray.push(obj);
-		}
-	});
+	const credentialArray = putils.credentialStringToCookieArray(credential);
 	await page.goto(url); // 페이지 이동 - 빈 페이지에서는 쿠키 설정 불가
 	await page.setCookie(...credentialArray); // 객체 배열로 변환한 Credential 을 페이지 쿠키로 설정
 
 	// 특정 HTTP 요청 감시/차단
-	await page.setRequestInterception(true);
-	page.on("request", interceptedRequest => {
-		// 요청 URL 이 CoreSecurity.js 로 끝나면
-		if (interceptedRequest.url().endsWith("CoreSecurity.js")){
-			interceptedRequest.abort(); // 요청 탈취하야 취소 처리
-		}else{
-			interceptedRequest.continue(); // 그 외에는 그대로 진행
-		}
-	});
+	putils.setAbortCoreSecurityJs(page);
 	await page.goto(url); // 이동
 	console.log(await page.url());
 	// 테이블 접근하여 각 행(가로방향으로 한 줄) 추출하여 배열로 생성
@@ -69,26 +50,26 @@ const run = async(req,res,next)=>{
 	}
 	// 학기 선택지 가져오기
 	const semesterOptions = await page.$$eval("#ddlHaggi > option",
-	(node) => {
-		console.log(node);
-		let arr = [];
-		for(let item of node){
-			console.log(item);
-			arr.push(item.innerHTML);
-		}
-		return arr;
-	});
+		(node) => {
+			console.log(node);
+			const arr = [];
+			for(const item of node){
+				console.log(item);
+				arr.push(item.innerHTML);
+			}
+			return arr;
+		});
 
 	const majorOptions = await page.$$eval("#ddlSosog > option",
-	(node) => {
-		console.log(node);
-		let arr = [];
-		for(let item of node){
-			console.log(item);
-			arr.push(item.innerHTML);
-		}
-		return arr;
-	});
+		(node) => {
+			console.log(node);
+			const arr = [];
+			for(const item of node){
+				console.log(item);
+				arr.push(item.innerHTML);
+			}
+			return arr;
+		});
 
 	// 처리된 데이터로 클라이언트의 요청에 응답
 	res.json({
