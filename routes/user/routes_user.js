@@ -146,7 +146,8 @@ router.get("/credits", credits);
  *                      description: "조퇴"
  */
 const attendance = require("./attendance");
-router.get("/attendance", attendance);
+router.get("/attendance", attendance.get);
+router.post("/attendance", attendance.post);
 
 // 생리공결
 // POST - MENSES
