@@ -65,7 +65,7 @@ module.exports = {
 			// 요소 배열 순회하면서 JSON 객채로 변환하여 새 배열에 삽입
 			for(let i=1; i<items.length; i++){
 				const data = [];
-				for(let j=1; j<8; j++){
+				for(let j=1; j<=8; j++){
 				//각 행의 열 데이터를 뽑아 임시배열에 저장
 					data.push(await items[i].$eval(`td:nth-child(${j})`, (node) => node.textContent));
 				}
