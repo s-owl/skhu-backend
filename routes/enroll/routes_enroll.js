@@ -3,6 +3,72 @@ const router = express.Router();
 
 // 개설과목 조회
 // POST - SUBJECTS
+/**
+ *  @swagger
+ *  /user/subject:
+ *    get:
+ *      summary: "개설과목 조회"
+ *      tags: ["enroll"]
+ *      consumes:
+ *        - application/json
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *        - in: header
+ *          name: Credential
+ *          type: string
+ *          required: true
+ *          description: "로그인 성공 할때 받은 사용자 인증키"
+ *      responses:
+ *        200:
+ *          description: "개설과목 데이터"
+ *          schema:
+ *            type: object
+ *            properties:
+ *              subjects:
+ *                type: array
+ *                description: "개설과목 데이터 배열"
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
+ *                      type: string
+ *                      description: "타입"
+ *                    grade:
+ *                      type: string
+ *                      description: "학년"
+ *                    code:
+ *                      type: string
+ *                      description: "과목코드"
+ *                    class:
+ *                      type: string
+ *                      description: "강의실"
+ *                    subject:
+ *                      type: string
+ *                      description: "강의명"
+ *                    score:
+ *                      type: string
+ *                      description: "학점"
+ *                    professor:
+ *                      type: string
+ *                      description: "교수명"
+ *                    grade_limit:
+ *                      type: string
+ *                      description: "학년제한"
+ *                    major_limit:
+ *                      type: string
+ *                      description: "학과제한"
+ *                    time:
+ *                      type: string
+ *                      description: "시간"
+ *                    note:
+ *                      type: string
+ *                      description: "메모"
+ *                    available:
+ *                      type: string
+ *                      description: "신청가능여부"
+ *
+ */
 const subjects = require("./subjects");
 router.get("/subjects", subjects);
 

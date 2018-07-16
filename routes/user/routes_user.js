@@ -51,6 +51,39 @@ router.post("/login", login);
 
 // 사용자 정보
 // POST - USERINFO
+/**
+ *  @swagger
+ *  /user/userinfo:
+ *    post:
+ *      summary: "사용자 정보"
+ *      tags: ["user"]
+ *      consumes:
+ *        - application/json
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *        - in: header
+ *          name: Credential
+ *          type: string
+ *          required: true
+ *          description: "로그인 성공 할때 받은 사용자 인증키"
+ *      responses:
+ *        200:
+ *          description: "사용자 정보"
+ *          schema:
+ *            type: object
+ *            properties:
+ *              userinfo:
+ *                type: object
+ *                description: "사용자 데이터객체"
+ *                  name:
+ *                    type: string
+ *                    description: "이름"
+ *                  id:
+ *                    type: string
+ *                    description: "학번"
+ */
+
 const userinfo = require("./userinfo");
 router.get("/userinfo", userinfo);
 
