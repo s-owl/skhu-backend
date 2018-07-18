@@ -7,6 +7,9 @@
     "lint": "eslint app.js routes/*",
     "lint-fix": "eslint app.js routes/* --fix"
   },
+  "jshintConfig":{
+    "esversion": 6
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
