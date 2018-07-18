@@ -3,23 +3,28 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "lint": "eslint app.js routes/*",
+    "lint-fix": "eslint app.js routes/* --fix"
   },
   "jshintConfig":{
     "esversion": 6
   },
   "dependencies": {
-    "body-parser": "~1.15.1",
+    "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "express": "~4.13.4",
+    "debug": "~3.1.0",
+    "express": "^4.16.3",
     "iconv": "^2.3.0",
-    "jsdom": "^9.4.2",
-    "morgan": "~1.7.0",
-    "phantomjs-prebuilt": "^2.1.16",
-    "puppeteer": "^0.13.0",
-    "request": "^2.83.0",
-    "serve-favicon": "~2.3.0",
-    "unirest": "^0.5.0"
+    "jsdom": "^11.11.0",
+    "morgan": "~1.9.0",
+    "puppeteer": "^1.4.0",
+    "request": "^2.87.0",
+    "serve-favicon": "~2.4.5",
+    "swagger-jsdoc": "^1.9.7",
+    "swagger-ui-express": "^2.0.15"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1"
   }
 }

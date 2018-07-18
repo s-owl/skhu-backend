@@ -1,51 +1,33 @@
-// cURL 유틸
-const curl_utils = require('../curl_utils');
-const utils = require('../utils');
-const Iconv = require('iconv').Iconv; // 인코딩 변환 모듈
-const iconv = new Iconv('EUC-KR','UTF-8//TRANSLIT//IGNORE');
-const jsdom = require('jsdom');
-const request = require('request');
+const utils = require("../utils");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 // 학사일정 조회
 const run = (req, res, next) => {
-  console.log("POST /life/schedules");
-  console.log("REMOTE IP : " + req.ip);
-  console.log("REMOTE IPS : " + req.ips);
-
-  request({
-      method: 'GET',
-      url: utils.skhuBaseUrl + `/calendar/calendar_list_1.aspx?strYear=${req.body.year}&strMonth=${req.body.month}`,
-      encoding: null,
-      headers: {
-        'User-Agent': utils.userAgentMacOSChrome
-      }
-    },
-    (err, response, body) => {
-      // 인코딩 변환
-      let buffer = new Buffer(body, 'binary');
-      let converted = iconv.convert(buffer).toString();
-      jsdom.env( converted, ["http://code.jquery.com/jquery.js"], (err, window) => {
-          if(err == undefined) {
-            // 학사 일정 파싱
-            const calendar = [];
-            window.$("table:eq(1) > tbody > tr")
-              .each((index, element) => {
-                if (index > 1) {
-                  calendar.push({
-                    "period": window.$(element).children("td:eq(0)").text(),
-                    "content": window.$(element).children("td:eq(1)").text()
-                  });
-                }
-              });
-              // JSON 으로 처리하여 클라이언트에 응답
-              res.send(JSON.stringify({
-                "calendar": calendar
-              }));
-          } else {
-              console.log(err);
-          }
-      });
-    });
-}
+	console.log("POST /life/schedules");
+	const url = `${utils.skhuBaseUrl}/calendar/calendar_list_1.aspx?strYear=${req.body.year}&strMonth=${req.body.month}`;
+	utils.get(req, res, url, true)
+		.then((rawData)=>{
+			const { document } = (new JSDOM(rawData)).window;
+			// 학사 일정 파싱
+			const schedules = [];
+			const table = document.querySelectorAll("div.info > table > tbody > tr");
+			for(let i=1; i<table.length; i++){
+				const item = table[i].querySelectorAll("td");
+				schedules.push({
+					"period": item[0].textContent,
+					"content": item[1].textContent
+				});
+			}
+			// JSON 으로 처리하여 클라이언트에 응답
+			res.send(JSON.stringify({
+				"schedules": schedules
+			}));
+		})
+		.catch((err)=>{
+			console.log(err);
+			res.sendStatus(500);
+		});
+};
 
 module.exports = run;

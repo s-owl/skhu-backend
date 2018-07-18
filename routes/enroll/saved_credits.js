@@ -1,49 +1,49 @@
-// cURL 유틸
-const curl_utils = require('../curl_utils');
-const utils = require('../utils');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const utils = require("../utils");
 
 // 학점 세이브 조회
 const run = (req, res, next) => {
-  console.log("POST /enroll/saved_credits");
-  console.log("REMOTE IP : " + req.ip);
-  console.log("REMOTE IPS : " + req.ips);
+	console.log("GET /enroll/saved_credits");
 
-  // 파일별 url 설정
-  const url = "http://forest.skhu.ac.kr/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100";
+	// 파일별 url 설정
+	const url = `${utils.forestBaseUrl}/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100`;
+	utils.get(req, res, url, true)
+		.then((rawData) => {
+			const { document } = (new JSDOM(rawData)).window;
+			// 학점 세이브 상세 정보를 보관할 배열
+			const details = [];
+			// id 가 gvDetails인 테이블 안의 데이터 가져오기
+			const rawDetails = document.querySelectorAll("#gvDetails > tbody > tr");
+			for(let i=1; i<rawDetails.length; i++){
+				details.push({
+					"year" : rawDetails[i].children[0].textContent,
+					"semester" : rawDetails[i].children[1].textContent,
+					"saved" : rawDetails[i].children[2].textContent,
+					"used" : rawDetails[i].children[3].textContent
+				});
+			}
 
-  // cURL.get() 호출
-  curl_utils.get(req, res, url).then((window) => {
-    // 학점 세이브 상세 정보를 보관할 배열
-    const details = [];
-    // id 가 gvDetails인 테이블 안의 데이터 가져오기
-    window.$("#gvDetails > tbody > tr")
-    .each( (index, element) => {
-      if(index > 0){
-        details.push({
-          "year" : window.$( element ).children("td:eq(0)").text(),
-          "semester" : window.$( element ).children("td:eq(1)").text(),
-          "used" : window.$( element ).children("td:eq(2)").text(),
-          "available" : window.$( element ).children("td:eq(3)").text()
-        });
-      }
-    });
+			// 학점 세이브 요약 데이터 파싱
+			const status = document.querySelector("#fvList > tbody > tr > td > table > tbody > tr");
 
-    // 학점 세이브 요약 데이터 파싱
-    const status_nav = "#fvList > tbody > tr > td > table > tbody > tr >";
+			// JSON 으로 처리하여 클라이언트에 응답
+			res.send(JSON.stringify({
+				"status" : {
+					"accrued" : utils.trim(status.children[0].textContent),
+					"accrued_criteria" : utils.trim(status.children[1].textContent),
+					"used" : utils.trim(status.children[2].textContent),
+					"used_criteria" : utils.trim(status.children[3].textContent),
+					"available" : utils.trim(status.children[4].textContent)
+				},
+				"details" : details
+			}));
 
-    // JSON 으로 처리하여 클라이언트에 응답
-    res.send(JSON.stringify({
-      "status" : {
-        "accrued" : utils.trim(window.$(status_nav+"td:eq(0)").text()),
-        "accrued_criteria" : utils.trim(window.$(status_nav+"td:eq(1)").text()),
-        "used" : utils.trim(window.$(status_nav+"td:eq(2)").text()),
-        "used_criteria" : utils.trim(window.$(status_nav+"td:eq(3)").text()),
-        "available" : utils.trim(window.$(status_nav+"td:eq(4)").text())
-      },
-      "details" : details
-    }));
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 
-  }).catch((err) => { console.log(err) });
-}
+};
 
 module.exports = run;
