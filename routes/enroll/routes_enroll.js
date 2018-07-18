@@ -2,15 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 // 개설과목 조회
-// POST - SUBJECTS
+// GET - SUBJECTS
 /**
  *  @swagger
  *  /user/subject:
  *    get:
  *      summary: "개설과목 조회"
  *      tags: ["enroll"]
- *      consumes:
- *        - application/json
  *      produces:
  *        - application/json
  *      parameters:
@@ -25,7 +23,7 @@ const router = express.Router();
  *          schema:
  *            type: object
  *            properties:
- *              subjects:
+ *              list:
  *                type: array
  *                description: "개설과목 데이터 배열"
  *                items:
@@ -67,7 +65,20 @@ const router = express.Router();
  *                    available:
  *                      type: string
  *                      description: "신청가능여부"
- *
+ *              options:
+ *                type: object
+ *                description: "개성과목 조회 시 사용 가능한 옵션"
+ *                properties:
+ *                  semester:
+ *                    type: array
+ *                    description: "선택가능한 학기 목록"
+ *                    items:
+ *                      type: string
+ *                  major:
+ *                    type: array
+ *                    description: "선택가능한 전공 목록"
+ *                    items:
+ *                      type: string
  */
 const subjects = require("./subjects");
 router.get("/subjects", subjects);

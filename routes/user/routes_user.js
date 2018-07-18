@@ -50,15 +50,13 @@ const login = require("./login");
 router.post("/login", login);
 
 // 사용자 정보
-// POST - USERINFO
+// GET - USERINFO
 /**
  *  @swagger
  *  /user/userinfo:
- *    post:
+ *    get:
  *      summary: "사용자 정보"
  *      tags: ["user"]
- *      consumes:
- *        - application/json
  *      produces:
  *        - application/json
  *      parameters:
@@ -76,6 +74,7 @@ router.post("/login", login);
  *              userinfo:
  *                type: object
  *                description: "사용자 데이터객체"
+ *                properties:
  *                  name:
  *                    type: string
  *                    description: "이름"
