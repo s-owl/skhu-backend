@@ -50,7 +50,39 @@ const login = require("./login");
 router.post("/login", login);
 
 // 사용자 정보
-// POST - USERINFO
+// GET - USERINFO
+/**
+ *  @swagger
+ *  /user/userinfo:
+ *    get:
+ *      summary: "사용자 정보"
+ *      tags: ["user"]
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *        - in: header
+ *          name: Credential
+ *          type: string
+ *          required: true
+ *          description: "로그인 성공 할때 받은 사용자 인증키"
+ *      responses:
+ *        200:
+ *          description: "사용자 정보"
+ *          schema:
+ *            type: object
+ *            properties:
+ *              userinfo:
+ *                type: object
+ *                description: "사용자 데이터객체"
+ *                properties:
+ *                  name:
+ *                    type: string
+ *                    description: "이름"
+ *                  id:
+ *                    type: string
+ *                    description: "학번"
+ */
+
 const userinfo = require("./userinfo");
 router.get("/userinfo", userinfo);
 
@@ -67,7 +99,7 @@ router.get("/userinfo", userinfo);
  *          name: Credential
  *          type: string
  *          required: true
- *          description: "로그인 성공 할때 받은 사용자 인증키."
+ *          description: "로그인 성공 할때 받은 사용자 인증키"
  *      responses:
  *        200:
  *          description: 이수 학점 내역
@@ -96,17 +128,22 @@ router.get("/credits", credits);
  *  @swagger
  *  /user/attendance:
  *    post:
- *      summary: "출결 현황 조회 (업데이트 필요)"
+ *      summary: "출결 현황 조회"
  *      tags: ["user"]
  *      consumes:
  *        - application/json
  *      produces:
  *        - application/json
  *      parameters:
- *        - in: body
- *          name: cookie
+ *        - in: header
+ *          name: Credential
  *          type: string
- *          description: "로그인 세션 쿠키"
+ *          required: true
+ *          description: "로그인 성공 할때 받은 사용자 인증키"
+ *        - in: body
+ *          name: semester
+ *          type: string
+ *          description: "학기"
  *          required: true
  *      responses:
  *        200:
@@ -120,6 +157,59 @@ router.get("/credits", credits);
  *                items:
  *                  type: object
  *                  properties:
+ *                    subject_code:
+ *                      type: string
+ *                      description: "과목코드"
+ *                    subject:
+ *                      type: string
+ *                      description: "과목"
+ *                    time:
+ *                      type: string
+ *                      description: "시간"
+ *                    attend:
+ *                      type: string
+ *                      description: "출석"
+ *                    late:
+ *                      type: string
+ *                      description: "지각"
+ *                    absence:
+ *                      type: string
+ *                      description: "결석"
+ *                    approved:
+ *                      type: string
+ *                      description: "공결"
+ *                    menstrual:
+ *                      type: string
+ *                      description: "생리공결"
+ *                    early:
+ *                      type: string
+ *                      description: "조퇴"
+ *    get:
+ *      summary: "출결 현황 조회"
+ *      tags: ["user"]
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *        - in: header
+ *          name: Credential
+ *          type: string
+ *          required: true
+ *          description: "로그인 성공 할때 받은 사용자 인증키"
+ *      responses:
+ *        200:
+ *          description: "출결 현황 데이터"
+ *          schema:
+ *            type: object
+ *            properties:
+ *              attendance:
+ *                type: array
+ *                description: "출결 현황 데이터 배열"
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    subject_code:
+ *                      type: string
+ *                      description: "과목코드"
  *                    subject:
  *                      type: string
  *                      description: "과목"

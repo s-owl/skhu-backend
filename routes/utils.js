@@ -18,32 +18,25 @@ module.exports = {
 	*/
 	get: (req, res, url, isEucKr)=>{
 		// Promise 를 반환함.
-		return new Promise((resolve, reject) => {
-	
-			const request = require("request");// http client 모듈
-	
-			const reqHeaders = {"User-Agent": this.userAgentMacOSChrome};
-			if(req.get("Credential") != undefined && req.get("Credential") != null){
-				reqHeaders.Cookie = req.get("Credential");
-			}
-			const reqEncoding = isEucKr ? null : "UTF-8";
-			request({
-				method: "GET",
-				url: url,
-				encoding: reqEncoding,
-				headers: reqHeaders
-			},
-			(err, response, body) => {
-				if(err != undefined && err != null) reject(err);
-				let content = body;
+		return new Promise(async (resolve, reject) => {
+			try{
+				const axios = require("axios");
+				const config = {};
+				if(req.get("Credential") != undefined && req.get("Credential") != null){
+					config.headers = {Cookie: req.get("Credential")};
+				}
+				if(isEucKr) config.responseType = "arraybuffer";
+				const response = await axios.get(url, config);
 				if(isEucKr){
 					const Iconv = require("iconv").Iconv; // 인코딩 변환 모듈
 					const iconv = new Iconv("EUC-KR","UTF-8//TRANSLIT//IGNORE"); // 인코딩 변환 모듈
-					const buffer = new Buffer(body, "binary");
-					content = iconv.convert(buffer).toString();
+					const buffer = new Buffer(response.data, "binary");
+					resolve(iconv.convert(buffer).toString());
 				}
-				resolve(content);
-			});
+				resolve(response.data);
+			}catch(err){
+				reject(err);
+			}
 		});
 	},
 	isDuplicated: (array, key, value)=>{

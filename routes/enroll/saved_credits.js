@@ -25,16 +25,15 @@ const run = (req, res, next) => {
 			}
 
 			// 학점 세이브 요약 데이터 파싱
-			const status = document.querySelector("#fvList > tbody > tr > td > table > tbody > tr");
-
+			const status = document.querySelectorAll("table#fvList > tbody > tr > td > table.gridForm > tbody > tr > td");
 			// JSON 으로 처리하여 클라이언트에 응답
 			res.send(JSON.stringify({
 				"status" : {
-					"accrued" : utils.trim(status.children[0].textContent),
-					"accrued_criteria" : utils.trim(status.children[1].textContent),
-					"used" : utils.trim(status.children[2].textContent),
-					"used_criteria" : utils.trim(status.children[3].textContent),
-					"available" : utils.trim(status.children[4].textContent)
+					"accrued" : utils.trim(status[0].textContent),
+					"accrued_criteria" : utils.trim(status[1].textContent),
+					"used" : utils.trim(status[2].textContent),
+					"used_criteria" : utils.trim(status[3].textContent),
+					"available" : utils.trim(status[4].textContent)
 				},
 				"details" : details
 			}));
