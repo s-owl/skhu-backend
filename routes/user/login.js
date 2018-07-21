@@ -19,7 +19,7 @@ const run = async (req, res, next) => {
 	let credentialNewToken = "";
 
 	// Prepare headless chrome browser
-	const browser = await puppeteer.launch({ignoreHTTPSErrors: true, headless: false});
+	const browser = await puppeteer.launch({ignoreHTTPSErrors: true});
 	const page = await browser.newPage();
 	await page.setJavaScriptEnabled(true);
 	await page.setUserAgent(utils.userAgentIE);
@@ -29,6 +29,7 @@ const run = async (req, res, next) => {
 			await browser.close();
 		})();
 	}
+	await page.setCacheEnabled(false);
 	// Listen for page fully loaded event
 	page.on("load", async() => {
 		console.log(page.url());
