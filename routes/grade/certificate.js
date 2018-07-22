@@ -20,7 +20,7 @@ const run = (req, res, next) => {
 					title = rawInfo[i].textContent;
 				}else{
 					userinfo.push({
-						"name" : title,
+						"name" : utils.trim(title),
 						"value" : utils.trim(rawInfo[i].textContent)
 					});
 				}
