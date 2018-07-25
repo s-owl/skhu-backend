@@ -23,9 +23,12 @@ const run = function(req, res, next) {
 				}
 			}
 
-			res.send(JSON.stringify({
-				"credits" : jsonCredits
-			}));
+			const summary = document.querySelector("span#CORX03C1_lblTot").innerHTML;
+
+			res.json({
+				"credits" : jsonCredits,
+				"summary": summary
+			});
 		})
 		.catch((err) => {
 			console.log(err);

@@ -117,7 +117,10 @@ router.get("/userinfo", userinfo);
  *                      description: "이수 학점 유형"
  *                    earned:
  *                      type: string
- *                      description: "이수학 학점 총량"
+ *                      description: "이수 학점 총량"
+ *              summary:
+ *                type: string
+ *                description: "이수 학점 현황 요약"
  */
 const credits = require("./credits");
 router.get("/credits", credits);
