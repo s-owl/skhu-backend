@@ -73,13 +73,135 @@ const router = express.Router();
  *                    type: array
  *                    description: "선택가능한 학기 목록"
  *                    items:
- *                      type: string
+ *                      type: object
+ *                      description: "학기 항목(학기 이르모가 값)"
+ *                      properties:
+ *                        title:
+ *                          type: string
+ *                          description: "학기 이름"
+ *                        value:
+ *                          type: string
+ *                          description: "학기 값"
  *                  major:
  *                    type: array
  *                    description: "선택가능한 전공 목록"
  *                    items:
+ *                      type: object
+ *                      description: "학기 항목(학기 이르모가 값)"
+ *                      properties:
+ *                        title:
+ *                          type: string
+ *                          description: "전공(학부) 이름"
+ *                        value:
+ *                          type: string
+ *                          description: "전공(학부) 값"
+ *    post:
+ *      summary: "개설과목 조회"
+ *      tags: ["enroll"]
+ *      produces:
+ *        - application/json
+ *      parameters:
+ *        - in: header
+ *          name: Credential
+ *          type: string
+ *          required: true
+ *          description: "로그인 성공 할때 받은 사용자 인증키"
+ *        - in: body
+ *          name: year
+ *          type: string
+ *          description: "개설과목 조회할 년도"
+ *        - in: body
+ *          name: semester
+ *          type: string
+ *          description: "개설과목 조회할 학기"
+ *        - in: body
+ *          name: major
+ *          type: string
+ *          description: "개설과목 조회할 학과"
+ *        - in: body
+ *          name: professor
+ *          type: string
+ *          description: "개설과목 조회할 교수님 성함"
+ *      responses:
+ *        200:
+ *          description: "개설과목 데이터"
+ *          schema:
+ *            type: object
+ *            properties:
+ *              list:
+ *                type: array
+ *                description: "개설과목 데이터 배열"
+ *                items:
+ *                  type: object
+ *                  properties:
+ *                    type:
  *                      type: string
+ *                      description: "타입"
+ *                    grade:
+ *                      type: string
+ *                      description: "학년"
+ *                    code:
+ *                      type: string
+ *                      description: "과목코드"
+ *                    class:
+ *                      type: string
+ *                      description: "강의실"
+ *                    subject:
+ *                      type: string
+ *                      description: "강의명"
+ *                    score:
+ *                      type: string
+ *                      description: "학점"
+ *                    professor:
+ *                      type: string
+ *                      description: "교수명"
+ *                    grade_limit:
+ *                      type: string
+ *                      description: "학년제한"
+ *                    major_limit:
+ *                      type: string
+ *                      description: "학과제한"
+ *                    time:
+ *                      type: string
+ *                      description: "시간"
+ *                    note:
+ *                      type: string
+ *                      description: "메모"
+ *                    available:
+ *                      type: string
+ *                      description: "신청가능여부"
+ *              options:
+ *                type: object
+ *                description: "개성과목 조회 시 사용 가능한 옵션"
+ *                properties:
+ *                  semester:
+ *                    type: array
+ *                    description: "선택가능한 학기 목록"
+ *                    items:
+ *                      type: object
+ *                      description: "학기 항목(학기 이르모가 값)"
+ *                      properties:
+ *                        title:
+ *                          type: string
+ *                          description: "학기 이름"
+ *                        value:
+ *                          type: string
+ *                          description: "학기 값"
+ *                  major:
+ *                    type: array
+ *                    description: "선택가능한 전공 목록"
+ *                    items:
+ *                      type: object
+ *                      description: "학기 항목(학기 이르모가 값)"
+ *                      properties:
+ *                        title:
+ *                          type: string
+ *                          description: "전공(학부) 이름"
+ *                        value:
+ *                          type: string
+ *                          description: "전공(학부) 값"
  */
+
 const subjects = require("./subjects");
 router.get("/subjects", subjects);
 router.post("/subjects", subjects);
