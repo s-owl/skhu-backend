@@ -82,6 +82,7 @@ const router = express.Router();
  */
 const subjects = require("./subjects");
 router.get("/subjects", subjects);
+router.post("/subjects", subjects);
 
 /**
  *  @swagger

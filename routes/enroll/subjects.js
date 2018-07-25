@@ -2,13 +2,13 @@ const puppeteer = require("puppeteer");
 const utils = require("../utils");
 const putils = require("../putils");
 // /enroll/subjects
-const run = async(req,res,next)=>{
+const run = async(req, res, next)=>{
 
 	// URL 빌드
 	const url = `${utils.forestBaseUrl}/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1`;
 
 	const credential = req.get("Credential"); // Request의 Header 에서 Credential 값 로드
-	const browser = await puppeteer.launch({ignoreHTTPSErrors: true, headless: false}); // Puppeteer 초기화
+	const browser = await puppeteer.launch({ignoreHTTPSErrors: true}); // Puppeteer 초기화
 	const page = await browser.newPage(); // 페이지 생성
 	await page.setJavaScriptEnabled(true); // Puppeteer 페이지에서 JS 활성화
 	await page.setUserAgent(utils.userAgentIE); // User Agent 를 IE 로 설정
@@ -22,63 +22,75 @@ const run = async(req,res,next)=>{
 	putils.setAbortCoreSecurityJs(page);
 	await page.goto(url); // 이동
 	console.log(await page.url());
-	// 테이블 접근하여 각 행(가로방향으로 한 줄) 추출하여 배열로 생성
-	const items = await page.$$("#dgList > tbody > tr");
-	const list = [];
-	// 요소 배열 순회하면서 JSON 객채로 변환하여 새 배열에 삽입
-	for(const item of items){
-		const data = [];
-		for(let i=1; i<12; i++){
-			//각 행의 열 데이터를 뽑아 임시배열에 저장
-			data.push(await item.$eval(`td:nth-of-type(${i})`, (node) => node.textContent));
-		}
-		// 임시배열에서 꺼내 최종 배열에 저장.
-		list.push({
-			"type": data[0],
-			"grade": data[1],
-			"code": data[2],
-			"class": data[3],
-			"subject": data[4],
-			"score": data[5],
-			"professor": data[6],
-			"grade_limit": data[7],
-			"major_limit": data[8],
-			"time": data[9],
-			"note": data[10],
-			"available": data[11]
-		});
+	let waitFor = 0;
+	if(req.method=="POST"){
+		waitFor = 1000;
+		if(req.body.year) await page.type("#txtYy", req.body.year);
+		if(req.body.semester) await page.select("#ddlHaggi", req.body.semester);
+		if(req.body.major) await page.select("#ddlSosog", req.body.major);
+		if(req.body.professor) await page.type("#txtPermNm", req.body.professor);
+		await page.click("#CSMenuButton1_List");
 	}
-	// 학기 선택지 가져오기
-	const semesterOptions = await page.$$eval("#ddlHaggi > option",
-		(node) => {
-			console.log(node);
-			const arr = [];
-			for(const item of node){
-				console.log(item);
-				arr.push(item.innerHTML);
-			}
-			return arr;
-		});
 
-	const majorOptions = await page.$$eval("#ddlSosog > option",
-		(node) => {
-			console.log(node);
-			const arr = [];
-			for(const item of node){
-				console.log(item);
-				arr.push(item.innerHTML);
+	setTimeout(async()=>{
+		// 테이블 접근하여 각 행(가로방향으로 한 줄) 추출하여 배열로 생성
+		const items = await page.$$("#dgList > tbody > tr");
+		const list = [];
+		// 요소 배열 순회하면서 JSON 객채로 변환하여 새 배열에 삽입
+		for(const item of items){
+			const data = [];
+			for(let i=1; i<12; i++){
+				//각 행의 열 데이터를 뽑아 임시배열에 저장
+				data.push(await item.$eval(`td:nth-of-type(${i})`, (node) => node.textContent));
 			}
-			return arr;
-		});
-
-	// 처리된 데이터로 클라이언트의 요청에 응답
-	res.json({
-		"list": list,
-		"options":{
-			"semester": semesterOptions,
-			"major": majorOptions
+			// 임시배열에서 꺼내 최종 배열에 저장.
+			list.push({
+				"type": data[0],
+				"grade": data[1],
+				"code": data[2],
+				"class": data[3],
+				"subject": data[4],
+				"score": data[5],
+				"professor": data[6],
+				"grade_limit": data[7],
+				"major_limit": data[8],
+				"time": data[9],
+				"note": data[10],
+				"available": data[11]
+			});
 		}
-	});
+		// 학기 선택지 가져오기
+		const semesterOptions = await page.$$eval("#ddlHaggi > option",
+			(node) => {
+				console.log(node);
+				const arr = [];
+				for(const item of node){
+					console.log(item);
+					arr.push({"title": item.innerHTML, "value": item.value});
+				}
+				return arr;
+			});
 
+		const majorOptions = await page.$$eval("#ddlSosog > option",
+			(node) => {
+				console.log(node);
+				const arr = [];
+				for(const item of node){
+					console.log(item);
+					arr.push({"title": item.innerHTML, "value": item.value});
+				}
+				return arr;
+			});
+
+		await browser.close();
+		// 처리된 데이터로 클라이언트의 요청에 응답
+		res.json({
+			"list": list,
+			"options":{
+				"semester": semesterOptions,
+				"major": majorOptions
+			}
+		});
+	}, waitFor)
 };
 module.exports= run;
