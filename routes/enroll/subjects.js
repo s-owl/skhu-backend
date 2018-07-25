@@ -39,7 +39,7 @@ const run = async(req, res, next)=>{
 		// 요소 배열 순회하면서 JSON 객채로 변환하여 새 배열에 삽입
 		for(const item of items){
 			const data = [];
-			for(let i=1; i<12; i++){
+			for(let i=1; i<=12; i++){
 				//각 행의 열 데이터를 뽑아 임시배열에 저장
 				data.push(await item.$eval(`td:nth-of-type(${i})`, (node) => node.textContent));
 			}
