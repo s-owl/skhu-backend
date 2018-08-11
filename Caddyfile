@@ -1,0 +1,7 @@
+skhusapp.sleepy-owl.com
+tls s.owl.contact@gmail.com {
+ max_certs 10
+}
+proxy / skhus:3000 {
+ max_fails 3
+}

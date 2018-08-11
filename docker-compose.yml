@@ -1,38 +1,35 @@
-version: '2'
+version: '3'
 
 services:
-  nginx:
-    container_name: forest-nginx-lb
-    build: ./nginx
-    environment:
-      - SERVER_DOMAIN=f.youngbin.xyz
-      - SERVER_EMAIL=we.sss.you@gmail.com
-    links:
-      - app-1:app-1
-      - app-2:app-2
-      - app-3:app-3
+  proxy:
+    image: abiosoft/caddy:latest
     ports:
       - 80:80
       - 443:443
-    depends_on:
-      - app-1
-      - app-2
-      - app-3
+    networks:
+      sowl:
+        aliases:
+          - proxy
+    volumes:
+      - caddy-ssl:/root/.caddy
+      - caddy-configs:/usr/caddyfiles
+    restart: on-failure
+    command: ["--conf", "/usr/caddyfiles/Caddyfile", "--log", "stdout", "--agree=true"]
+  
+  skhus:
+    image: skhusleepyowl/skhus-backend:latest
+    cap_add:
+      - SYS_ADMIN
+    networks:
+      sowl:
+        aliases:
+          - skhus
+    restart: on-failure
+   
 
-  app-1:
-    container_name: forest-nodejs-1
-    image: registry.gitlab.com/sukso96100/forest-nodejs:latest
-    ports:
-      - 3000
+networks:
+  sowl:
 
-  app-2:
-    container_name: forest-nodejs-2
-    build: .
-    ports:
-      - 3000
-
-  app-3:
-    container_name: forest-nodejs-3
-    build: .
-    ports:
-      - 3000
+volumes:
+  caddy-configs:
+  caddy-ssl:

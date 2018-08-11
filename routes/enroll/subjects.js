@@ -8,7 +8,7 @@ const run = async(req, res, next)=>{
 	const url = `${utils.forestBaseUrl}/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1`;
 
 	const credential = req.get("Credential"); // Request의 Header 에서 Credential 값 로드
-	const browser = await puppeteer.launch({ignoreHTTPSErrors: true}); // Puppeteer 초기화
+	const browser = await puppeteer.launch({ignoreHTTPSErrors: true, args: ["--no-sandbox", "--disable-dev-shm-usage"]}); // Puppeteer 초기화
 	const page = await browser.newPage(); // 페이지 생성
 	await page.setJavaScriptEnabled(true); // Puppeteer 페이지에서 JS 활성화
 	await page.setUserAgent(utils.userAgentIE); // User Agent 를 IE 로 설정
@@ -91,6 +91,6 @@ const run = async(req, res, next)=>{
 				"major": majorOptions
 			}
 		});
-	}, waitFor)
+	}, waitFor);
 };
 module.exports= run;

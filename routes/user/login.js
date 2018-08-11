@@ -19,7 +19,7 @@ const run = async (req, res, next) => {
 	let credentialNewToken = "";
 
 	// Prepare headless chrome browser
-	const browser = await puppeteer.launch({ignoreHTTPSErrors: true});
+	const browser = await puppeteer.launch({ignoreHTTPSErrors: true, args: ["--no-sandbox", "--disable-dev-shm-usage"]});
 	const page = await browser.newPage();
 	await page.setJavaScriptEnabled(true);
 	await page.setUserAgent(utils.userAgentIE);
