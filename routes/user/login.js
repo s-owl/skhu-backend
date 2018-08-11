@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const utils = require("../utils");
+const putils = require("../putils");
 // 로그인 작업을 수행
 const run = async (req, res, next) => {
 	console.log("POST /user/login");
@@ -19,7 +20,8 @@ const run = async (req, res, next) => {
 	let credentialNewToken = "";
 
 	// Prepare headless chrome browser
-	const browser = await puppeteer.launch({ignoreHTTPSErrors: true, args: ["--no-sandbox", "--disable-dev-shm-usage"]});
+	// const browser = await puppeteer.launch({ignoreHTTPSErrors: true, args: ["--no-sandbox", "--disable-dev-shm-usage"]});
+	const browser = await putils.initBrowser();
 	const page = await browser.newPage();
 	await page.setJavaScriptEnabled(true);
 	await page.setUserAgent(utils.userAgentIE);

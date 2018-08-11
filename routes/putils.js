@@ -24,5 +24,15 @@ module.exports = {
 				interceptedRequest.continue(); // 그 외에는 그대로 진행
 			}
 		});
+	},
+
+	initBrowser: ()=>{
+		const puppeteer = require("puppeteer");
+		if(process.env.PUPPETEER_REMOTE_URL != undefined || 
+			process.env.PUPPETEER_REMOTE_URL != null){
+			return puppeteer.connect({ignoreHTTPSErrors: true, browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+		}else{
+			return puppeteer.launch({ignoreHTTPSErrors: true});
+		}
 	}
 };

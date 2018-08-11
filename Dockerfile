@@ -4,13 +4,9 @@
 FROM debian:stretch-slim
 
 # 의존성 설치 - 패키지 저장소 갱신, 런타임과 로케일 패키지 설치 등
-RUN apt-get update && apt-get install -yq \
-gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
-libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
-libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
-libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
-ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget \
-apt-utils python locales fonts-noto-cjk build-essential libfontconfig1-dbg libfontconfig1-dev \
+RUN apt-get update && apt-get install -y \
+wget build-essential apt-utils python locales \
+libfontconfig1 libfontconfig1-dbg libfontconfig1-dev curl \
 && wget https://deb.nodesource.com/setup_8.x -O installnodejs.sh \
 && bash installnodejs.sh \
 && apt-get install -y nodejs
@@ -32,17 +28,8 @@ COPY . /usr/src/app
 # 의존성 설치 - Node.js 모듈
 RUN npm install
 
-# Add user so we don't need --no-sandbox.
-RUN groupadd -r skhususer && useradd -r -g skhususer -G audio,video skhususer \
-    && mkdir -p /home/skhususer/Downloads \
-    && chown -R skhususer:skhususer /home/skhususer \
-    && chown -R skhususer:skhususer /usr/src/app
-
 # 컨테이너의 3000번 포트를 노출
 EXPOSE 3000
-
-# Run everything after as non-privileged user.
-USER skhususer
 
 # 컨테이너 시작시 실행할 명령어
 CMD [ "npm", "start" ]
