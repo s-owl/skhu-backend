@@ -13,19 +13,36 @@ services:
     volumes:
       - caddy-ssl:/root/.caddy
       - caddy-configs:/usr/caddyfiles
-    restart: on-failure
     command: ["--conf", "/usr/caddyfiles/Caddyfile", "--log", "stdout", "--agree=true"]
-  
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
   skhus:
     image: skhusleepyowl/skhus-backend:latest
-    cap_add:
-      - SYS_ADMIN
+    environment:
+      PUPPETEER_REMOTE_URL: ws://browserless:3000
     networks:
       sowl:
         aliases:
           - skhus
-    restart: on-failure
-   
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+  
+  browserless:
+    image: browserless/chrome:release-puppeteer-1.6.2
+    networks:
+      sowl:
+        aliases:
+          - browserless
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
 
 networks:
   sowl:
@@ -33,3 +50,4 @@ networks:
 volumes:
   caddy-configs:
   caddy-ssl:
+

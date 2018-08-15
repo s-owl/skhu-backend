@@ -7,7 +7,7 @@
     "lint": "eslint app.js routes/*",
     "lint-fix": "eslint app.js routes/* --fix"
   },
-  "jshintConfig":{
+  "jshintConfig": {
     "esversion": 6
   },
   "dependencies": {
