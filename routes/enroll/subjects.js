@@ -81,6 +81,10 @@ const run = async(req, res, next)=>{
 				}
 				return arr;
 			});
+		
+		const majorCurrent = await page.$eval("#ddlSosog", opt => {
+			return { "title": opt.options[opt.selectedIndex].innerHTML, "value": opt.value };
+		});
 
 		await browser.close();
 		// 처리된 데이터로 클라이언트의 요청에 응답
@@ -88,7 +92,8 @@ const run = async(req, res, next)=>{
 			"list": list,
 			"options":{
 				"semester": semesterOptions,
-				"major": majorOptions
+				"major": majorOptions,
+				"major_current": majorCurrent
 			}
 		});
 	}, waitFor);
