@@ -25,11 +25,10 @@ const run = async (req, res, next) => {
 	const page = await browser.newPage();
 	await page.setJavaScriptEnabled(true);
 	await page.setUserAgent(utils.userAgentIE);
-	if(ID == undefined || ID == "" || PW == undefined || PW == ""){
-		(async ()=>{
-			res.seatus(400).end("ID or PW is empty!");
-			await browser.close();
-		})();
+	if(ID == undefined || ID == "" || PW == undefined || PW == "" || PW.length < 8){
+		res.seatus(400).end("ID or PW is empty! or PW is not long enough(must be 8 digits or more)");
+		await browser.close();
+		return;
 	}
 	await page.setCacheEnabled(false);
 	// Listen for page fully loaded event
