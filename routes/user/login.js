@@ -25,8 +25,10 @@ const run = async (req, res, next) => {
 	const page = await browser.newPage();
 	await page.setJavaScriptEnabled(true);
 	await page.setUserAgent(utils.userAgentIE);
-	if(ID == undefined || ID == "" || PW == undefined || PW == "" || PW.length < 9){
-		res.seatus(400).end("ID or PW is empty! or PW is not long enough(must be 9 digits or more)");
+	if(ID == undefined || ID == "" || PW == undefined || PW == "" || PW.length < 8){
+		res.seatus(400).end(`
+		ID or PW is empty. Or PW is shorter then 8 digits.
+		학번 또는 비밀번호가 비어있거나 비밀번호가 8자리 미만 입니다.`);
 		await browser.close();
 		return;
 	}
@@ -38,7 +40,11 @@ const run = async (req, res, next) => {
 			if(tried){
 				// If page is still login page, then it's failed.
 				console.log("Stil same page!");
-				res.status(401).end("Login Failed");
+				res.status(401).end(`
+				Login Failed
+				(Can't log in to forest.skhu.ac.kr, Check ID and PW again)
+				로그인 실패
+				(forest.skhu.ac.kr 에 로그인 할 수 없습니다. 학번과 비밀번호를 다시 확인하세요.)`);
 				await browser.close();
 			}else{
 				// 2. Put ID and PW then log in.
@@ -78,7 +84,13 @@ const run = async (req, res, next) => {
 					page.waitForSelector("body.ng-scope.modal-open")
 						.then(async() => {
 							// If a modal is shown, then login task is failed.
-							res.status(401).end("Login Failed");
+							res.status(401).end(`
+							Login Failed
+							(Logged in to forest.skhu.ac.kr. But can't log in to sam.skhu.ac.kr
+							Please contact to Sunkonghoe University Electronic Computing Center)
+							로그인 실페
+							(forest.skhu.ac.kr 에 로그인 했으나, sam.skhu.ac.kr에 로그인 할 수 없습니다.
+							성공회대학교 전자계산소에 문의해 주세요.)`);
 							await browser.close();
 						});
 					console.log("cas.skhu.ac.kr - logging in");
