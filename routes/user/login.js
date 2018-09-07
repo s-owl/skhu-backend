@@ -26,7 +26,7 @@ const run = async (req, res, next) => {
 	await page.setJavaScriptEnabled(true);
 	await page.setUserAgent(utils.userAgentIE);
 	if(ID == undefined || ID == "" || PW == undefined || PW == "" || PW.length < 8){
-		res.seatus(400).end(`
+		res.status(400).end(`
 		ID or PW is empty. Or PW is shorter then 8 digits.
 		학번 또는 비밀번호가 비어있거나 비밀번호가 8자리 미만 입니다.`);
 		await browser.close();
