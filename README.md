@@ -4,7 +4,7 @@
 기존 Foressst 앱의 리뉴얼 버전입니다. Node.js, Express.js, Puppeteer 등을 사용하여 개발되었습니다.
 
 ## 개발자/기여자(Developers/Contributors)
-### 현제(Current)
+### 현재(Current)
 - 한영빈(201632034, sukso96100@gmail.com)
   - 앱 개발, 백엔드 개발, 서버 관리, 프로젝트 총괄(2016.08 ~ 2018.09)
 - 김문수(201732004, s201732004@gmail.com)
