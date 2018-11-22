@@ -1,7 +1,10 @@
+
+//학식 정보 구현해야 하는 정보들
 const utils = require("../utils");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 // Show Meal URLs
+
 const getUrls = function(req, res, next){
 	console.log("GET /life/meal/urls");
 	const url = utils.skhuBaseUrl + "/uni_zelkova/uni_zelkova_4_3_list.aspx";

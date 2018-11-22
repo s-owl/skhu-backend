@@ -4,6 +4,8 @@ const utils = require("../utils");
 
 // 교내 제출용 성적증명서 조회
 const run = (req, res, next) => {
+
+	//log 알림
 	console.log("POST /grade/certificate");
 
 	// 파일별 url 설정
@@ -14,11 +16,15 @@ const run = (req, res, next) => {
 			const { document } = (new JSDOM(rawData)).window;
 
 			let title, userinfo = [];
+			//querySelectorAll -> 특정 css 열 가져오기
 			const rawInfo = document.querySelectorAll("#Table3 > tbody > tr > td");
 			for(let i=0; i<rawInfo.length; i++){
+				//크롤링 규칙
 				if(i%2==0){
+					//짝수 규칙에 title
 					title = rawInfo[i].textContent;
 				}else{
+					//크롤링 홀수 유저 정보
 					userinfo.push({
 						"name" : utils.trim(title),
 						"value" : utils.trim(rawInfo[i].textContent)
@@ -28,6 +34,8 @@ const run = (req, res, next) => {
 
 			const details = [];
 			const gradeInfo = document.querySelector("table#dgList > tbody").children;
+			//학생정보 set
+
 			for(let i=0; i<gradeInfo.length; i++){
 				details.push({
 					"year" : gradeInfo[i].children[0].textContent,
@@ -40,6 +48,7 @@ const run = (req, res, next) => {
 				});
 			}
 
+
 			const summary = [];
 			const summaryTable = document.querySelector("table#Table2 > tbody");
 			for(let i = 0; i < 17; i++){
@@ -48,6 +57,7 @@ const run = (req, res, next) => {
 					"credit" : summaryTable.children[1].children[i].textContent
 				});
 			}
+	//성적  set
 
 			res.send(JSON.stringify({
 				"userinfo" : userinfo,
@@ -55,7 +65,7 @@ const run = (req, res, next) => {
 				"summary" : summary,
 				"date" : document.querySelector("#lblDt").textContent
 			}));
-
+			//요약
 		})
 		.catch((err) => {
 			console.log(err);

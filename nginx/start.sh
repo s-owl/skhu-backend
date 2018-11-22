@@ -1,5 +1,5 @@
 #!/bin/sh
-
+#서버 구동
 # Put your domain name into the nginx reverse proxy config.
 sed -i "s/___SERVER_DOMAIN___/$SERVER_DOMAIN/g" /etc/nginx/nginx.conf
 
