@@ -1,0 +1,94 @@
+파싱할거
+
+1. GET /Gate/UniMainOnestop.aspx 
+
+                            <td style="width: 400px;"><span id="lblInfo"><b>USER: </b>추건우(201534028) <b> IP: </b>192.168.21.22<br/><b>최종접속시각: </b>2016-08-24 16:13:34 <b> 최종접속IP: </b>192.168.21.22</span></td>
+
+2. URL 목록
+
+<script language='javascript' src='/Gate/Common/JavaScript/CoreControl.js'></script><script language=javascript>var __maincd = 'O';</script><script language="javascript">
+var arrMenu = new Array();
+var arrMenu0 = new Array();
+arrMenu[0] = new stMenu("웹서비스",1,"","True", arrMenu0, "SER", "", "", "False");
+arrMenu0[0] = new stMenu("OTP조회",3,"/Gate/Utility/A/UTLA01P.aspx?&maincd=O&systemcd=S&seq=0","True", null, "SER", "", "", "False");
+arrMenu0[1] = new stMenu("[N]시설물대여 신청",3,"/Gate/SAM/Lesson/G/SSEG20P.aspx?&maincd=O&systemcd=S&seq=100","True", null, "SER", "", "", "False");
+arrMenu0[2] = new stMenu("인터넷증명발급",3,"/GATE/UniCertificatePopRedirect.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SER", "", "", "False");
+arrMenu0[3] = new stMenu("개인정보변경",3,"/GATE/SAM/SERVICE/S/SWSS01P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SER", "", "", "False");
+arrMenu0[4] = new stMenu("비밀번호변경",3,"/GATE/SAM/SERVICE/S/SWSS02P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SER", "", "", "False");
+arrMenu0[5] = new stMenu("나의상담이력조회",3,"/Gate/InnerService/C/CS/A/ACSA07S.aspx?&maincd=O&systemcd=S&seq=99","True", null, "SER", "", "", "False");
+arrMenu0[6] = new stMenu("생리공결제신청",3,"/GATE/SAM/LESSON/S/SSES03P.ASPX?&maincd=O&systemcd=S&seq=104","True", null, "SER", "", "", "False");
+arrMenu0[7] = new stMenu("개인정보 동의항목 수정",3,"/Gate/CORE/P/CORP04P.aspx?&maincd=O&systemcd=S&seq=2","True", null, "SER", "", "", "False");
+var arrMenu9 = new Array();
+arrMenu[1] = new stMenu("학적관리",1,"","True", arrMenu9, "SHJ", "", "", "False");
+arrMenu9[0] = new stMenu("휴학신청",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS00P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[1] = new stMenu("학생사진등록",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS06P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[2] = new stMenu("자퇴신청",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS12P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[3] = new stMenu("전과신청",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS05P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[4] = new stMenu("전과신청결과조회",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS10S.ASPX?&maincd=O&systemcd=S&seq=103","True", null, "SHJ", "", "", "False");
+arrMenu9[5] = new stMenu("특별과정신청",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS03P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+arrMenu9[6] = new stMenu("특별과정취소",3,"/GATE/SAM/STUDENTREGISTER/S/SHJS11P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SHJ", "", "", "False");
+var arrMenu17 = new Array();
+arrMenu[2] = new stMenu("수업관리",1,"","True", arrMenu17, "SSE", "", "", "False");
+arrMenu17[0] = new stMenu("개인시간표조회",3,"/GATE/SAM/LESSON/A/SSEA34S.ASPX?&maincd=O&systemcd=S&seq=100","True", null, "SSE", "", "", "False");
+arrMenu17[1] = new stMenu("강의계획서조회",3,"/GATE/SAM/LESSON/S/SSES01S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSE", "", "", "False");
+arrMenu17[2] = new stMenu("요일별 강의실 시간표",3,"/GATE/SAM/LESSON/A/SSEA35S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSE", "", "", "False");
+arrMenu17[3] = new stMenu("담당교수별 </br>수업시간표 조회",3,"/GATE/SAM/LESSON/A/SSEA33S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSE", "", "", "False");
+arrMenu17[4] = new stMenu("강의실별 수업시간표",3,"/GATE/SAM/LESSON/A/SSEA32S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSE", "", "", "False");
+var arrMenu23 = new Array();
+arrMenu[3] = new stMenu("수강관리",1,"","True", arrMenu23, "SSG", "", "", "False");
+arrMenu23[0] = new stMenu("학부 수강신청 기간 안내",3,"/Gate/SAM/Lecture/X/SSGX01S.ASPX?P1=Z0201&maincd=O&systemcd=S&seq=0","True", null, "SSG", "", "", "False");
+arrMenu23[1] = new stMenu("학과별개설과목조회",3,"/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[2] = new stMenu("연계전공개설과목조회",3,"/GATE/SAM/LESSON/S/SSES13S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[3] = new stMenu("수강바구니신청(학부)",3,"/Gate/SAM/Lecture/S/SSGS38G.aspx?&maincd=O&systemcd=S&seq=2","True", null, "SSG", "", "", "False");
+arrMenu23[4] = new stMenu("수강바구니 신청내역",3,"/GATE/SAM/LECTURE/S/SSGS36S.ASPX?&maincd=O&systemcd=S&seq=2","True", null, "SSG", "", "", "False");
+arrMenu23[5] = new stMenu("수강신청(학부)",3,"/GATE/SAM/LECTURE/S/SSGS10G.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[6] = new stMenu("제한수업신청",3,"/GATE/SAM/LECTURE/S/SSGS30G.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[7] = new stMenu("제한수업 결과조회",3,"/GATE/SAM/LECTURE/S/SSGS32S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[8] = new stMenu("수강과목철회",3,"/GATE/SAM/LECTURE/S/SSGS07P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSG", "", "", "False");
+arrMenu23[9] = new stMenu("학점 세이브 조회 (학생)",3,"/Gate/SAM/Lecture/H/SSGH03S.aspx?&maincd=O&systemcd=S&seq=100","True", null, "SSG", "", "", "False");
+arrMenu23[10] = new stMenu("강의중간의견 입력(학생) ",3,"/Gate/SAM/Lecture/F/SSGF01P.aspx?&maincd=O&systemcd=S&seq=100","True", null, "SSG", "", "", "False");
+arrMenu23[11] = new stMenu("교육만족도조사",3,"/GATE/SAM/Lecture/S/SSGS38P.ASPX?&maincd=O&systemcd=S&seq=9","True", null, "SSG", "", "", "False");
+arrMenu23[12] = new stMenu("강의평가",3,"/GATE/SAM/LECTURE/S/SSGS01P.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SSG", "", "", "False");
+var arrMenu37 = new Array();
+arrMenu[4] = new stMenu("성적관리",1,"","True", arrMenu37, "SSJ", "", "", "False");
+arrMenu37[0] = new stMenu("열람성적조회",3,"/GATE/COREPAGE/GATZ25G.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SSJ", "", "", "False");
+arrMenu37[1] = new stMenu("설문조사",3,"/GATE/SAM/SCORE/S/SSJS12S.ASPX?&maincd=O&systemcd=S&seq=11434","True", null, "SSJ", "", "", "False");
+arrMenu37[2] = new stMenu("성적조회",3,"/GATE/SAM/SCORE/S/SSJS05S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSJ", "", "", "False");
+arrMenu37[3] = new stMenu("학내 제출용</br>성적증명서 출력",3,"/GATE/SAM/SCORE/S/SSJS06S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSJ", "", "", "False");
+arrMenu37[4] = new stMenu("학점포기신청(4학년)",3,"/GATE/SAM/SCORE/S/SSJS03P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SSJ", "", "", "False");
+var arrMenu43 = new Array();
+arrMenu[5] = new stMenu("졸업관리",1,"","True", arrMenu43, "SJE", "", "", "False");
+arrMenu43[0] = new stMenu("졸업사정결과조회 ",3,"/GATE/SAM/GRADUATE/S/SJES01S.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SJE", "", "", "False");
+arrMenu43[1] = new stMenu("졸업이수 학점표",3,"/GATE/CORE/K/CORK01S.aspx?P1=P02&maincd=O&systemcd=S&seq=1","True", null, "SJE", "", "", "False");
+arrMenu43[2] = new stMenu("학과별 졸업요건",3,"/GATE/CORE/K/CORK03S.aspx?P1=MNG01&maincd=O&systemcd=S&seq=3","True", null, "SJE", "", "", "False");
+var arrMenu47 = new Array();
+arrMenu[6] = new stMenu("장학관리",1,"","True", arrMenu47, "SJH", "", "", "False");
+arrMenu47[0] = new stMenu("장학신청(학부)",3,"/GATE/SAM/SCHOLARSHIP/S/SJHS05P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SJH", "", "", "False");
+arrMenu47[1] = new stMenu("장학신청결과(학부)",3,"/GATE/SAM/SCHOLARSHIP/S/SJHS06S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SJH", "", "", "False");
+arrMenu47[2] = new stMenu("추가장학금신청",3,"/Gate/SAM/Scholarship/I/SJHI01P.aspx?&maincd=O&systemcd=S&seq=1","True", null, "SJH", "", "", "False");
+arrMenu47[3] = new stMenu("장학내역조회",3,"/GATE/SAM/SCHOLARSHIP/S/SJHS01S.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SJH", "", "", "False");
+var arrMenu52 = new Array();
+arrMenu[7] = new stMenu("등록관리",1,"","True", arrMenu52, "SDL", "", "", "False");
+arrMenu52[0] = new stMenu("계절학기고지서출력",3,"/GATE/SAM/LECTURE/S/SSGS23P.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SDL", "", "", "False");
+arrMenu52[1] = new stMenu("계절학기수강료납부확인",3,"/GATE/SAM/LECTURE/S/SSGS25S.ASPX?&maincd=O&systemcd=S&seq=0","True", null, "SDL", "", "", "False");
+arrMenu52[2] = new stMenu("분납신청/취소",3,"/GATE/SAM/TUITION/S/SDLS15P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SDL", "", "", "False");
+arrMenu52[3] = new stMenu("분납등록금고지서 출력",3,"/GATE/SAM/TUITION/S/SDLS13R.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SDL", "", "", "False");
+arrMenu52[4] = new stMenu("등록금고지서 출력",3,"/GATE/SAM/TUITION/S/SDLS11R.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SDL", "", "", "True");
+arrMenu52[5] = new stMenu("교육납입증명서",3,"/GATE/SAM/TUITION/S/SDLS10R.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SDL", "", "", "False");
+var arrMenu59 = new Array();
+arrMenu[8] = new stMenu("교직관리",1,"","True", arrMenu59, "SGJ", "", "", "False");
+arrMenu59[0] = new stMenu("교직 적성/인성 검사",3,"/GATE/SAM/TeachingProfession/A/STPA01P.aspx?&maincd=O&systemcd=S&seq=1","True", null, "SGJ", "", "", "False");
+var arrMenu61 = new Array();
+arrMenu[9] = new stMenu("교과관리",1,"","True", arrMenu61, "SGG", "", "", "False");
+arrMenu61[0] = new stMenu("학과별 교과과정",3,"/GATE/CORE/K/CORK03S.aspx?P1=P03&maincd=O&systemcd=S&seq=1","True", null, "SGG", "", "", "False");
+arrMenu61[1] = new stMenu("기타과정 안내",3,"/GATE/CORE/K/CORK03S.aspx?P1=P04&maincd=O&systemcd=S&seq=3","True", null, "SGG", "", "", "False");
+var arrMenu64 = new Array();
+arrMenu[10] = new stMenu("병무관리",1,"","True", arrMenu64, "SBM", "", "", "False");
+arrMenu64[0] = new stMenu("예비군버스신청",3,"/GATE/SAM/MILITARY/S/SBMS01P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SBM", "", "", "False");
+var arrMenu66 = new Array();
+arrMenu[11] = new stMenu("시험관리",1,"","True", arrMenu66, "SNN", "", "", "False");
+arrMenu66[0] = new stMenu("사회복지학과 졸업시험 응시/조회",3,"/GATE/SAM/Examination/A/SEMA03P.ASPX?&maincd=O&systemcd=S&seq=1","True", null, "SNN", "", "", "False");
+var arrMenu68 = new Array();
+arrMenu[12] = new stMenu("안내",1,"","True", arrMenu68, "SNF", "", "", "False");
+arrMenu68[0] = new stMenu("주요학칙안내",3,"/GATE/CORE/K/CORK01S.aspx?P1=P32&maincd=O&systemcd=S&seq=103","True", null, "SNF");
+</script>

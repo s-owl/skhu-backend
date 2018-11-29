@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  proxy:
+    image: abiosoft/caddy:latest
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      sowl:
+        aliases:
+          - proxy
+    volumes:
+      - caddy-ssl:/root/.caddy
+      - caddy-configs:/usr/caddyfiles
+    command: ["--conf", "/usr/caddyfiles/Caddyfile", "--log", "stdout", "--agree=true"]
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  skhus:
+    image: skhusleepyowl/skhus-backend:latest
+    environment:
+      PUPPETEER_REMOTE_URL: ws://browserless:3000
+    networks:
+      sowl:
+        aliases:
+          - skhus
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+  
+  browserless:
+    image: browserless/chrome:release-puppeteer-1.6.2
+    networks:
+      sowl:
+        aliases:
+          - browserless
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+
+networks:
+  sowl:
+
+volumes:
+  caddy-configs:
+  caddy-ssl:
+
