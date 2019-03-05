@@ -1,7 +1,6 @@
 
 module.exports = {
 	// 베이스 URL
-	//크롤링 주소 위치
 	forestBaseUrl: "http://forest.skhu.ac.kr",
 	skhuBaseUrl: "http://skhu.ac.kr",
 	samBaseUrl: "http://sam.skhu.ac.kr",
@@ -17,14 +16,12 @@ module.exports = {
 	url : 요청을 위한 Url
 	isEucKr : Url 로 요청을 보내면 받는 응답의 인코딩. EUC-KR 라면 true, UTF-8 이라면 false
 	*/
-	//미정
 	get: (req, res, url, isEucKr)=>{
 		// Promise 를 반환함.
 		return new Promise(async (resolve, reject) => {
 			try{
-				const axios = require("axios"); //react 실시간 처리
+				const axios = require("axios");
 				const config = {};
-				//암호화 코드 Credential 라이브러리
 				if(req.get("Credential") != undefined && req.get("Credential") != null){
 					config.headers = {Cookie: req.get("Credential")};
 				}
@@ -38,7 +35,7 @@ module.exports = {
 				}
 				resolve(response.data);
 			}catch(err){
-				reject(err); //Promise 반환형 default
+				reject(err);
 			}
 		});
 	},
@@ -49,8 +46,6 @@ module.exports = {
 					return true;
 				}
 			}else{
-				// eval 문자열을 함수로 바꿔준다
-				// array[i] key , value 같은 거
 				if(eval("array[i]."+key)==value){
 					return true;
 				}
@@ -59,6 +54,7 @@ module.exports = {
 		return false;
 	},
 	// 학기 코드 변환 함수
+
 	getSemesterCode: (semester)=>{
 		switch(semester){
 		case "first":

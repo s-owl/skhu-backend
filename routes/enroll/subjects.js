@@ -1,8 +1,9 @@
-const puppeteer = require("puppeteer"); //라이브러리
+const puppeteer = require("puppeteer");
 const utils = require("../utils");
 const putils = require("../putils");
 // /enroll/subjects
 const run = async(req, res, next)=>{
+
 	// URL 빌드
 	const url = `${utils.forestBaseUrl}/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1`;
 
@@ -22,16 +23,12 @@ const run = async(req, res, next)=>{
 	await page.goto(url); // 이동
 	console.log(await page.url());
 	let waitFor = 0;
-	//강의 계획서
 	if(req.method=="POST"){
 		waitFor = 1000;
 		if(req.body.year) await page.type("#txtYy", req.body.year);
 		if(req.body.semester) await page.select("#ddlHaggi", req.body.semester);
 		if(req.body.major) await page.select("#ddlSosog", req.body.major);
 		if(req.body.professor) await page.type("#txtPermNm", req.body.professor);
-		//리스트 선택 박스
-
-		//과목 클릭
 		await page.click("#CSMenuButton1_List");
 	}
 
@@ -42,13 +39,11 @@ const run = async(req, res, next)=>{
 		// 요소 배열 순회하면서 JSON 객채로 변환하여 새 배열에 삽입
 		for(const item of items){
 			const data = [];
-
-			//강의 계획서 상세
 			for(let i=1; i<=12; i++){
 				//각 행의 열 데이터를 뽑아 임시배열에 저장
 				data.push(await item.$eval(`td:nth-of-type(${i})`, (node) => node.textContent));
 			}
-			// 임시배열에서 꺼내 최종 배열에 저장. 교과목 개요
+			// 임시배열에서 꺼내 최종 배열에 저장.
 			list.push({
 				"type": data[0],
 				"grade": data[1],
@@ -64,7 +59,7 @@ const run = async(req, res, next)=>{
 				"available": data[11]
 			});
 		}
-		// 학기 선택지 가져오기 , 원하는 학기 선택 박스
+		// 학기 선택지 가져오기
 		const semesterOptions = await page.$$eval("#ddlHaggi > option",
 			(node) => {
 				console.log(node);
@@ -76,24 +71,18 @@ const run = async(req, res, next)=>{
 				return arr;
 			});
 
-			//전공 소속 선택 박스
 		const majorOptions = await page.$$eval("#ddlSosog > option",
 			(node) => {
 				console.log(node);
 				const arr = [];
 				for(const item of node){
-					//리스트 출력
 					console.log(item);
-
-					//리스트 선택
 					arr.push({"title": item.innerHTML, "value": item.value});
 				}
 				return arr;
 			});
-
-			//교수 이름
+		
 		const majorCurrent = await page.$eval("#ddlSosog", opt => {
-			//작성한
 			return { "title": opt.options[opt.selectedIndex].innerHTML, "value": opt.value };
 		});
 
@@ -109,5 +98,4 @@ const run = async(req, res, next)=>{
 		});
 	}, waitFor);
 };
-//학과 / 학부 강의계획서 검색 및 저장 처리 class
 module.exports= run;
