@@ -7,7 +7,7 @@ FROM debian:stretch-slim
 RUN apt-get update && apt-get install -y \
 wget build-essential apt-utils python locales \
 libfontconfig1 libfontconfig1-dbg libfontconfig1-dev curl \
-&& wget https://deb.nodesource.com/setup_8.x -O installnodejs.sh \
+&& wget https://deb.nodesource.com/setup_10.x -O installnodejs.sh \
 && bash installnodejs.sh \
 && apt-get install -y nodejs
 
