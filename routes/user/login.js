@@ -7,6 +7,7 @@ const run = async (req, res, next) => {
 
 	// Page urls
 	const logInPageUrl = `${utils.forestBaseUrl}/Gate/UniLogin.aspx`;
+	const agreementPageUrl = `${utils.forestBaseUrl}/Gate/CORE/P/CORP02P.aspx`;
 	const mainPageUrl = `${utils.forestBaseUrl}/Gate/UniMyMain.aspx`;
 	const newLogInPageUrl = "http://cas.skhu.ac.kr";
 	const newLogInAuthUrl0 = `${utils.samBaseUrl}/Auth/LoginSSO`;
@@ -52,6 +53,7 @@ const run = async (req, res, next) => {
 				// 2. Put ID and PW then log in.
 				console.log("forest.skhu.ac.kr - logging in");
 				(async ()=>{
+					console.log(page.url());
 					await page.type("#txtID", ID);
 					await page.type("#txtPW", PW);
 					(await page.$("#txtPW")).press("Enter");
@@ -61,6 +63,11 @@ const run = async (req, res, next) => {
 					});
 				})();
 			}
+		}else if(page.url() == agreementPageUrl){
+			const agreementNote = "Please complete the privacy policy agreement on forest.skhu.ac.kr\n"
+			+ "forest.skhu.ac.kr 에서 개인정보 제공 동의를 먼저 완료해 주세요."
+			res.status(401).end(agreementNote);
+			await browser.close();
 		}else if(page.url() == mainPageUrl){
 			// 5. Logged in.(forest.skhu.ac.kr)
 			(async ()=>{
