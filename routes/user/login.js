@@ -140,6 +140,7 @@ const run = async (req, res, next) => {
 	try{
 		// 1. Open Log In Page(forest.skhu.ac.kr)
 		await page.goto(logInPageUrl);
+		pconn.setCloseContextTimer(context);
 	} catch(e){
 		console.log(e);
 	}

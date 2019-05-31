@@ -21,6 +21,7 @@ const run = async(req, res, next)=>{
 	// 특정 HTTP 요청 감시/차단
 	pconn.setAbortCoreSecurityJs(page);
 	await page.goto(url); // 이동
+	pconn.setCloseContextTimer(context);
 	console.log(await page.url());
 	let waitFor = 0;
 	if(req.method=="POST"){

@@ -39,5 +39,10 @@ module.exports = {
 				interceptedRequest.continue(); // 그 외에는 그대로 진행
 			}
 		});
+	},
+	setCloseContextTimer: (context)=>{
+		setTimeout(async()=>{
+			await context.close();
+		}, 300000);
 	}
 };

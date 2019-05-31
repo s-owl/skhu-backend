@@ -50,7 +50,7 @@ module.exports = {
 		const credentialArray = pconn.credentialStringToCookieArray(credential);
 		await page.goto(url); // 페이지 이동 - 빈 페이지에서는 쿠키 설정 불가
 		await page.setCookie(...credentialArray); // 객체 배열로 변환한 Credential 을 페이지 쿠키로 설정
-
+		pconn.setCloseContextTimer(context);
 		// 특정 HTTP 요청 감시/차단
 		pconn.setAbortCoreSecurityJs(page);
 		
