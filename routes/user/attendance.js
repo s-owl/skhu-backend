@@ -1,5 +1,5 @@
 const utils = require("../utils");
-const putils = require("../putils");
+const pconn = require("../puppeteer_connection");
 const {JSDOM} = require("jsdom");
 const url = `${utils.forestBaseUrl}/Gate/UniMainStudent.aspx`;
 // 출결현황 조회
@@ -39,20 +39,20 @@ module.exports = {
 		});
 	},
 	post: async(req, res, next) => {
-		const puppeteer = require("puppeteer");
 		const credential = req.get("Credential"); // Request의 Header 에서 Credential 값 로드
-		const browser = await putils.initBrowser();
-		const page = await browser.newPage(); // 페이지 생성
+		const browser = await pconn.getConnection();
+		const context = await browser.createIncognitoBrowserContext();
+		const page = await context.netPage(); // 페이지 생성
 		await page.setJavaScriptEnabled(true); // Puppeteer 페이지에서 JS 활성화
 		await page.setUserAgent(utils.userAgentIE); // User Agent 를 IE 로 설정
 
 		// 문저열로 된 Credential 값을 쪼개서 JSON 객체 배열로 변환
-		const credentialArray = putils.credentialStringToCookieArray(credential);
+		const credentialArray = pconn.credentialStringToCookieArray(credential);
 		await page.goto(url); // 페이지 이동 - 빈 페이지에서는 쿠키 설정 불가
 		await page.setCookie(...credentialArray); // 객체 배열로 변환한 Credential 을 페이지 쿠키로 설정
 
 		// 특정 HTTP 요청 감시/차단
-		putils.setAbortCoreSecurityJs(page);
+		pconn.setAbortCoreSecurityJs(page);
 		
 		await page.goto(url); // 이동
 
@@ -84,10 +84,11 @@ module.exports = {
 					"early" : data[7]
 				});
 			}
-
+			await context.close();
 			res.json({
 				"attendance" : list
 			});
+			return;
 		}, 1000);
 		
 		

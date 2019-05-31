@@ -1,4 +1,19 @@
 module.exports = {
+	connection: null,
+	getConnection: async ()=>{
+		if(this.connection == null){
+			const puppeteer = require("puppeteer");
+			if(process.env.PUPPETEER_REMOTE_URL != undefined || 
+				process.env.PUPPETEER_REMOTE_URL != null){
+				this.connection = await puppeteer.connect({
+					ignoreHTTPSErrors: true,
+					browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+			}else{
+				this.connection = await puppeteer.launch({ignoreHTTPSErrors: true});
+			}
+		}
+		return this.connection;
+	},
 	credentialStringToCookieArray: (credentialStr)=>{
 		const credentialArray = [];
 		const credentialItems=credentialStr.split(";");
@@ -24,15 +39,5 @@ module.exports = {
 				interceptedRequest.continue(); // 그 외에는 그대로 진행
 			}
 		});
-	},
-
-	initBrowser: ()=>{
-		const puppeteer = require("puppeteer");
-		if(process.env.PUPPETEER_REMOTE_URL != undefined || 
-			process.env.PUPPETEER_REMOTE_URL != null){
-			return puppeteer.connect({ignoreHTTPSErrors: true, browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
-		}else{
-			return puppeteer.launch({ignoreHTTPSErrors: true});
-		}
 	}
 };
