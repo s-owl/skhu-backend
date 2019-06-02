@@ -33,7 +33,7 @@ services:
         condition: on-failure
   
   browserless:
-    image: browserless/chrome:release-puppeteer-1.6.2
+    image: browserless/chrome:latest
     networks:
       sowl:
         aliases:
