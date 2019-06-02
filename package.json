@@ -19,7 +19,7 @@
     "iconv": "^2.3.4",
     "jsdom": "^15.1.1",
     "morgan": "^1.9.1",
-    "puppeteer": "^1.17.0",
+    "puppeteer-core": "^1.17.0",
     "serve-favicon": "~2.5.0",
     "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.5"
