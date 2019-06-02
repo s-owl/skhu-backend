@@ -1,15 +1,11 @@
 # Dockerfile 은 Docker Image 빌드 시 필요한 설정과 의존성과 정의함
 
 # 베이스 이미지 정의
-FROM debian:stretch-slim
+FROM node:10.16.0-stretch-slim
 
 # 의존성 설치 - 패키지 저장소 갱신, 런타임과 로케일 패키지 설치 등
 RUN apt-get update && apt-get install -y \
-wget build-essential apt-utils python locales \
-libfontconfig1 libfontconfig1-dbg libfontconfig1-dev curl \
-&& wget https://deb.nodesource.com/setup_10.x -O installnodejs.sh \
-&& bash installnodejs.sh \
-&& apt-get install -y nodejs
+python build-essential locales
 
 # 로케일 변경
 RUN localedef -f UTF-8 -i ko_KR ko_KR.UTF-8
