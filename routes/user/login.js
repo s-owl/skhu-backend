@@ -23,7 +23,7 @@ const run = async (req, res, next) => {
 	// const browser = await puppeteer.launch({ignoreHTTPSErrors: true, args: ["--no-sandbox", "--disable-dev-shm-usage"]});
 	const browser = await pconn.getConnection();
 	const context = await browser.createIncognitoBrowserContext(); 
-	const page = await context.netPage();
+	const page = await context.newPage();
 	await page.setJavaScriptEnabled(true);
 	await page.setUserAgent(utils.userAgentIE);
 	if(ID == undefined || ID == "" || PW == undefined || PW == "" || PW.length < 8){
