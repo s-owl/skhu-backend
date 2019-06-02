@@ -1,11 +1,24 @@
-# forest-nodejs
+# SKHU's - Backend
 
-Node.js 기반으로 작성된 foressst API 서버
+성공회대학교의 종합정보시스템과, 학내 소식을 모바일 환경에서 쉽게 받아볼 수 있게 해주는 앱, SKHU's 의 백엔드 소스코드 저장소 입니다.
+기존 Foressst 앱의 리뉴얼 버전입니다. Node.js, Express.js, Puppeteer 등을 사용하여 개발되었습니다.
 
-## 개발자
- - 한영빈 - 소프트웨어공학과 201632034
- - 추건우 - 소프트웨어공학과 201534028
- - 배다슬 - 소프트웨어공학과 201232016
+## 개발자/기여자(Developers/Contributors)
+### 현재(Current)
+- 한영빈(201632034, sukso96100@gmail.com)
+  - 앱 개발, 백엔드 개발, 서버 관리, 프로젝트 총괄(2016.08 ~ 2018.09)
+- 김문수(201732004, s201732004@gmail.com)
+  - 백엔드 개발, 서버 관리(2018.03~)
+- 조준서(201635039, coogys@naver.com)
+  - 백엔드 개발(2018.09~)
+### 이전(Former)
+- 김희수(201632007, hisu138@gmail.com)
+  - 백엔드 개발(2018.03 ~ 2018.08)
+- 추건우(201534028, geonwoo.chu@gmail.com)
+    - 앱 및 백엔드 개발(2016.08 ~ 2018.03)
+
+## 의존성(Dependencies)
+`package.json` 참고
 
 ## 서버측 코드 실행 방법
 
@@ -24,63 +37,8 @@ Node.js 기반으로 작성된 foressst API 서버
   ```
   - 중지하려면, 키보드에서 `Crtl + C`를 누릅니다.
 
-### Docker 를 이용하여 배포 및 실행
+# 저작권 안내(Copyrights Notice)
+본 소프트웨어는 자유 소프트웨어 또는 오픈소스 소프트웨어가 아닙니다. 본 소프트웨어의 저작권은 프로젝트 개발자와 기여자 분들꼐 있습니다. 본 프로젝트의 소스코드가 GitHub 에 공개 되어 있는 것은, 개발자와 기여자 분들께서 본 프로젝트를 포트폴리오로 활용하실 수 있도록 하게 하기 위함입니다. 소스코드가 공개 되어 있으므로 이를 자유롭게 열람하는 것은 문제가 없습니다. 그러나 프로젝트의 저작물 일부를 본인의 저작물에 사용하고자 하거나, 본 프로젝트를 기반으로 2차 저작물을 생산하여 배포 하고자 하는 경우 본 프로젝트의 개발자 및 기여자와의 사전 협의가 필요합니다. 
 
-  - 먼저 `docker` 를 설치합니다. [docker.com](https://docker.com) 에서 OS 별로 `docker` 를 설치하는 방법을 알 수 있습니다.
-  - Docker Image 를 빌드합니다.
+This software IS NOT A FREE SOFTWARE OR OPEN SOURCE SOFTWARE. All copyrights are reserved to developers and contributors of this project. The reason why source code of the project is public on GitHub is to let our developers and contributors to use this project on their portfolio. You can browse the source code freely since it's public on GitHub. But if you want to use some part of our works on your works or you want to produce and redistribute your own derivative work based on this project, You have to discuss it with developers and contributors of this project before doing that.
 
-  ```bash
-  docker build -t forest-nodejs:latest .
-  ```
-  - 빌드된 Docker Image 를 확인합니다.
-
-  ```bash
-  docker images
-  ```
-  - 빌드한 Docker Image 로 부터 컨테이너를 생성하고, 80번 포트에서 컨테이너의 3000번 포트로 포워딩 하여 데몬 모드로 컨테이너를 시작합니다.
-
-  ```bash
-  docker run -d -p 80:3000 --name <원하는 컨테이너 이름> forest-nodejs:latest
-  ```
-
-  - 컨테이너를 중지하려면 다음 명령을 실행합니다.
-  
-  ```bash
-  docker stop <컨테이너 이름>
-  ```
-
-### Docker Compose 를 이용하여 배포 및 실행
-
-> 이 방법으로 배포 및 실행하는 경우, 생성되는 Docker Image 에서 3개의 컨테이너가 생성되며, Nginx 를 이용한 SSL 연결, 역프록시 및 로드밸런싱이 자동으로 설정되어 트래픽이 3개의 컨테이너에 분배되도록 설정됩니다.
-
-  - 먼저 `docker` 와, `docker-compose` 를 설치합니다. `docker` 설치는 `Docker 를 이용하여 배포 및 실행` 부분에서 언급한 방법대로 설치하며, `docker-compose` 의 경우 [docs.docker.com/compose/install/](https://docs.docker.com/compose/install/) 를 참고하여 설치하면 됩니다.
-  - `docker-compose.yml` 파일을 열어, 서버를 포인팅 하는 도메인 네임(예시 : example.com) 과, Let's Encrypt SSL 인증서 발급에 사용할 이메일 주소를 입력합니다.
-
-  ```yaml
-  version: '2'
-
-  services:
-    nginx:
-      container_name: forest-nginx-lb
-      build: ./nginx
-      environment:
-        - SERVER_DOMAIN=<도메인 네임>
-        - SERVER_EMAIL=<이메일 주소>
-        ...
-  ```
-
-  - `docker-compose.yml`파일이 있는 곳에서 다음을 실행하여, 코드를 배포 및 실행합니다. 다수의 컨테이너로 구성된 서비스가 시작됩니다.
-
-  ```bash
-  docker-compose up
-  ```
-
-  - 데몬 모드로 시작하려면 가장 뒤에 `-d` 옵션을 추가합니다.
-  ```bash
-  docker-compose up -d
-  ```
-  - 서비스를 중지하려면, `docker-compose.yml` 가 있는 폴더에서 다음 명령을 실행합니다.
-
-  ```bash
-  docker-compose stop
-  ```
