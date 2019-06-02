@@ -2,7 +2,7 @@ module.exports = {
 	connection: null,
 	getConnection: async ()=>{
 		if(this.connection == null){
-			const puppeteer = require("puppeteer");
+			const puppeteer = require("puppeteer-core");
 			if(process.env.PUPPETEER_REMOTE_URL != undefined || 
 				process.env.PUPPETEER_REMOTE_URL != null){
 				this.connection = await puppeteer.connect({
