@@ -5,9 +5,13 @@ module.exports = {
 			const puppeteer = require("puppeteer-core");
 			if(process.env.PUPPETEER_REMOTE_URL != undefined || 
 				process.env.PUPPETEER_REMOTE_URL != null){
-				this.connection = await puppeteer.connect({
-					ignoreHTTPSErrors: true,
-					browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+				this.connection = await puppeteer.connect({ignoreHTTPSErrors: true,
+                                          			 	   browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+				this.connection.on('disconnected', async () => {
+					this.connection = await puppeteer.connect({ignoreHTTPSErrors: true,
+                                          					   browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+					console.log("DISCONNECTION");
+				});
 			}else{
 				this.connection = await puppeteer.launch({ignoreHTTPSErrors: true});
 			}
