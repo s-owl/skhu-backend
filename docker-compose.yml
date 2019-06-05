@@ -33,7 +33,9 @@ services:
         condition: on-failure
   
   browserless:
-    image: browserless/chrome:release-puppeteer-1.6.2
+    image: browserless/chrome:1.8.0-puppeteer-1.15.0
+    environment:
+      CONNECTION_TIMEOUT: -1
     networks:
       sowl:
         aliases:
