@@ -9,23 +9,14 @@ const run = async (req, res, next) => {
 	const agreementPageUrl = `${utils.forestBaseUrl}/Gate/CORE/P/CORP02P.aspx`;
 	const mainPageUrl = `${utils.forestBaseUrl}/Gate/UniMyMain.aspx`;
 	const newLogInPageUrl = "http://cas.skhu.ac.kr";
-	const newLogInAuthUrl0 = `${utils.samBaseUrl}/Auth/LoginSSO`;
-	const newLogInAuthUrl1 = `${utils.samBaseUrl}/Auth/LoginSSO_ConsumeResponse`;
+	// const newLogInAuthUrl0 = `${utils.samBaseUrl}/Auth/LoginSSO`;
+	// const newLogInAuthUrl1 = `${utils.samBaseUrl}/Auth/LoginSSO_ConsumeResponse`;
 
 	const ID = req.body.userid, PW = req.body.userpw;
-	let tried = false;
 
-	let credentialOld = "";
-	let credentialNew = "";
-	let credentialNewToken = "";
-
-	// Prepare headless chrome browser
-	// const browser = await puppeteer.launch({ignoreHTTPSErrors: true, args: ["--no-sandbox", "--disable-dev-shm-usage"]});
 	const browser = await pconn.getConnection();
 	const context = await browser.createIncognitoBrowserContext(); 
-	const page = await context.newPage();
-	await page.setJavaScriptEnabled(true);
-	await page.setUserAgent(utils.userAgentIE);
+
 	if(ID == undefined || ID == "" || PW == undefined || PW == "" || PW.length < 8){
 		await context.close();
 		res.status(400).end(
@@ -35,115 +26,158 @@ const run = async (req, res, next) => {
 		+	"8자리 미만 비밀번호 사용 시, forest.skhu.ac.kr 에서 변경 후 사용해 주세요.");
 		return;
 	}
-	await page.setCacheEnabled(false);
-	// Listen for page fully loaded event
-	page.on("load", async() => {
-		console.log(page.url());
-		if(page.url() == logInPageUrl){
-			if(tried){
-				// If page is still login page, then it's failed.
-				console.log("Stil same page!");
+
+	const outputData = {
+		error: {
+			status: 0,
+			message: ""
+		},
+		credentialOld: "",
+		credentialNew: "",
+		credentialNewToken: ""
+	};
+
+	const outputProxy = new Proxy(outputData, {
+		set: async (target, property, value, receiver)=>{
+			target[property] = value;
+			console.log(property);
+			console.log(target);
+			console.log(receiver);
+			if(property == "error" && !value){
 				await context.close();
-				res.status(401).end(
-					"Login Failed\n"
-				+	"(Can't log in to forest.skhu.ac.kr, Check ID and PW again)\n\n"
-				+	"로그인 실패\n"
-				+	"(forest.skhu.ac.kr 에 로그인 할 수 없습니다. 학번과 비밀번호를 다시 확인하세요.)");
+				res.status(value.status).end(value.message);
+			}else if(["credentialOld", "credentialNew", "credentialNewToken"]
+				.includes(property) && target.credentialOld && 
+				target.credentialNew && target.credentialNewToken){
+				await context.close();
+				res.json({
+					"credential-old": target.credentialOld,
+					"credential-new": target.credentialNew,
+					"credential-new-token": target.credentialNewToken
+				});
+			}
+			return true;
+		}
+	});
+
+	const forestPage = await context.newPage();
+	await forestPage.setJavaScriptEnabled(true);
+	await forestPage.setUserAgent(utils.userAgentIE);
+	await forestPage.setCacheEnabled(false);
+	let tried = false;
+	forestPage.on("load", async () => {
+		console.log(forestPage.url());
+		if(forestPage.url() == logInPageUrl){
+			if(tried){
+				outputProxy.error = {
+					status: 401,
+					message: 
+						"Login Failed\n"
+					+	"(Can't log in to forest.skhu.ac.kr, Check ID and PW again)\n\n"
+					+	"로그인 실패\n"
+					+	"(forest.skhu.ac.kr 에 로그인 할 수 없습니다. 학번과 비밀번호를 다시 확인하세요.)"
+				};
+				console.log("forest.ac.kr - login failed.");
 				return;
 			}else{
 				// 2. Put ID and PW then log in.
 				console.log("forest.skhu.ac.kr - logging in");
 				(async ()=>{
-					console.log(page.url());
-					await page.type("#txtID", ID);
-					await page.type("#txtPW", PW);
-					(await page.$("#txtPW")).press("Enter");
+					console.log(forestPage.url());
+					await forestPage.type("#txtID", ID);
+					await forestPage.type("#txtPW", PW);
+					(await forestPage.$("#txtPW")).press("Enter");
 					tried = true;
-					page.on("dialog", async dialog => {
+					forestPage.on("dialog", async dialog => {
 						await dialog.dismiss();
 					});
 				})();
 			}
-		}else if(page.url() == agreementPageUrl){
-			const agreementNote = "Please complete the privacy policy agreement on forest.skhu.ac.kr\n"
-			+ "forest.skhu.ac.kr 에서 개인정보 제공 동의를 먼저 완료해 주세요.";
-			await context.close();
-			res.status(401).end(agreementNote);
+		}else if(forestPage.url() == agreementPageUrl){
+			outputProxy.error = {
+				status: 401,
+				message: 
+					"Please complete the privacy policy agreement on forest.skhu.ac.kr\n"
+					+ "forest.skhu.ac.kr 에서 개인정보 제공 동의를 먼저 완료해 주세요."
+			};
 			return;
-		}else if(page.url() == mainPageUrl){
+		}else if(forestPage.url() == mainPageUrl){
 			// 5. Logged in.(forest.skhu.ac.kr)
 			(async ()=>{
 				try{
 					// 6. Get cookie from the page
-					const cookieObj = await page.cookies();
+					const cookieObj = await forestPage.cookies();
+					let credentialOld = "";
 					for(const i in cookieObj){
 						credentialOld += `${cookieObj[i].name}=${cookieObj[i].value}; `;
 					}
+					outputProxy.credentialOld = credentialOld;
 					console.log("forest.skhu.ac.kr - logged in");
-					console.log("navigating to sam.skhu.ac.kr");
-					// 7. Open sam.skhu.ac.kr that redirects to cas.skhu.ac.kr(login page for sam.skhu.ac.kr)
-					await page.goto(utils.samBaseUrl);
 
 				}catch(e){
 					console.log(e);
 				}
 			})();
-		}else if(page.url().startsWith(newLogInPageUrl)){
+		}
+	});
+	await forestPage.goto(logInPageUrl);
+
+	const samPage = await context.newPage();
+	await samPage.setJavaScriptEnabled(true);
+	await samPage.setUserAgent(utils.userAgentIE);
+	await samPage.setCacheEnabled(false);
+	// Listen for page fully loaded event
+	samPage.on("load", async() => {
+		console.log(samPage.url());
+		if(samPage.url().startsWith(newLogInPageUrl)){
 			(async ()=>{
 				try{
 					//
-					page.waitForSelector("body.ng-scope.modal-open")
+					samPage.waitForSelector("body.ng-scope.modal-open")
 						.then(async() => {
 							// If a modal is shown, then login task is failed.
-							await context.close();
-							res.status(401).end(
-								"Login Failed\n"
-							+	"(Logged in to forest.skhu.ac.kr. But can't log in to sam.skhu.ac.kr\n"
-							+	"Please contact to Sunkonghoe University Electronic Computing Center)\n\n"
-							+	"로그인 실페\n"
-							+	"(forest.skhu.ac.kr 에 로그인 했으나, sam.skhu.ac.kr에 로그인 할 수 없습니다.\n"
-							+	"성공회대학교 전자계산소에 문의해 주세요.)");
+							outputProxy.error = {
+								status: 401,
+								message:
+									"Login Failed\n"
+								+	"(Logged in to forest.skhu.ac.kr. But can't log in to sam.skhu.ac.kr\n"
+								+	"Please contact to Sunkonghoe University Electronic Computing Center)\n\n"
+								+	"로그인 실페\n"
+								+	"(forest.skhu.ac.kr 에 로그인 했으나, sam.skhu.ac.kr에 로그인 할 수 없습니다.\n"
+								+	"성공회대학교 전자계산소에 문의해 주세요.)"
+							};
 							return;
 						});
 					console.log("cas.skhu.ac.kr - logging in");
-					await page.type("#login-username", ID);
-					await page.type("#login-password", PW);
-					(await page.$("#login-password")).press("Enter");
+					await samPage.type("#login-username", ID);
+					await samPage.type("#login-password", PW);
+					(await samPage.$("#login-password")).press("Enter");
 				}catch(e){
 					console.log(e);
 				}
 			})();
-		}else if(page.url().startsWith(utils.samBaseUrl)){
+		}else if(samPage.url().startsWith(utils.samBaseUrl)){
 			//10. Logged In.(sam.skhu.ac.kr)
 			(async ()=>{
-				const cookieObj = await page.cookies();
+				let credentialNew = "", credentialNewToken = "";
+				const cookieObj = await samPage.cookies();
 				for(const i in cookieObj){
 					credentialNew += `${cookieObj[i].name}=${cookieObj[i].value}; `;
 				}
 				//11. Get RequestVerificationToken
 				console.log("sam.skhu.ac.kr - logged in");
-				credentialNewToken = await page.evaluate(() => {
+				credentialNewToken = await samPage.evaluate(() => {
 					return document.body.getAttribute("ncg-request-verification-token");
 				});
-				await context.close();
-				// 12. send it to client
-				res.json({
-					"credential-old": credentialOld,
-					"credential-new": credentialNew,
-					"credential-new-token": credentialNewToken
-				});
+				outputProxy.credentialNew = credentialNew;
+				outputProxy.credentialNewToken = credentialNewToken;
 				return;
 			})();
 		}
 	});
+	await samPage.goto(utils.samBaseUrl);
 
-	try{
-		// 1. Open Log In Page(forest.skhu.ac.kr)
-		await page.goto(logInPageUrl);
-		pconn.setCloseContextTimer(context);
-	} catch(e){
-		console.log(e);
-	}
+	pconn.setCloseContextTimer(context);
 };
 
 module.exports = run;
