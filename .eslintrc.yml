@@ -17,6 +17,8 @@ rules:
   semi:
     - error
     - always
+  no-undef:
+    - warn
   no-console:
     - warn
   no-var:
