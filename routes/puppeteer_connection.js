@@ -6,10 +6,10 @@ module.exports = {
 			if(process.env.PUPPETEER_REMOTE_URL != undefined || 
 				process.env.PUPPETEER_REMOTE_URL != null){
 				this.connection = await puppeteer.connect({ignoreHTTPSErrors: true,
-                                          			 	   browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
-				this.connection.on('disconnected', async () => {
+					browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+				this.connection.on("disconnected", async () => {
 					this.connection = await puppeteer.connect({ignoreHTTPSErrors: true,
-                                          					   browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+						browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
 					console.log("DISCONNECTION");
 				});
 			}else{
