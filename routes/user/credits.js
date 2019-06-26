@@ -12,10 +12,13 @@ const run = function(req, res, next) {
 		.then((rawData) => {
 			const { document } = (new JSDOM(rawData)).window;
 			const jsonCredits = [];
-			const elementNav = "div#divContainer > div:nth-of-type(3) > table > tbody > tr";
+			const elementNav = "#divContainer > div:nth-child(4) > table > tbody > tr";
 			const items = document.querySelectorAll(elementNav);
-			for(let i = 0; i < 12; i += 2){
+			for(let i = 0; i < 14; i += 2){
 				for(let j = 0; j < 3; j++){
+                    if (i == 10 && j != 0) {
+                        break;
+                    }
 					jsonCredits.push({
 						"type" : utils.trim(items[i].children[j].textContent),
 						"earned" : utils.trim(items[i+1].children[j].textContent)
