@@ -16,9 +16,9 @@ const run = function(req, res, next) {
 			const items = document.querySelectorAll(elementNav);
 			for(let i = 0; i < 14; i += 2){
 				for(let j = 0; j < 3; j++){
-                    if (i == 10 && j != 0) {
-                        break;
-                    }
+					if (i == 10 && j != 0) {
+						break;
+					}
 					jsonCredits.push({
 						"type" : utils.trim(items[i].children[j].textContent),
 						"earned" : utils.trim(items[i+1].children[j].textContent)
