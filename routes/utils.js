@@ -18,7 +18,7 @@ module.exports = {
 	*/
 	get: (req, res, url, isEucKr)=>{
 		// Promise 를 반환함.
-		return new Promise(async (resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			try{
 				const axios = require("axios");
 				const config = {};
@@ -26,14 +26,15 @@ module.exports = {
 					config.headers = {Cookie: req.get("Credential")};
 				}
 				if(isEucKr) config.responseType = "arraybuffer";
-				const response = await axios.get(url, config);
-				if(isEucKr){
-					const Iconv = require("iconv").Iconv; // 인코딩 변환 모듈
-					const iconv = new Iconv("EUC-KR","UTF-8//TRANSLIT//IGNORE"); // 인코딩 변환 모듈
-					const buffer = new Buffer(response.data, "binary");
-					resolve(iconv.convert(buffer).toString());
-				}
-				resolve(response.data);
+				axios.get(url, config).then((response)=>{
+					if(isEucKr){
+						const Iconv = require("iconv").Iconv; // 인코딩 변환 모듈
+						const iconv = new Iconv("EUC-KR","UTF-8//TRANSLIT//IGNORE"); // 인코딩 변환 모듈
+						const buffer = new Buffer(response.data, "binary");
+						resolve(iconv.convert(buffer).toString());
+					}
+					resolve(response.data);
+				});
 			}catch(err){
 				reject(err);
 			}
