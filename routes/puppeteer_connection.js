@@ -15,11 +15,11 @@ module.exports = {
 			}
 		}
 		try {
-			return this.connection.createIncognitoBrowserContext();
+			return await this.connection.createIncognitoBrowserContext();
 		} catch(e) {
 			console.log("CLOSE");
 			await this.openConnection();
-			return this.connection.createIncognitoBrowserContext();
+			return await this.connection.createIncognitoBrowserContext();
 		}
 	},
 	credentialStringToCookieArray: (credentialStr)=>{
