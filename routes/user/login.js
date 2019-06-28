@@ -14,8 +14,7 @@ const run = async (req, res, next) => {
 
 	const ID = req.body.userid, PW = req.body.userpw;
 
-	const browser = await pconn.getConnection();
-	const context = await browser.createIncognitoBrowserContext(); 
+	const context = await pconn.getContext(); 
 
 	if(ID == undefined || ID == "" || PW == undefined || PW == "" || PW.length < 8){
 		await context.close();

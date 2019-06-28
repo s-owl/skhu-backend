@@ -1,22 +1,26 @@
 module.exports = {
 	connection: null,
-	getConnection: async ()=>{
+	getContext: async ()=>{
 		if(this.connection == null){
-			const puppeteer = require("puppeteer-core");
 			if(process.env.PUPPETEER_REMOTE_URL != undefined || 
 				process.env.PUPPETEER_REMOTE_URL != null){
-				this.connection = await puppeteer.connect({ignoreHTTPSErrors: true,
-					browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+				await this.openConnection();
 				this.connection.on("disconnected", async () => {
-					this.connection = await puppeteer.connect({ignoreHTTPSErrors: true,
-						browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
-					console.log("DISCONNECTION");
+					console.log("DISCONNECT");
+					await openConnection();
 				});
 			}else{
+				const puppeteer = require("puppeteer");
 				this.connection = await puppeteer.launch({ignoreHTTPSErrors: true});
 			}
 		}
-		return this.connection;
+		try {
+			return this.connection.createIncognitoBrowserContext();
+		} catch(e) {
+			console.log("CLOSE");
+			await this.openConnection();
+			return this.connection.createIncognitoBrowserContext();
+		}
 	},
 	credentialStringToCookieArray: (credentialStr)=>{
 		const credentialArray = [];
@@ -50,3 +54,11 @@ module.exports = {
 		}, 300000);
 	}
 };
+
+exports.openConnection = async()=>{
+	const puppeteer = require("puppeteer-core");
+	const connection = await puppeteer.connect({ignoreHTTPSErrors: true,
+		browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
+	this.connection = connection;
+}
+
