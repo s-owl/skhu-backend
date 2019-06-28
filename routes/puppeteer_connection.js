@@ -60,5 +60,5 @@ exports.openConnection = async()=>{
 	const connection = await puppeteer.connect({ignoreHTTPSErrors: true,
 		browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
 	this.connection = connection;
-}
+};
 
