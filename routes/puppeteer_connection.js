@@ -7,7 +7,7 @@ module.exports = {
 				await this.openConnection();
 				this.connection.on("disconnected", async () => {
 					console.log("DISCONNECT");
-					await openConnection();
+					await this.openConnection();
 				});
 			}else{
 				const puppeteer = require("puppeteer");
