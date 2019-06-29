@@ -50,7 +50,11 @@ module.exports = {
 	},
 	setCloseContextTimer: (context)=>{
 		setTimeout(async()=>{
-			await context.close();
+			try {
+				await context.close();
+			} catch (e) {
+				console.log("Context already close");
+			}
 		}, 300000);
 	}
 };
