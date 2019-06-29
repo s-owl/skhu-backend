@@ -8,6 +8,7 @@ const run = async(req, res, next)=>{
 
 	const credential = req.get("Credential"); // Request의 Header 에서 Credential 값 로드
 	const context = await pconn.getContext();
+
 	const page = await context.newPage(); // 페이지 생성
 	await page.setJavaScriptEnabled(true); // Puppeteer 페이지에서 JS 활성화
 	await page.setUserAgent(utils.userAgentIE); // User Agent 를 IE 로 설정

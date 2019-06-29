@@ -65,4 +65,3 @@ exports.openConnection = async()=>{
 		browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
 	this.connection = connection;
 };
-
