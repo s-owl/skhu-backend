@@ -4,8 +4,13 @@
 const run = async function(req, res, next){
 	// puppeteer 의 작동 여부 검사
 	const pconn = require("./puppeteer_connection");
-	context = await pconn.getContext();
-	context.close();
+  try {
+		context = await pconn.getContext();
+		context.close();
+	} catch (e) {
+		res.status(404).send("PUPPETEER ERROR");
+		return;
+	}
 
 	// 요청에 대한 응답으로 전송
 	res.send("OK");
