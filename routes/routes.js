@@ -9,6 +9,11 @@ const router = express.Router();
 const serverinfo = require("./serverinfo");
 router.get("/", serverinfo);
 
+// 서버 상태 검사
+// 메소드 : GET | 요청 경로 : /healthcheck
+const healthcheck = require("./healthcheck");
+router.get("/healthcheck", healthcheck);
+
 // 사용자 관련 라우팅
 // 요청 경로 : /user/*
 const user = require("./user/routes_user");
