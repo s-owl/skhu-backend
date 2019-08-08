@@ -46,7 +46,7 @@ module.exports = {
 			browser = await pconn.openConnection();
 			context = await browser.createIncognitoBrowserContext();
 		} catch (e) {
-			res.json("서버 내부 문제 발생", 500);
+			res.status(500).send("서버 내부 문제 발생");
 			return;
 		}
 		const page = await context.newPage(); // 페이지 생성
