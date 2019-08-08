@@ -5,8 +5,10 @@ const run = async function(req, res, next){
 	// puppeteer 의 작동 여부 검사
 	const pconn = require("./puppeteer_connection");
 	try {
-		context = await pconn.getContext();
+		browser = await pconn.openConnection();
+		context = await browser.createIncognitoBrowserContext();
 		context.close();
+		browser.close();
 	} catch (e) {
 		res.status(500).send("PUPPETEER ERROR");
 		return;
