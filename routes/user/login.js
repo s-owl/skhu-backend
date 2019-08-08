@@ -13,11 +13,19 @@ const run = async (req, res, next) => {
 	// const newLogInAuthUrl1 = `${utils.samBaseUrl}/Auth/LoginSSO_ConsumeResponse`;
 
 	const ID = req.body.userid, PW = req.body.userpw;
-
-	const context = await pconn.getContext(); 
+	let browser;
+	let context;
+	try {
+		browser = await pconn.openConnection();
+		context = await browser.createIncognitoBrowserContext();
+	} catch (e) {
+		res.json("서버 내부 문제 발생", 500);
+		return;
+	}
 
 	if(ID == undefined || ID == "" || PW == undefined || PW == "" || PW.length < 8){
 		await context.close();
+		await browser.close();
 		res.status(400).end(
 			"ID or PW is empty. Or PW is shorter then 8 digits.\n"
 		+	"If your using password with less then 8 digits, please change it at forest.skhu.ac.kr\n"
@@ -44,11 +52,13 @@ const run = async (req, res, next) => {
 			console.log(receiver);
 			if(property == "error" && !value){
 				await context.close();
+				await browser.close();
 				res.status(value.status).end(value.message);
 			}else if(["credentialOld", "credentialNew", "credentialNewToken"]
 				.includes(property) && target.credentialOld && 
 				target.credentialNew && target.credentialNewToken){
 				await context.close();
+				await browser.close();
 				res.json({
 					"credential-old": target.credentialOld,
 					"credential-new": target.credentialNew,
@@ -175,8 +185,6 @@ const run = async (req, res, next) => {
 		}
 	});
 	await samPage.goto(utils.samBaseUrl);
-
-	pconn.setCloseContextTimer(context);
 };
 
 module.exports = run;

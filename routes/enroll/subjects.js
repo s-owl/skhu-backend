@@ -7,7 +7,15 @@ const run = async(req, res, next)=>{
 	const url = `${utils.forestBaseUrl}/GATE/SAM/LECTURE/S/SSGS09S.ASPX?&maincd=O&systemcd=S&seq=1`;
 
 	const credential = req.get("Credential"); // Request의 Header 에서 Credential 값 로드
-	const context = await pconn.getContext();
+	let browser;
+	let context;
+	try {
+		browser = await pconn.openConnection();
+		context = await browser.createIncognitoBrowserContext();
+	} catch (e) {
+		res.json("서버 내부 문제 발생", 500);
+		return;
+	}
 
 	const page = await context.newPage(); // 페이지 생성
 	await page.setJavaScriptEnabled(true); // Puppeteer 페이지에서 JS 활성화
@@ -88,6 +96,7 @@ const run = async(req, res, next)=>{
 		});
 
 		await context.close();
+		await browser.close();
 		// 처리된 데이터로 클라이언트의 요청에 응답
 		res.json({
 			"list": list,
