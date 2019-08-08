@@ -42,7 +42,7 @@ const run = async (req, res, next) => {
 			console.log(property);
 			console.log(target);
 			console.log(receiver);
-			if(property == "error" && !value){
+			if(property == "error" && value != undefined){
 				await context.close();
 				res.status(value.status).end(value.message);
 			}else if(["credentialOld", "credentialNew", "credentialNewToken"]
