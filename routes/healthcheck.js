@@ -11,6 +11,7 @@ const run = async function(req, res, next){
 		browser.close();
 	} catch (e) {
 		res.status(500).send("PUPPETEER ERROR");
+		console.log(e);
 		return;
 	}
 

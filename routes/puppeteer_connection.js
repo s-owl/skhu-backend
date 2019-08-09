@@ -1,9 +1,35 @@
 module.exports = {
 	openConnection: async()=>{
 		const puppeteer = require("puppeteer-core");
-		const connection = await puppeteer.connect({ignoreHTTPSErrors: true,
-			browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
-		return connection;
+		const addr = process.env.PUPPETEER_REMOTE_URL;
+
+		let url;
+		if (addr.startsWith("ws://")) {
+			url = addr;
+		} else {
+			const dns = require("dns");
+			const dnsServer = process.env.DNS_SERVER;
+			if (dnsServer != undefined) {
+				dns.setServers([dnsServer]);
+			}
+
+			const resolve = new Promise((resolve, reject)=>{
+				dns.resolveSrv(addr, (err, query)=>{
+					if (err != null) {
+						reject(err);
+					}
+					resolve(query);
+				});
+			});
+			const query = await resolve;
+			if (this.roundRobin == undefined || this.roundRobin >= query.length) {
+				this.roundRobin = 0;
+			}
+			url = "ws://" + query[this.roundRobin].name + ":" + query[this.roundRobin].port;
+			this.roundRobin++;
+		}
+		return await puppeteer.connect({ignoreHTTPSErrors: true,
+			browserWSEndpoint: url});
 	},
 	credentialStringToCookieArray: (credentialStr)=>{
 		const credentialArray = [];
