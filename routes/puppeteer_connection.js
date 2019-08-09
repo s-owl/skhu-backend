@@ -10,6 +10,10 @@ module.exports = {
 		} else {
 			const { Resolver } = require("dns").promises;
 			const resolver = new Resolver();
+      const dnsServer = process.env.DNS_SERVER;
+      if (dnsServer != undefined) {
+			  resolver.setServers([dnsServer]);
+      }
 			const query = await resolver.resolveSrv(addr);
 			if (this.roundRobin >= query.length) {
 				this.roundRobin = 0;
