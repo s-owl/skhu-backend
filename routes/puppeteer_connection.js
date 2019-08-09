@@ -1,5 +1,4 @@
 module.exports = {
-	roundRobin: 0,
 	openConnection: async()=>{
 		const puppeteer = require("puppeteer-core");
 		const addr = process.env.PUPPETEER_REMOTE_URL;
@@ -23,8 +22,7 @@ module.exports = {
 				});
 			});
 			const query = await resolve;
-			console.log(query);
-			if (this.roundRobin >= query.length) {
+			if (this.roundRobin == undefined || this.roundRobin >= query.length) {
 				this.roundRobin = 0;
 			}
 			url = "ws://" + query[this.roundRobin].name + ":" + query[this.roundRobin].port;
