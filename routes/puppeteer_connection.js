@@ -11,7 +11,7 @@ module.exports = {
 			const { Resolver } = require("dns").promises;
 			const resolver = new Resolver();
 			const query = await resolver.resolveSrv(addr);
-			if (roundRobin > query.length) {
+			if (roundRobin >= query.length) {
 				roundRobin = 0;
 			}
 			url = "ws://" + query[roundRobin].name + ":" + query[roundRobin].port;
