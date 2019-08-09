@@ -11,11 +11,11 @@ module.exports = {
 			const { Resolver } = require("dns").promises;
 			const resolver = new Resolver();
 			const query = await resolver.resolveSrv(addr);
-			if (roundRobin >= query.length) {
-				roundRobin = 0;
+			if (this.roundRobin >= query.length) {
+				this.roundRobin = 0;
 			}
-			url = "ws://" + query[roundRobin].name + ":" + query[roundRobin].port;
-			roundRobin++;
+			url = "ws://" + query[this.roundRobin].name + ":" + query[this.roundRobin].port;
+			this.roundRobin++;
 		}
 		return await puppeteer.connect({ignoreHTTPSErrors: true,
 			browserWSEndpoint: url});
