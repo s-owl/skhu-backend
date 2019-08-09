@@ -23,6 +23,7 @@ module.exports = {
 				});
 			});
 			const query = await resolve;
+			console.log(query);
 			if (this.roundRobin >= query.length) {
 				this.roundRobin = 0;
 			}
