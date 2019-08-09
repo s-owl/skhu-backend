@@ -8,13 +8,21 @@ module.exports = {
 		if (addr.startsWith("ws://")) {
 			url = addr;
 		} else {
-			const { Resolver } = require("dns").promises;
-			const resolver = new Resolver();
-      const dnsServer = process.env.DNS_SERVER;
-      if (dnsServer != undefined) {
-			  resolver.setServers([dnsServer]);
-      }
-			const query = await resolver.resolveSrv(addr);
+			const dns = require("dns");
+			const dnsServer = process.env.DNS_SERVER;
+			if (dnsServer != undefined) {
+				dns.setServers([dnsServer]);
+			}
+
+			const resolve = new Promise((resolve, reject)=>{
+				dns.resolveSrv(addr, (err, query)=>{
+					if (err != null) {
+						reject(err);
+					}
+					resolve(query);
+				});
+			});
+			const query = await resolve;
 			if (this.roundRobin >= query.length) {
 				this.roundRobin = 0;
 			}
