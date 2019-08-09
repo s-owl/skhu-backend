@@ -1,9 +1,24 @@
 module.exports = {
+	roundRobin: 0,
 	openConnection: async()=>{
 		const puppeteer = require("puppeteer-core");
-		const connection = await puppeteer.connect({ignoreHTTPSErrors: true,
-			browserWSEndpoint: process.env.PUPPETEER_REMOTE_URL});
-		return connection;
+		const addr = process.env.PUPPETEER_REMOTE_URL;
+
+		let url;
+		if (addr.startsWith("ws://")) {
+			url = addr;
+		} else {
+			const { Resolver } = require("dns").promises;
+			const resolver = new Resolver();
+			const query = await resolver.resolveSrv(addr);
+			if (roundRobin > query.length) {
+				roundRobin = 0;
+			}
+			url = "ws://" + query[roundRobin].name + ":" + query[roundRobin].port;
+			roundRobin++;
+		}
+		return await puppeteer.connect({ignoreHTTPSErrors: true,
+			browserWSEndpoint: url});
 	},
 	credentialStringToCookieArray: (credentialStr)=>{
 		const credentialArray = [];
