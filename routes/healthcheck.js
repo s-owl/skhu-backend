@@ -6,8 +6,6 @@ const run = async function(req, res, next){
 	const pconn = require("./puppeteer_connection");
 	try {
 		browser = await pconn.openConnection();
-		context = await browser.createIncognitoBrowserContext();
-		context.close();
 		browser.close();
 	} catch (e) {
 		res.status(500).send("PUPPETEER ERROR");
