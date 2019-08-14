@@ -1,4 +1,7 @@
 # SKHU's - Backend
+> Node.js 기반의 본 백엔드는 Go 기반 백엔드로 대체되어 더이상 사용되지 않습니다.  
+> 새로운 Go 기반 백엔드 소스코드 저장소를 이용 바랍니다.  
+> https://github.com/s-owl/skhus-backend
 
 성공회대학교의 종합정보시스템과, 학내 소식을 모바일 환경에서 쉽게 받아볼 수 있게 해주는 앱, SKHU's 의 백엔드 소스코드 저장소 입니다.
 기존 Foressst 앱의 리뉴얼 버전입니다. Node.js, Express.js, Puppeteer 등을 사용하여 개발되었습니다.
